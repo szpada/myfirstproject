@@ -10,6 +10,10 @@ import java.util.Random;
 
 enum element{explosion,constant,crazy,multi_explosion,shot};
 
+/**
+ * @author Maciej
+ * animacje atakow - ich pozycja, stale parametry i chwilowe wartosci
+ */
 public class AttackSprite {
 	
 	private static int shock_mana = 10;

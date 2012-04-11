@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+/**
+ * @author Maciej
+ * bonusy wyswietlajace sie na ekranie - np. extra mana, extra cosie
+ */
 public class TempSprite {
        private float x;
        private float y;

@@ -6,7 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 
-
+/**
+ * @author Maciej
+ * guzik na dole ekranu, moze sluzyc do przelaczania bogow, itd
+ */
 public class Switcher {
 	private Player player;
 	private GameView gameView;

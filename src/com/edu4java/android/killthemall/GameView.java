@@ -32,7 +32,10 @@ import android.view.SurfaceView;
 
 
 
-
+/**
+ * @author Maciej
+ * glowny widok - plansza gry i wszystko co sie na niej dzieje
+ */
 public class GameView extends SurfaceView {
        private GameLoopThread gameLoopThread;
        private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
