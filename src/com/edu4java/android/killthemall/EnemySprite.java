@@ -11,6 +11,12 @@ enum size{small, medium, large};
 enum state{walk,fight,die};
 enum enemyType{knight,dragon};
 
+/**
+ * @author Maciej
+ * wrogi stworek ://
+ * przechowuje jego stale parametry i chwilowe wartosci
+ * kontrola animacji
+ */
 public class EnemySprite {
        // direction = 0 up, 1 left, 2 down, 3 right,
        // animation = 3 back, 1 left, 0 front, 2 right

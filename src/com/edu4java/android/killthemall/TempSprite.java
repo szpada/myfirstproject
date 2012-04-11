@@ -6,8 +6,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+<<<<<<< HEAD
 enum bonusType{mana_potion, repair};
 
+=======
+/**
+ * @author Maciej
+ * bonusy wyswietlajace sie na ekranie - np. extra mana, extra cosie
+ */
+>>>>>>> b730aecdded5ec7acce9124bf7b699eaac8447e2
 public class TempSprite {
        private int x;
        private int y;

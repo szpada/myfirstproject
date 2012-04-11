@@ -2,6 +2,10 @@ package com.edu4java.android.killthemall;
 
 import android.graphics.Canvas;
  
+/**
+ * @author Maciej
+ * watek generujacy rozgrywke
+ */
 public class GameLoopThread extends Thread {
        static final long FPS = 10;
        private GameView view;
