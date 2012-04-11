@@ -1,5 +1,7 @@
 package com.edu4java.android.killthemall;
 
+import android.util.Log;
+
 enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
 				fireball,fireball_shot, firewall, meteor, empty1,
 				waterSplash, tornado, water_level, flood, empty2,
@@ -51,6 +53,7 @@ public class Player {
 			if(currentGod < 5){
 				if(godsAttacks[currentGod][0] <= 0){
 					currentGod++;
+					Log.d("pl","zmieniony god");
 				}
 				else {
 					break;
