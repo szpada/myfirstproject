@@ -92,6 +92,7 @@ public class GameView extends SurfaceView {
            enemies.add(createEnemy(enemyType.knight,R.drawable.good3,240,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
            enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
+           
            switchGod = new Switcher(this.player,this,true,this.getWidth()/4, 13*this.getHeight()/16);
            switchAttack = new Switcher(this.player,this,false,getWidth()/2,15*this.getHeight()/16);
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
