@@ -37,6 +37,7 @@ public class GameView extends SurfaceView {
        private GameLoopThread gameLoopThread;
        private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
        private List<AttackSprite> attack = new ArrayList<AttackSprite>();
+       private List<TempSprite> temps = new ArrayList<TempSprite>();
        private long lastClick;
        private long manaTime = 0;
        private Switcher switchGod;
@@ -101,6 +102,9 @@ public class GameView extends SurfaceView {
        }
        private AttackSprite createAttack(attackType at, int lvl,int x, int y){
     	   return new AttackSprite(attack,this, at, lvl,x,y);
+       }
+       public TempSprite createTemp(int x,int y, bonusType bt){
+    	   return new TempSprite(temps,this,x,y,bt);
        }
        @Override
        protected void onDraw(Canvas canvas) {
@@ -177,6 +181,7 @@ public class GameView extends SurfaceView {
 										   attack.remove(attack.get(j));
 									   }
 								   }
+								   temps.add(createTemp(240,400,bonusType.mana_potion));
 								   if(enemies.get(i).getLife() < 1){
 									   enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -10,10));
 								   }

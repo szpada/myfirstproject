@@ -32,13 +32,14 @@ public final class R {
         public static final int good5=0x7f020012;
         public static final int good6=0x7f020013;
         public static final int ic_launcher=0x7f020014;
-        public static final int meteor=0x7f020015;
-        public static final int olimp=0x7f020016;
-        public static final int panel=0x7f020017;
-        public static final int psismok=0x7f020018;
-        public static final int shock=0x7f020019;
-        public static final int water_splash=0x7f02001a;
-        public static final int water_splash2=0x7f02001b;
+        public static final int manapotion=0x7f020015;
+        public static final int meteor=0x7f020016;
+        public static final int olimp=0x7f020017;
+        public static final int panel=0x7f020018;
+        public static final int psismok=0x7f020019;
+        public static final int shock=0x7f02001a;
+        public static final int water_splash=0x7f02001b;
+        public static final int water_splash2=0x7f02001c;
     }
     public static final class id {
         public static final int textureView1=0x7f050000;

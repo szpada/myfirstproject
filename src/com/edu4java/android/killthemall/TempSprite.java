@@ -2,64 +2,77 @@ package com.edu4java.android.killthemall;
 
 import java.util.List;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+enum bonusType{mana_potion, repair};
+
 public class TempSprite {
-       private float x;
-       private float y;
+       private int x;
+       private int y;
        private int width;
        private int height;
        private boolean animated;
        private Bitmap bmp;
-       private int life = 15;
+       private int life;
+       private int currentLife;
        private List<TempSprite> temps;
-       private static final int BMP_ROWS = 4;
-       private static final int BMP_COLUMNS = 4;
+       private int BMP_ROWS;
+       private int BMP_COLUMNS;
        private int currentFrame = 0;
+       private GameView gameView;
  
-       public TempSprite(List<TempSprite> temps, GameView gameView, float x,float y, Bitmap bmp, boolean animate) {
-    	   this.bmp = bmp;
+       public TempSprite(List<TempSprite> temps, GameView gameView, int x,int y, bonusType bt) {
+    	   this.gameView = gameView;
 		   this.temps = temps;
-           this.animated = animate;
-       
-    	   if(animate){
-    		   this.x = x - (bmp.getWidth()/BMP_COLUMNS)/2;
-    		   this.y = y - (bmp.getHeight()/BMP_ROWS)/2;
-    		   this.width = bmp.getWidth() / BMP_COLUMNS;
-               this.height = bmp.getHeight() / BMP_ROWS;
-    	   }
-    	   else{
-    		   this.x = Math.min(Math.max(x - bmp.getWidth() / 2, 0),gameView.getWidth() - bmp.getWidth());
-    		   this.y = Math.min(Math.max(y - bmp.getHeight() / 2, 0),gameView.getHeight() - bmp.getHeight()); 
-    	   }
+		   this.x = x;
+		   this.y = y;
+		   switch(bt){
+		   case mana_potion:
+			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.manapotion);
+			   this.life = 30;
+			   this.currentLife = 30;
+			   this.BMP_ROWS = 3;
+			   this.BMP_COLUMNS = 3;
+			   break; 
+		   case repair:
+			   this.life = 30;
+			   this.currentLife = 30;
+			   this.BMP_ROWS = 3;
+			   this.BMP_COLUMNS = 3;
+			   break;
+		   }
+		   this.width = bmp.getWidth() / BMP_COLUMNS;
+           this.height = bmp.getHeight() / BMP_ROWS;
        }
  
        public void onDraw(Canvas canvas) {
              update();
              int srcX = (currentFrame % BMP_COLUMNS) * width;
-             int row = currentFrame/ BMP_ROWS;
+             int row = this.life / this.currentLife;
              int srcY = row * height;
-             currentFrame++;
              Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-             Rect dst = new Rect(Math.round(x), Math.round(y), Math.round(x) + width, Math.round(y) + height);
-             if(animated){
-            	 canvas.drawBitmap(bmp, src, dst, null);
-             }
-             else{
-            	 canvas.drawBitmap(bmp, x, y, null);
-             }
+             Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+             canvas.drawBitmap(bmp, src, dst, null);
+             currentFrame++;
        }
 
        private void update() {
-    	   if (this.animated){
-    		   int size = (BMP_COLUMNS * BMP_ROWS)-1;
-    		   if(currentFrame >= size){
-    			   currentFrame = 0;
-    		   }
+    	   int size = (BMP_COLUMNS * BMP_ROWS)-1;
+    	   if(currentFrame >= size){
+    		   currentFrame = 0;
     	   }
            if (--life < 1) {
         	   temps.remove(this);
            }
        }
+       
+       public boolean collision(int x, int y){
+   		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+   		if(dst.contains(x, y)){
+   			return true;
+   		}
+   		return false;
+   	}
 }
