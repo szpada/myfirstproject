@@ -68,10 +68,12 @@ public class EnemySprite {
         this.st = state.walk; 
         switch(tp){
     	case dragon:
-    		this.sz = size.large; 
+    		this.sz = size.large;
+    		this.width = 96;
+  		   	this.height = 96;
             this.attackSpeed = 10;
-            this.maxSpeed = 4;
-            this.speed = 4;
+            this.maxSpeed = 1;
+            this.speed = 1;
             this.dmg = 10;
             this.life = 1000;
             this.range = 5;
@@ -82,7 +84,9 @@ public class EnemySprite {
             }
     		break;
 	    case knight:
-			this.sz = size.small; 
+			this.sz = size.small;
+			this.width = 32;
+  		   	this.height = 32;
 	        this.attackSpeed = 5;
 	        this.maxSpeed = 2;
 	        this.speed = 2;
@@ -96,6 +100,7 @@ public class EnemySprite {
 	        }
 			break;
 		}
+        /*
         switch(this.sz){
      	   case small:
      		   this.width = baseSize;
@@ -110,6 +115,7 @@ public class EnemySprite {
      		   this.height = baseSize * 3;
      		   break;
         }
+        */
     }
     
     private void update() {
