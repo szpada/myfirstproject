@@ -13,7 +13,7 @@ enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
  * @author Maciej
  * akcje gracza, ataki, zmiany bogow, itd
  */
-	public class Player {
+public class Player {
 	private String name;
 	private int points;
 	private int upgradePoints;
