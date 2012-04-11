@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-
+ 
 /**
  * @author Maciej
  * guzik na dole ekranu, moze sluzyc do przelaczania bogow, itd
