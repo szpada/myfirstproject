@@ -19,6 +19,7 @@ public class MenuView extends SurfaceView {
 	private MenuThread menuThread;
 	private List<MenuButton> buttons = new ArrayList<MenuButton>();
 	private String TAG = "MenuView";
+	private long lastClick;
 	
 	public MenuView(Context context){
 		super(context);
@@ -58,14 +59,17 @@ public class MenuView extends SurfaceView {
 	public boolean onTouchEvent(MotionEvent event) {
 		int x = (int)event.getX();
 		int y = (int)event.getY();
-		for(int i = buttons.size()-1; i>=0; i--){
-			if(buttons.get(i).collision(x, y)){
-				switch(buttons.get(i).getFlag()){
-				case achievements:
-					Log.d("MenuView","kliknalem kurwo");
-					Intent intnt = new Intent(this.getContext(), GameActivity.class);
-					getContext().startActivity(intnt);
-					break;
+		if(System.currentTimeMillis() - lastClick > 300) {
+			lastClick = System.currentTimeMillis();
+			for(int i = buttons.size()-1; i>=0; i--){
+				if(buttons.get(i).collision(x, y)){
+					switch(buttons.get(i).getFlag()){
+					case achievements:
+						Log.d("MenuView","kliknalem kurwo");
+						Intent intnt = new Intent(this.getContext(), GameActivity.class);
+						getContext().startActivity(intnt);
+						break;
+					}
 				}
 			}
 		}
