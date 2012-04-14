@@ -33,13 +33,15 @@ public class GameActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
         int height = displaymetrics.heightPixels; 
         int width = displaymetrics.widthPixels;
+        double h_factor = height/800.0;
+        double w_factor = width/480.0;
         
         super.onCreate(savedInstanceState);
         
         //mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GameView(this));//,int w_factor, h_factor, k_factor));
+        setContentView(new GameView(this, w_factor, h_factor));
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {

@@ -38,7 +38,6 @@ public class Switcher {
 		this.y = y;
 	}
 	public void onDraw(Canvas canvas){
-		canvas.scale(0.5f, 0.5f);
 		int srcX = 0;
 		int srcY = 0;
 		this.currentGod = this.player.getCurrentGod();

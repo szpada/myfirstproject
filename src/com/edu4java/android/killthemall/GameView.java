@@ -37,61 +37,64 @@ import android.view.SurfaceView;
  * glowny widok - plansza gry i wszystko co sie na niej dzieje
  */
 public class GameView extends SurfaceView {
-       private GameLoopThread gameLoopThread;
-       private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
-       private List<AttackSprite> attack = new ArrayList<AttackSprite>();
-       private List<TempSprite> temps = new ArrayList<TempSprite>();
-       private long lastClick;
-       private long manaTime = 0;
-       private Switcher switchGod;
-       private Switcher switchAttack;
-       private Sprite panel;
-       //private Sprite olymp;
-       private int lastGod;
-       private int lastAttack;
-       private int base[][] = {
-    		   {1,1,0,0,0},	//ELEKTRYCZNE
-    		   {3,1,1,1,0},	//OGNIEN
-    		   {3,0,0,0,0},	//WODA
-    		   {0,0,0,0,0},	//FIZYCZNE
-    		   {0,0,0,0,0}	//SMIERC
-       };
-       
-       private String TAG = "GameView";
-       
-       private Player player = new Player("pies",0,0,base,200,100,2);
-       
-       public GameView(Context context) {
-             super(context);
-             gameLoopThread = new GameLoopThread(this);
-             getHolder().addCallback(new SurfaceHolder.Callback() {
-                    //@Override
-                    public void surfaceDestroyed(SurfaceHolder holder) {
-                    Log.d("GameView", "odpalam surfaceDestroyed");
-                           boolean retry = true;
-                           gameLoopThread.setRunning(false);
-                           while (retry) {
-                                  try {
-                                        gameLoopThread.join();
-                                        retry = false;
-                                  } catch (InterruptedException e) {}
-                           }
-                    }
-                    //@Override
-                    public void surfaceCreated(SurfaceHolder holder) {
-                           createSprites();
-                           gameLoopThread.setRunning(true);
-                           gameLoopThread.start();
-                    }
-                    //@Override
-                    public void surfaceChanged(SurfaceHolder holder, int format,int width, int height) {
-                    	
-                    }
-             }); 
+	private float w_factor;
+	private float h_factor;
+    private GameLoopThread gameLoopThread;
+    private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
+    private List<AttackSprite> attack = new ArrayList<AttackSprite>();
+    private List<TempSprite> temps = new ArrayList<TempSprite>();
+    private long lastClick;
+    private long manaTime = 0;
+    private Switcher switchGod;
+	private Switcher switchAttack;
+    private Sprite panel;
+   //private Sprite olymp;
+   private int lastGod;
+   private int lastAttack;
+   private int base[][] = {
+		   {1,1,0,0,0},	//ELEKTRYCZNE
+		   {3,1,1,1,0},	//OGNIEN
+		   {3,0,0,0,0},	//WODA
+		   {0,0,0,0,0},	//FIZYCZNE
+		   {0,0,0,0,0}	//SMIERC
+   };
+   
+   private String TAG = "GameView";
+   
+   private Player player = new Player("pies",0,0,base,200,100,2);
+   
+   public GameView(Context context, double w_factor, double h_factor) {
+         super(context);
+         this.h_factor = (float)h_factor;
+ 	   	 this.w_factor = (float)w_factor;
+         gameLoopThread = new GameLoopThread(this);
+         getHolder().addCallback(new SurfaceHolder.Callback() {
+                //@Override
+                public void surfaceDestroyed(SurfaceHolder holder) {
+                Log.d("GameView", "odpalam surfaceDestroyed");
+                       boolean retry = true;
+                       gameLoopThread.setRunning(false);
+                       while (retry) {
+                              try {
+                                    gameLoopThread.join();
+                                    retry = false;
+                              } catch (InterruptedException e) {}
+                       }
+                }
+                //@Override
+                public void surfaceCreated(SurfaceHolder holder) {
+                       createSprites();
+                       gameLoopThread.setRunning(true);
+                       gameLoopThread.start();
+                }
+                //@Override
+                public void surfaceChanged(SurfaceHolder holder, int format,int width, int height) {
+                	
+                }
+         }); 
        }
 
        private void createSprites() {
-    	   
     	   enemies.add(createEnemy(enemyType.knight,R.drawable.good1,10,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.good3,240,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
@@ -114,7 +117,7 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
-    	   canvas.scale(0.5f, 0.5f);
+    	   canvas.scale(this.w_factor, this.h_factor);
     	   Paint paint = new Paint();
     	   //canvas.setViewport(400, 240);
            canvas.drawColor(Color.LTGRAY);
@@ -150,6 +153,7 @@ public class GameView extends SurfaceView {
     	   }
     	   float x = event.getX();
            float y = event.getY();
+           Log.d("GameView", "kliknalem w : [x] = " + Float.toString(x) + "[y] = " + Float.toString(y));
     	   if((player.getCurrentGod() != this.lastGod) || player.getCurrentAttack() != this.lastAttack){
     		   coolDown = 300;
            }
