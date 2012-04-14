@@ -7,7 +7,7 @@ enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
 				waterSplash, tornado, water_level, flood, empty2,
 				arow, spear, shield, trap, empty3,
 				poison, consumption, corpse_explosion, pit, death_touch};
-
+ 
 				
 /**
  * @author Maciej
