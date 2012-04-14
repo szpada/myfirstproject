@@ -87,7 +87,7 @@ public class GameView extends SurfaceView {
                     public void surfaceChanged(SurfaceHolder holder, int format,int width, int height) {
                     	
                     }
-             });  
+             }); 
        }
 
        private void createSprites() {
@@ -114,9 +114,9 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
+    	   canvas.scale(0.5f, 0.5f);
     	   Paint paint = new Paint();
     	   //canvas.setViewport(400, 240);
-    	   //canvas.scale(0.5f, 0.5f);
            canvas.drawColor(Color.LTGRAY);
            for (int i = enemies.size() - 1; i >= 0; i--) {
         	   if(enemies.get(i).getDmgReady()){

@@ -39,7 +39,7 @@ public class GameActivity extends Activity {
         //mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GameView(this));
+        setContentView(new GameView(this));//,int w_factor, h_factor, k_factor));
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {
