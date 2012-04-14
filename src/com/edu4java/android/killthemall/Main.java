@@ -3,6 +3,7 @@ package com.edu4java.android.killthemall;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Window;
 
 /**
@@ -15,13 +16,21 @@ public class Main extends Activity {
 	private SharedPreferences mPrefs;
 	
     public void onCreate(Bundle savedInstanceState) {
+    	/*
+    	 * Gowno potrzebne do skalowania wszystkiego
+    	 */
+    	DisplayMetrics displaymetrics = new DisplayMetrics(); 
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
+        int height = displaymetrics.heightPixels; 
+        int width = displaymetrics.widthPixels;
+        
         super.onCreate(savedInstanceState);
         
         mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //setContentView(new MenuView(this));
-        setContentView(new GameView(this));
+        setContentView(new MenuView(this));
+        //setContentView(new GameView(this));
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {
