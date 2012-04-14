@@ -55,6 +55,9 @@ public class GameView extends SurfaceView {
     		   {0,0,0,0,0},	//FIZYCZNE
     		   {0,0,0,0,0}	//SMIERC
        };
+       
+       private String TAG = "GameView";
+       
        private Player player = new Player("pies",0,0,base,200,100,2);
        
        public GameView(Context context) {
