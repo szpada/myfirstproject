@@ -20,8 +20,11 @@ public class MenuView extends SurfaceView {
 	private List<MenuButton> buttons = new ArrayList<MenuButton>();
 	private String TAG = "MenuView";
 	private long lastClick;
+//	private h_factor;
+//	private w_factor;
+//	private
 	
-	public MenuView(Context context){
+	public MenuView(Context context){//, int h_factor, int w_factor, int k_factor){
 		super(context);
 		menuThread = new MenuThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {

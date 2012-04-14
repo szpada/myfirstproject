@@ -53,7 +53,7 @@ public class Main extends Activity {
         mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new MenuView(this));
+        setContentView(new MenuView(this));//,hfactor,wfactor,kfactor));
         
     }
     
@@ -86,6 +86,7 @@ public class Main extends Activity {
     }
     
     protected void onPause() {
+    	MenuThread.interrupted();
         super.onPause();
 
 //        SharedPreferences.Editor ed = mPrefs.edit();

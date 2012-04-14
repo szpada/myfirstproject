@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -66,6 +67,7 @@ public class GameView extends SurfaceView {
              getHolder().addCallback(new SurfaceHolder.Callback() {
                     //@Override
                     public void surfaceDestroyed(SurfaceHolder holder) {
+                    Log.d("GameView", "odpalam surfaceDestroyed");
                            boolean retry = true;
                            gameLoopThread.setRunning(false);
                            while (retry) {
@@ -89,6 +91,7 @@ public class GameView extends SurfaceView {
        }
 
        private void createSprites() {
+    	   
     	   enemies.add(createEnemy(enemyType.knight,R.drawable.good1,10,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.good3,240,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
@@ -112,6 +115,8 @@ public class GameView extends SurfaceView {
        @Override
        protected void onDraw(Canvas canvas) {
     	   Paint paint = new Paint();
+    	   //canvas.setViewport(400, 240);
+    	   //canvas.scale(0.5f, 0.5f);
            canvas.drawColor(Color.LTGRAY);
            for (int i = enemies.size() - 1; i >= 0; i--) {
         	   if(enemies.get(i).getDmgReady()){

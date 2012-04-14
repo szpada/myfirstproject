@@ -4,10 +4,13 @@
 package com.edu4java.android.killthemall;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * @author Maciej
@@ -24,6 +27,8 @@ public class GameActivity extends Activity {
     	/*
     	 * Gowno potrzebne do skalowania wszystkiego
     	 */
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     	DisplayMetrics displaymetrics = new DisplayMetrics(); 
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
         int height = displaymetrics.heightPixels; 
@@ -66,6 +71,9 @@ public class GameActivity extends Activity {
     }
     
     protected void onPause() {
+    	Log.d("GameActivity", "jestem w GameActivity.onPause()");
+    	Intent intnt = new Intent(this , Main.class);
+		startActivity(intnt);
         super.onPause();
 
 //	        SharedPreferences.Editor ed = mPrefs.edit();
