@@ -17,7 +17,7 @@ enum enemyType{knight,dragon};
  * przechowuje jego stale parametry i chwilowe wartosci
  * kontrola animacji
  */
-public class EnemySprite {
+public class EnemySprite { 
        // direction = 0 up, 1 left, 2 down, 3 right,
        // animation = 3 back, 1 left, 0 front, 2 right
 	
@@ -29,7 +29,7 @@ public class EnemySprite {
     
     int[] DIRECTION_TO_ANIMATION_MAP = { 3, 1, 0, 2 };
     private static int baseSize = 32; 
-    private static int olympY = 600;
+    private static int olympY = 550;
     private int frames = 3;
     
     private int maxSpeed;

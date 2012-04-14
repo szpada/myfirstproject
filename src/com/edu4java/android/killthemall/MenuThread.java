@@ -7,12 +7,12 @@ import android.graphics.Canvas;
  * watek generujacy rozgrywke
  */
 
-public class GameLoopThread extends Thread {
+public class MenuThread extends Thread {
        static final long FPS = 10;
-       private GameView view;
+       private MenuView view;
        private boolean running = false;
 
-       public GameLoopThread(GameView view) {
+       public MenuThread(MenuView view) {
              this.view = view;
        }
 

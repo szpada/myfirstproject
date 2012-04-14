@@ -3,7 +3,6 @@ package com.edu4java.android.killthemall;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,8 +82,7 @@ public class GameView extends SurfaceView {
                     public void surfaceChanged(SurfaceHolder holder, int format,int width, int height) {
                     	
                     }
-             });
-             
+             });  
        }
 
        private void createSprites() {
@@ -92,13 +90,11 @@ public class GameView extends SurfaceView {
            enemies.add(createEnemy(enemyType.knight,R.drawable.good3,240,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
            enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
-           
+           temps.add(createTemp(240,400,bonusType.mana_potion));
            switchGod = new Switcher(this.player,this,true,this.getWidth()/4, 13*this.getHeight()/16);
            switchAttack = new Switcher(this.player,this,false,getWidth()/2,15*this.getHeight()/16);
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
            panel = new Sprite(this,0,600,bmp,"panel",0);
-           //bmp = BitmapFactory.decodeResource(getResources(), R.drawable.olimp);
-           //olymp = new Sprite(this,200,550,bmp,"olymp",player.getOlympLife());
        }
        private EnemySprite createEnemy(enemyType e, int resouce, int x, int y){
     	   Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
@@ -123,20 +119,23 @@ public class GameView extends SurfaceView {
            for (int i = attack.size() - 1; i >= 0; i--) {
         	   attack.get(i).onDraw(canvas);
            }
+           for(int i = temps.size() - 1; i >= 0; i--){
+        	   temps.get(i).onDraw(canvas);
+           }
            switchGod.onDraw(canvas);
            switchAttack.onDraw(canvas);
            panel.onDraw(canvas);
-           //olymp.onDraw(canvas);
            if(System.currentTimeMillis() - manaTime > 1000){
         	   player.addMana();
         	   manaTime = System.currentTimeMillis();
            }
            executeDamage();
-           canvas.drawText(Integer.toString(player.getCurrentMana()), 240, 400, paint);
-           canvas.drawText(Integer.toString(player.getOlympLife()), 240, 450, paint);
+           canvas.drawText(Integer.toString(player.getCurrentMana()), 240, 400, paint);	//mana gracza
+           canvas.drawText(Integer.toString(player.getOlympLife()), 240, 450, paint);	//zycie olimpu
        }
        @Override
        public boolean onTouchEvent(MotionEvent event) {
+    	   boolean noBonus = true;//zmienna potrzebna do blokowania atakow podczas klikania w bonusy
     	   int coolDown = 300;
     	   if(attack.size()>0){
     		   coolDown = attack.get(attack.size()-1).getCoolDown();
@@ -149,25 +148,41 @@ public class GameView extends SurfaceView {
            if(System.currentTimeMillis() - lastClick > coolDown) {
         	   lastClick = System.currentTimeMillis();
         	   if(!(switchGod.collision(Math.round(x),Math.round(y))) && !(switchAttack.collision(Math.round(x),Math.round(y)))){
-        		   synchronized (getHolder()) {
-        			   //NAPRAWIC TO GOWNO ZEBY DZIALO - BRALO MANE
-        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
-        			   if(player.manaForAttack(temp.getManaCost())){
-        				   attack.add(temp);//createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y)));
-	        			   this.lastAttack = player.getCurrentAttack();
-	        			   this.lastGod = player.getCurrentGod();
-	        			   for(int i = enemies.size()-1; i >= 0; i--){
-	        				   if((attack.get(attack.size()-1).getExploding())){
-	        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
-								   if(power > 0){
-									   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());//(power + attack.get(attack.size()-1).getDmg(), player.getCurrentGod());
-								   }
-	        				   }
-	        			   }
+        		   for(int i = temps.size() - 1; i >= 0; i--){
+        			   if(temps.get(i).collision(Math.round(x), Math.round(y))){
+        				   noBonus = false;
+        				   switch(temps.get(i).getBonusType()){
+        				   case mana_potion:
+        					   player.addMana(temps.get(i).getAmount());
+        					   break;
+        				   case repair:
+        					   player.addLife(temps.get(i).getAmount());
+        					   break;
+        				   }
         			   }
         		   }
+        		   if(noBonus){
+	        		   synchronized (getHolder()) {
+	        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
+	        			   if(player.manaForAttack(temp.getManaCost())){
+	        				   attack.add(temp);
+		        			   this.lastAttack = player.getCurrentAttack();
+		        			   this.lastGod = player.getCurrentGod();
+		        			   for(int i = enemies.size()-1; i >= 0; i--){
+		        				   if((attack.get(attack.size()-1).getExploding())){
+		        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
+									   if(power > 0){
+										   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
+										   temps.add(createTemp(240,400,bonusType.mana_potion));
+										   temps.add(createTemp(140,200,bonusType.repair));
+									   }
+		        				   }
+		        			   }
+	        			   }
+	        		   }
         		   }
         	   }
+           }
            return true;     
        }
 
@@ -185,9 +200,9 @@ public class GameView extends SurfaceView {
 										   attack.remove(attack.get(j));
 									   }
 								   }
-								   temps.add(createTemp(240,400,bonusType.mana_potion));
 								   if(enemies.get(i).getLife() < 1){
-									   enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -10,10));
+									   temps.add(createTemp(enemies.get(i).getLife() * -5,400,bonusType.mana_potion));
+									   //enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -5,10));
 								   }
 							   }
     					   }

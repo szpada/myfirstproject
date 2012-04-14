@@ -24,6 +24,7 @@ public class Player {
 	private int manaSpeed;
 	private int godsAttacks[][];
 	private int olympLife = 100;
+	private int olympMaxLife = 100;
 	
 	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
@@ -115,5 +116,17 @@ public class Player {
 	}
 	public void dmgToOlymp(int dmg){
 		this.olympLife -= dmg;
+	}
+	public void addMana(int amount){
+		this.currentMana += amount;
+		if(this.currentMana > this.maxMana){
+			this.currentMana = this.maxMana;
+		}
+	}
+	public void addLife(int amount){
+		this.olympLife += amount;
+		if(this.olympLife > this.olympMaxLife){
+			this.olympLife = this.olympMaxLife;
+		}
 	}
 }

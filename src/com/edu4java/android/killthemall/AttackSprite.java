@@ -14,6 +14,7 @@ enum element{explosion,constant,crazy,multi_explosion,shot};
  * @author Maciej
  * animacje atakow - ich pozycja, stale parametry i chwilowe wartosci
  */
+
 public class AttackSprite {
 	
 	private static int shock_mana = 10;
@@ -164,7 +165,7 @@ public class AttackSprite {
 			this.dmg = 50 + rand.nextInt(2 * lvl * lvl);
 			this.slow = 0;
 			this.life = 15;
-			this.cooldown = 500;
+			this.cooldown = 1500;
 			this.exploding = false;
 			this.staticPosition = true;
 			this.element = element.explosion;

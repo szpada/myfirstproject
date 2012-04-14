@@ -9,6 +9,7 @@ import android.view.Window;
  * @author Maciej
  * tylko na uruchomienie
  */
+
 public class Main extends Activity {
     /** Called when the activity is first created. */
 	private SharedPreferences mPrefs;
@@ -16,9 +17,10 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        SharedPreferences mPrefs = this.getPreferences(MODE_PRIVATE); 
+        mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //setContentView(new MenuView(this));
         setContentView(new GameView(this));
     }
     
