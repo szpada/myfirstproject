@@ -18,6 +18,7 @@ import android.view.WindowManager;
 public class Main extends Activity {
     /** Called when the activity is first created. */
 	private SharedPreferences mPrefs;
+	private String TAG = "Main";
 	
     public void onCreate(Bundle savedInstanceState) {
     	/*
@@ -53,7 +54,7 @@ public class Main extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new MenuView(this));
-        //setContentView(new GameView(this));
+        
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {
