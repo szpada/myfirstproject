@@ -48,6 +48,7 @@ public class GameView extends SurfaceView {
     private Switcher switchGod;
 	private Switcher switchAttack;
     private Sprite panel;
+    private Sprite background;
    //private Sprite olymp;
    private int lastGod;
    private int lastAttack;
@@ -100,12 +101,14 @@ public class GameView extends SurfaceView {
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
            enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
-           switchGod = new Switcher(this.player,this,true,0,0,this.w_factor,this.h_factor);
-           switchAttack = new Switcher(this.player,this,false,100,0,this.w_factor,this.h_factor);
+           switchGod = new Switcher(this.player,this,true,20,10);
+           switchAttack = new Switcher(this.player,this,false,80,10);
            //switchGod = new Switcher(this.player,this,true,(int)(140 * this.w_factor), (int)(600 * this.h_factor));
            //switchAttack = new Switcher(this.player,this,false,(int)(240 * this.w_factor), (int)(600 * this.h_factor));
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
            panel = new Sprite(this,0,600,bmp,"panel",0);
+           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.grass);
+           background = new Sprite(this,0,0,bmp,"background",0);
        }
        private EnemySprite createEnemy(enemyType e, int resouce, int x, int y){
     	   Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
@@ -119,19 +122,15 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
-    	   canvas.save();
     	   canvas.scale(this.w_factor, this.h_factor);
     	   Paint paint = new Paint();
-    	   //canvas.setViewport(400, 240);
-           canvas.drawColor(Color.LTGRAY);
+    	   background.onDraw(canvas);
            for (int i = enemies.size() - 1; i >= 0; i--) {
         	   if(enemies.get(i).getDmgReady()){
         		   player.dmgToOlymp(enemies.get(i).getDmg());
         	   }
         	   enemies.get(i).onDraw(canvas);
            }
-           panel.onDraw(canvas);
-           //canvas.restore();
            for (int i = attack.size() - 1; i >= 0; i--) {
         	   attack.get(i).onDraw(canvas);
            }
@@ -140,13 +139,14 @@ public class GameView extends SurfaceView {
            }
            switchGod.onDraw(canvas);
            switchAttack.onDraw(canvas);
+           panel.onDraw(canvas);
            if(System.currentTimeMillis() - manaTime > 1000){
         	   player.addMana();
         	   manaTime = System.currentTimeMillis();
            }
            executeDamage();
-           canvas.drawText(Integer.toString(player.getCurrentMana()), 480 * this.w_factor, 800* this.h_factor, paint);	//mana gracza
-           canvas.drawText(Integer.toString(player.getOlympLife()), 480 * this.w_factor, 900* this.h_factor, paint);	//zycie olimpu
+           canvas.drawText(Integer.toString(player.getCurrentMana()), 240, 400, paint);	//mana gracza
+           canvas.drawText(Integer.toString(player.getOlympLife()), 240, 450, paint);	//zycie olimpu
        }
        @Override
        public boolean onTouchEvent(MotionEvent event) {
@@ -157,6 +157,8 @@ public class GameView extends SurfaceView {
     	   }
     	   float x = event.getX();
            float y = event.getY();
+           x = x / this.w_factor;
+           y = y / this.h_factor;
            Log.d("GameView", "kliknalem w : [x] = " + Float.toString(x) + "[y] = " + Float.toString(y));
     	   if((player.getCurrentGod() != this.lastGod) || player.getCurrentAttack() != this.lastAttack){
     		   coolDown = 300;

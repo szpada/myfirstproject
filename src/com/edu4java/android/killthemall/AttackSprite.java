@@ -107,8 +107,8 @@ public class AttackSprite {
 		case fireball_shot:
 			
 			//this.y_Destination = y;
-			this.x = gameView.getWidth()/2;
-			this.y = 7 * gameView.getHeight()/8;
+			this.x = 240;
+			this.y = 620;
 			this.speed = 10;
 			if(this.x >= x){
 				this.x_distance = (this.x - x)/((this.y - y)/this.speed);
@@ -182,7 +182,7 @@ public class AttackSprite {
 			this.rows = 4;
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
-			this.rec = new Rect(0,(this.y - this.height/4)+10-lvl, gameView.getWidth(), (this.y + this.height/4)-10+lvl);
+			this.rec = new Rect(0,(this.y - this.height/4)+10-lvl, 480, (this.y + this.height/4)-10+lvl);
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = rand.nextInt(lvl) + 1;
 			this.slow = 3;

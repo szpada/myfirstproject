@@ -20,13 +20,14 @@ public class MenuView extends SurfaceView {
 	private List<MenuButton> buttons = new ArrayList<MenuButton>();
 	private String TAG = "MenuView";
 	private long lastClick;
-//	private h_factor;
-//	private w_factor;
-//	private
+	private float h_factor;
+	private float w_factor;
 	
-	public MenuView(Context context){//, int h_factor, int w_factor, int k_factor){
+	public MenuView(Context context, double w_factor, double h_factor){
 		super(context);
 		menuThread = new MenuThread(this);
+		this.w_factor = (float)w_factor;
+		this.h_factor = (float)h_factor;
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
                public void surfaceDestroyed(SurfaceHolder holder) {
@@ -55,14 +56,15 @@ public class MenuView extends SurfaceView {
 		buttons.add(new MenuButton(buttons, this,100,200,buttonFlag.achievements));
 	}
 	public void onDraw(Canvas canvas){
+		canvas.scale(w_factor, h_factor);
 		for(int i = buttons.size()-1; i>=0; i--){
 			buttons.get(i).onDraw(canvas);
 		}
 	}
 	public boolean onTouchEvent(MotionEvent event) {
-		int x = (int)event.getX();
-		int y = (int)event.getY();
-		if(System.currentTimeMillis() - lastClick > 300) {
+		int x = (int)(event.getX() / this.w_factor);
+		int y = (int)(event.getY() / this.h_factor);
+		if(System.currentTimeMillis() - lastClick > 500) {
 			lastClick = System.currentTimeMillis();
 			for(int i = buttons.size()-1; i>=0; i--){
 				if(buttons.get(i).collision(x, y)){

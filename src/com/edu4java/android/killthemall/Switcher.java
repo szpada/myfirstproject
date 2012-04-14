@@ -22,15 +22,11 @@ public class Switcher {
 	private int height = 64;
 	private int x;
 	private int y;
-	private float w_factor;
-	private float h_factor;
 	
-	public Switcher(Player player,GameView gameView, boolean godORattack, int x, int y, float w_factor, float h_factor){
+	public Switcher(Player player,GameView gameView, boolean godORattack, int x, int y){
 		this.player = player;
 		this.godORattack = godORattack;
-		this.gameView = gameView;
-		this.w_factor = w_factor;
-		this.h_factor = h_factor;
+		this.gameView = gameView;;
 		if(this.godORattack){
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.gods);
 		}
@@ -70,8 +66,6 @@ public class Switcher {
 		}
 	}
 	public boolean collision(int x, int y){
-		//Test Saklowania jebanej kurwy w dupe!
-		//Rect dst = new Rect(this.x, this.y, this.x + (int)(this.width * w_factor), (int)(this.height * h_factor));
 		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.height);
 		if(dst.contains(x, y)){
 			onClick();

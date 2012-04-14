@@ -53,7 +53,7 @@ public class Main extends Activity {
         mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new MenuView(this));//,hfactor,wfactor,kfactor));
+        setContentView(new MenuView(this,wfactor,hfactor));//,hfactor,wfactor,kfactor));
         
     }
     
