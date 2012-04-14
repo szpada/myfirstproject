@@ -1,10 +1,14 @@
 package com.edu4java.android.killthemall;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * @author Maciej
@@ -21,8 +25,27 @@ public class Main extends Activity {
     	 */
     	DisplayMetrics displaymetrics = new DisplayMetrics(); 
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
+        
+//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        
+//        int width = display.getWidth();
+//        int height = display.getHeight();
+//        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        
         int height = displaymetrics.heightPixels; 
         int width = displaymetrics.widthPixels;
+        
+        double hfactor = height/800.0;
+        double wfactor = width/480.0;
+        Log.d("MAIN", "height factor = " + Double.toString(hfactor) + ", width factor = " + Double.toString(wfactor));
+        
+        
+        
+        double kfactor = hfactor/wfactor;
+        Log.d("MAIN", "difference factor = " + Double.toString(kfactor));
         
         super.onCreate(savedInstanceState);
         
