@@ -219,8 +219,8 @@ public class AttackSprite {
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
 			this.columns = 4;
 			this.rows = 4;
-			this.width = 0;//bmp.getWidth()/this.rows;
-			this.height = 0;//bmp.getHeight()/this.columns;
+			this.width = bmp.getWidth()/this.rows;
+			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = 0;//this.lvl * 4 + 3*this.width/4;
 			this.dmg = 0;

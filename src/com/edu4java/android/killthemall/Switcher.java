@@ -22,11 +22,15 @@ public class Switcher {
 	private int height = 64;
 	private int x;
 	private int y;
+	private float w_factor;
+	private float h_factor;
 	
-	public Switcher(Player player,GameView gameView, boolean godORattack, int x, int y){
+	public Switcher(Player player,GameView gameView, boolean godORattack, int x, int y, float w_factor, float h_factor){
 		this.player = player;
 		this.godORattack = godORattack;
 		this.gameView = gameView;
+		this.w_factor = w_factor;
+		this.h_factor = h_factor;
 		if(this.godORattack){
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.gods);
 		}
@@ -34,8 +38,8 @@ public class Switcher {
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacks);
 		}
 		
-		this.x = x;
-		this.y = y;
+		this.x = x;//(int)(x * w_factor);
+		this.y = y;//(int)(y * h_factor);
 	}
 	public void onDraw(Canvas canvas){
 		int srcX = 0;
@@ -50,7 +54,9 @@ public class Switcher {
         	srcY = this.height * this.currentGod;
         }
         Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
-        Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+        Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y +this.height);
+        //TEST SKALOWANIA
+        //Rect dst = new Rect(this.x, this.y, this.x + (int)(this.width * w_factor), this.y + (int)(this.height * h_factor));
         canvas.drawBitmap(this.bmp, src, dst, null);
 	}
 	public void onClick(){
@@ -64,7 +70,9 @@ public class Switcher {
 		}
 	}
 	public boolean collision(int x, int y){
-		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+		//Test Saklowania jebanej kurwy w dupe!
+		//Rect dst = new Rect(this.x, this.y, this.x + (int)(this.width * w_factor), (int)(this.height * h_factor));
+		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.height);
 		if(dst.contains(x, y)){
 			onClick();
 			return true;
