@@ -109,15 +109,12 @@ public class GameView extends SurfaceView {
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
            enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
-<<<<<<< HEAD
-           switchGod = new Switcher(this.player,this,true,0,0);
-           switchAttack = new Switcher(this.player,this,false,80,64);
+           //switchGod = new Switcher(this.player,this,true,0,0);
+           //switchAttack = new Switcher(this.player,this,false,80,64);
            //switchGod = new Switcher(this.player,this,true,(int)(140 * this.w_factor), (int)(600 * this.h_factor));
            //switchAttack = new Switcher(this.player,this,false,(int)(240 * this.w_factor), (int)(600 * this.h_factor));
-=======
            switchGod = new Switcher(this.player,this,true,4,604);
            switchAttack = new Switcher(this.player,this,false,293,604);
->>>>>>> 9c177d625dad5d258377701315a35e08317e8d67
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
            panel = new Sprite(this,-1,600,bmp,"panel",0);
            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
