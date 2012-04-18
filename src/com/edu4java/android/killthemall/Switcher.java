@@ -66,7 +66,7 @@ public class Switcher {
 		}
 	}
 	public boolean collision(int x, int y){
-		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.height);
+		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 		if(dst.contains(x, y)){
 			onClick();
 			return true;
