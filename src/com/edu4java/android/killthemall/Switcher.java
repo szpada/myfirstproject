@@ -18,8 +18,8 @@ public class Switcher {
 	private Bitmap bmp;
 	private int currentAttack;	//klatki na szerokosc
 	private int currentGod;		//klatki na wysokosc
-	private int width = 64;
-	private int height = 64;
+	private int width = 192;
+	private int height = 192;
 	private int x;
 	private int y;
 	
@@ -28,10 +28,10 @@ public class Switcher {
 		this.godORattack = godORattack;
 		this.gameView = gameView;;
 		if(this.godORattack){
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.gods);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods);
 		}
 		else if(!this.godORattack){
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacks);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacksonlythree);
 		}
 		
 		this.x = x;//(int)(x * w_factor);
@@ -66,7 +66,7 @@ public class Switcher {
 		}
 	}
 	public boolean collision(int x, int y){
-		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.height);
+		Rect dst = new Rect(this.x, this.y, this.x + this.width,this.y + this.height);
 		if(dst.contains(x, y)){
 			onClick();
 			return true;

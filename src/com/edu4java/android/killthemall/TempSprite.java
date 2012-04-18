@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 
-enum bonusType{mana_potion, repair};
+enum bonusType{mana_potion, repair, exp};
 
 
 /**
@@ -42,9 +42,9 @@ public class TempSprite {
 		   switch(bt){
 		   case mana_potion:
 			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.manapotion);
-			   this.BMP_ROWS = 3;
+			   this.BMP_ROWS = 2;
 			   this.BMP_COLUMNS = 3;
-			   this.currentLife = 240;
+			   this.currentLife = 120;
 			   this.life = this.currentLife / this.BMP_ROWS;
 			   this.amount = 50;
 			   break; 
@@ -52,9 +52,17 @@ public class TempSprite {
 			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.repair);
 			   this.BMP_ROWS = 2;
 			   this.BMP_COLUMNS = 3;
-			   this.currentLife = 240;
+			   this.currentLife = 120;
 			   this.life = this.currentLife / this.BMP_ROWS;
 			   this.amount = 20;
+			   break;
+	       case exp:
+			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.repair);
+			   this.BMP_ROWS = 2;
+			   this.BMP_COLUMNS = 3;
+			   this.currentLife = 60;
+			   this.life = this.currentLife / this.BMP_ROWS;
+			   this.amount = 1;
 			   break;
 		   }
 		   this.width = bmp.getWidth() / BMP_COLUMNS;
