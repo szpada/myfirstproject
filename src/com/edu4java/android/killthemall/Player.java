@@ -8,6 +8,7 @@ enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
 				arow, spear, shield, trap, empty3,
 				poison, consumption, corpse_explosion, pit, death_touch};
  
+enum otherAttacks{chargeShieldAttack};
 				
 /**
  * @author Maciej
@@ -109,7 +110,7 @@ public class Player {
 		return this.currentMana;
 	}
 	public int getMana(){
-		return this.currentMana;
+		return this.maxMana;
 	}
 	public int getOlympLife(){
 		return this.olympLife;

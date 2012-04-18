@@ -4,6 +4,7 @@ import java.util.List;
 //import java.util.Random;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -29,7 +30,7 @@ public class EnemySprite {
     
     int[] DIRECTION_TO_ANIMATION_MAP = { 3, 1, 0, 2 };
     private static int baseSize = 32; 
-    private static int olympY = 550;
+    private static int olympY = 600;
     private int frames = 3;
     
     private int maxSpeed;
@@ -43,15 +44,15 @@ public class EnemySprite {
     private int height;
     private int dmg;
     private int life;
+    private int maxLife; //do paska zycia
     private int range;
+    private int slowTimes = 0;
+    
+    private long timer = 0; //dla slow downa itd
+    private boolean slowed = false; //do wysweitlania komunikatow o spowolnieniu
     private boolean recentStateChange = false;
     private boolean dmgReady = false;
     
-    //private resistance light_res;
-    //private resistance fire_res;
-    //private resistance water_res;
-    //private resistance physical_res;
-    //private resistance death_res;
     
     private boolean immute[] = new boolean[5];
     private boolean absorbs[] = new boolean[5];
@@ -64,6 +65,9 @@ public class EnemySprite {
      *  4) smierc
      */
     
+    /*
+     * 100 - Atak speed -> czestosc ataku
+     */
     
     public EnemySprite(List<EnemySprite> enemies,GameView gameView, enemyType tp, Bitmap bmp, int x, int y){
     	this.enemies = enemies;
@@ -77,12 +81,13 @@ public class EnemySprite {
     		this.sz = size.large;
     		this.width = 96;
   		   	this.height = 96;
-            this.attackSpeed = 10;
-            this.maxSpeed = 1;
-            this.speed = 1;
+            this.attackSpeed = 30;
+            this.maxSpeed = 2;
+            this.speed = 2;
             this.dmg = 10;
             this.life = 1000;
-            this.range = 5;
+            this.maxLife = 1000;
+            this.range = 1;
             for(int i=0; i<5; i++){
             	this.res[i] = 0;
             	this.immute[i] = false;
@@ -93,11 +98,12 @@ public class EnemySprite {
 			this.sz = size.small;
 			this.width = 32;
   		   	this.height = 32;
-	        this.attackSpeed = 5;
-	        this.maxSpeed = 2;
-	        this.speed = 2;
-	        this.dmg = 2;
+	        this.attackSpeed = 15;
+	        this.maxSpeed = 3;
+	        this.speed = 3;
+	        this.dmg = 10;
 	        this.life = 100;
+	        this.maxLife = 100;
 	        this.range = 1;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -106,70 +112,64 @@ public class EnemySprite {
 	        }
 			break;
 		}
-        /*
-        switch(this.sz){
-     	   case small:
-     		   this.width = baseSize;
-     		   this.height = baseSize;
-     		   break;
-     	   case medium:
-     		   this.width = baseSize * 2;
-     		   this.height = baseSize * 2;
-     		   break;
-     	   case large:
-     		   this.width = baseSize * 3;
-     		   this.height = baseSize * 3;
-     		   break;
-        }
-        */
     }
     
     private void update() {
-    	   if(this.life < 1){
-    		   this.setSt(state.die);
-    		   if(!this.recentStateChange){
-    			   this.currentFrame = 0;
-    			   this.recentStateChange = true;
-    		   }
-    	   }
-    	   if(this.currentFrame > this.frames-1){
-    		   if(this.recentStateChange && this.st == state.fight){
-    			   this.recentStateChange = false;
-    		   }
-    		   this.currentFrame = 0;
-    		   if(this.life < 1){
-    			   enemies.remove(this);
-    		   }
-    	   }
-    	   if(this.y + range >= olympY){
-    		   this.st = state.fight;
-    		   if(this.life < 1){
-        		   this.setSt(state.die);
-        		   if(!this.recentStateChange){
-        			   this.currentFrame = 0;
-        			   this.recentStateChange = true;
-        		   }
-        	   }
-    		   if(!this.recentStateChange){
-				   if(this.attackIncrement < 20 - this.attackSpeed){
-					   this.attackIncrement++;
-					   this.currentFrame = 0;
-					   this.dmgReady = false;
-				   }
-				   else{
-					   this.attackIncrement = 0;
-					   this.recentStateChange = true;
-					   if(this.currentFrame == this.frames/2){
-						   this.dmgReady = true;
-					   }
-				   }
-    		   }
+    	if(System.currentTimeMillis() - this.timer < this.slowTimes){
+    		if(System.currentTimeMillis() - this.timer < this.slowTimes/4){
+    			//this.slowed = false;
+    		}
+    		this.speed = 1;
+    	}
+    	else{
+    		this.slowed = false;
+    		this.speed = maxSpeed;
+    	}
+	    if(this.life < 1){
+		    this.setSt(state.die);
+		    if(!this.recentStateChange){
+			   this.currentFrame = 0;
+			   this.recentStateChange = true;
 		   }
-    	   if(this.st == state.walk){
-    		   this.y += this.speed;
-    	   }
+	    }
+	    if(this.currentFrame > this.frames-1){
+	    	if(this.recentStateChange && this.st == state.fight){
+	    		this.recentStateChange = false;
+	    	}
+	    	this.currentFrame = 0;
+	    	if(this.life < 1){
+	    		enemies.remove(this);
+	    	}
+	    }
+	    if(this.y + this.height + range >= olympY){
+	    	this.st = state.fight;
+	    	if(this.life < 1){
+	    		this.setSt(state.die);
+	    		if(!this.recentStateChange){
+	    			this.currentFrame = 0;
+	    			this.recentStateChange = true;
+	    		}
+	    	}
+	    	if(!this.recentStateChange){
+	    		if(this.attackIncrement < 100 - this.attackSpeed * this.speed){
+	    			this.attackIncrement++;
+	    			this.currentFrame = 0;
+	    			this.dmgReady = false;
+	    		}
+	    		else{
+	    			this.attackIncrement = 0;
+	    			this.recentStateChange = true;
+	    			if(this.currentFrame == this.frames/2){
+	    				this.dmgReady = true;
+	    			}
+	    		}
+	    	}
+	    }
+	    if(this.st == state.walk){
+	    	this.y += this.speed;
+	    }
     }
-
+    
     public void onDraw(Canvas canvas) {
     	Paint paint = new Paint();
 		update();
@@ -178,7 +178,34 @@ public class EnemySprite {
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
 		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 		canvas.drawBitmap(this.bmp, src, dst, null);
-		canvas.drawText(Integer.toString(this.life), this.x + this.width/2, this.y, paint);
+		/*
+		 * Pasek zycia
+		 */
+		if((double)this.life/(double)this.maxLife > 0.66 ){
+			paint.setColor(Color.GREEN);
+		}
+		else if((double)this.life/(double)this.maxLife > 0.33 ){
+			paint.setColor(Color.YELLOW);
+		}
+		else{
+			paint.setColor(Color.RED);
+		}
+		/*
+		 * wersja ze zwerzajacym sie paskiem zycia do srodka
+		 */
+		canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
+		/*
+		 * wersja z paskiem znikajacym w lewo (standardowy)
+		 */
+		//canvas.drawRect(this.x, this.x + (int)((double)this.life/(double)this.maxLife * (double)this.width), this.y - 5, paint);
+		/*
+		 * wyswietlnia komunikatu o spowolnieniu przerobic to pozniej na 
+		 * bitmape rozplywajaca sie w powietrzu (animacja od srodka postaci az do paska zycia
+		 */
+		if(this.slowed){
+			paint.setColor(Color.BLUE);
+			canvas.drawText("Slowed", this.x + this.width/3, this.y + this.height/2, paint);
+		}
 		this.currentFrame++;
     } 
     
@@ -259,5 +286,10 @@ public class EnemySprite {
 	}
 	public boolean getDmgReady(){
 		return this.dmgReady;
+	}
+	public void setSlowTime(int slowedTimes_100){
+		this.slowed = true;
+		this.timer = System.currentTimeMillis();
+		this.slowTimes = slowedTimes_100 * 100;
 	}
 }

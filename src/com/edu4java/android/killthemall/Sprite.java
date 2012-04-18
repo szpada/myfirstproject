@@ -16,8 +16,10 @@ public class Sprite {
     private int height;
     private int life;
     private int currentLife;
-    private int currentframe;
+    private int currentframe = 0;
     private boolean animated;
+    private String function;
+    private int frames;
 
     public Sprite(GameView gameView,int x, int y, Bitmap bmp, String function,int MaxLife) {
     	this.gameView = gameView;
@@ -28,10 +30,20 @@ public class Sprite {
 		this.height = bmp.getHeight();
 		this.currentframe = 0;
 		if(function.equalsIgnoreCase("olymp")){
+			this.frames = 1;
+			this.function = "olymp";
 			this.animated = true;
 			this.life = MaxLife;
 			this.currentLife = MaxLife;
-			this.width = bmp.getWidth()/4;
+			this.width = bmp.getWidth()/this.frames;
+		}
+		if(function.equalsIgnoreCase("ambrosia")){
+			this.frames = 5;
+			this.function = "ambrosia";
+			this.animated = true;
+			this.life = MaxLife;
+			this.currentLife = MaxLife;
+			this.width = bmp.getWidth()/this.frames;
 		}
 	    else{
 	    	this.animated = false;
@@ -40,26 +52,35 @@ public class Sprite {
       
     public void onDraw(Canvas canvas) {
     	if(this.animated){
-    		//update();
+    		update();
     	}
     	int srcX = currentframe * this.width;
 		int srcY = 0;
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
 		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 		canvas.drawBitmap(this.bmp, src, dst, null);
+		if(this.animated){
+			this.currentframe++;
+		}
 	}
     
     private void update(){
-    	if(this.animated){
-    		this.currentframe = (int)-((-4 - ((double)(this.life / this.currentframe) * 4))) - 1;
-    		if(this.currentframe < 0){
-    			this.currentframe = 0;
-    		}
-    		else if(this.currentframe > 3){
-    			this.currentframe = 3;
-    		}
-    	}
+		//this.currentframe = (int)-((-4 - ((double)(this.life / this.currentframe) * 4))) - 1;
+    	if(this.function.equalsIgnoreCase("ambrosia")){
+			if(this.currentframe < 0){
+				this.currentframe = 0;
+			}
+			else if(this.currentframe > frames-1){
+				this.currentframe = 0;
+			}
+			/*
+			 * this.life zawsze rowna sie 0 (przekazane w konstruktorze)
+			 * zmienic na rzeczywisty life zalezny od playera
+			 */
+			this.y = 592 + (this.life-this.currentLife)/2;
+		}
     }
+    
 	public float getX(){
 		return x;
 	}
@@ -67,7 +88,7 @@ public class Sprite {
 	public float getY(){
 		return y;
 	}
-	public void updateOlymp(int life){
+	public void updateStats(int life){
 		this.currentLife = life;
 	}
 }

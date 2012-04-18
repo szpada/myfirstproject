@@ -37,27 +37,32 @@ import android.view.SurfaceView;
  * glowny widok - plansza gry i wszystko co sie na niej dzieje
  */
 public class GameView extends SurfaceView {
+	
 	private float w_factor;
 	private float h_factor;
+	private long lastClick;
+    private long manaTime = 0;
+    
     private GameLoopThread gameLoopThread;
+    
     private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
     private List<AttackSprite> attack = new ArrayList<AttackSprite>();
     private List<TempSprite> temps = new ArrayList<TempSprite>();
-    private long lastClick;
-    private long manaTime = 0;
+    
     private Switcher switchGod;
 	private Switcher switchAttack;
     private Sprite panel;
     private Sprite background;
-   //private Sprite olymp;
-   private int lastGod;
-   private int lastAttack;
-   private int base[][] = {
-		   {1,1,0,0,0},	//ELEKTRYCZNE
-		   {3,1,1,1,0},	//OGNIEN
-		   {3,0,0,0,0},	//WODA
-		   {0,0,0,0,0},	//FIZYCZNE
-		   {0,0,0,0,0}	//SMIERC
+    private Sprite ambrosia;
+
+    private int lastGod;
+    private int lastAttack;
+    private int base[][] = {
+    		{1,1,1,0,0},	//ELEKTRYCZNE
+    		{3,1,1,1,0},	//OGNIEN
+    		{3,0,0,0,0},	//WODA
+    		{0,0,0,0,0},	//FIZYCZNE
+    		{0,0,0,0,0}		//SMIERC
    };
    
    private String TAG = "GameView";
@@ -96,19 +101,29 @@ public class GameView extends SurfaceView {
        }
 
        private void createSprites() {
-    	   enemies.add(createEnemy(enemyType.knight,R.drawable.good1,10,10));
-           enemies.add(createEnemy(enemyType.knight,R.drawable.good3,240,10));
+    	   /*
+    	    * Tworzenie wszystkich bitmap i wrogów
+    	    */
+    	   enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,10,10));
+           enemies.add(createEnemy(enemyType.knight,R.drawable.bad2,240,10));
            enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
            enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
+<<<<<<< HEAD
            switchGod = new Switcher(this.player,this,true,0,0);
            switchAttack = new Switcher(this.player,this,false,80,64);
            //switchGod = new Switcher(this.player,this,true,(int)(140 * this.w_factor), (int)(600 * this.h_factor));
            //switchAttack = new Switcher(this.player,this,false,(int)(240 * this.w_factor), (int)(600 * this.h_factor));
+=======
+           switchGod = new Switcher(this.player,this,true,4,604);
+           switchAttack = new Switcher(this.player,this,false,293,604);
+>>>>>>> 9c177d625dad5d258377701315a35e08317e8d67
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
-           panel = new Sprite(this,0,600,bmp,"panel",0);
-           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.grass);
+           panel = new Sprite(this,-1,600,bmp,"panel",0);
+           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
            background = new Sprite(this,0,0,bmp,"background",0);
+           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia2);
+           ambrosia = new Sprite(this,198,720,bmp,"ambrosia",player.getMana());
        }
        private EnemySprite createEnemy(enemyType e, int resouce, int x, int y){
     	   Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
@@ -122,13 +137,32 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
-    	   canvas.save();
+    	   boolean shield_on = false; //zmienna potrzebna do dzielenia dmg miedzy olimpem a shieldem
+    	   int attack_number = 0;
+    	   /*
+    	    * wyswietlanie ca³ej grafiki i update many
+    	    */
+    	   //canvas.save();
     	   canvas.scale(this.w_factor, this.h_factor);
-    	   Paint paint = new Paint();
     	   background.onDraw(canvas);
            for (int i = enemies.size() - 1; i >= 0; i--) {
         	   if(enemies.get(i).getDmgReady()){
-        		   player.dmgToOlymp(enemies.get(i).getDmg());
+        		   /*
+        		    * jesli mamy shielda to dzielimy dmg na shield i olimp
+        		    */
+        		   for (int j = attack.size() - 1; j >= 0; j--) {
+	        		   if(attack.get(j).getAttackType() == attackType.charge_defence){
+	        			   shield_on = true;
+	        			   attack_number = j;
+	        			   break;
+	        		   }
+        		   }
+        		   if(shield_on){
+        			   shieldOlympDmg(i,attack_number);
+        		   }
+        		   else{
+	        		   player.dmgToOlymp(enemies.get(i).getDmg());
+        		   }
         	   }
         	   enemies.get(i).onDraw(canvas);
            }
@@ -138,15 +172,18 @@ public class GameView extends SurfaceView {
            for(int i = temps.size() - 1; i >= 0; i--){
         	   temps.get(i).onDraw(canvas);
            }
-           canvas.restore();
+           ambrosia.onDraw(canvas);
            switchGod.onDraw(canvas);
            switchAttack.onDraw(canvas);
            panel.onDraw(canvas);
-           if(System.currentTimeMillis() - manaTime > 1000){
-        	   player.addMana();
-        	   manaTime = System.currentTimeMillis();
-           }
            executeDamage();
+           updateMana();
+           
+           /*
+            * Obecne zycie i mana
+            * (do usuniecia gdy nie gra bedzie gotowa)
+            */
+           Paint paint = new Paint();
            canvas.drawText(Integer.toString(player.getCurrentMana()), 240, 400, paint);	//mana gracza
            canvas.drawText(Integer.toString(player.getOlympLife()), 240, 450, paint);	//zycie olimpu
        }
@@ -167,7 +204,7 @@ public class GameView extends SurfaceView {
            }
            if(System.currentTimeMillis() - lastClick > coolDown) {
         	   lastClick = System.currentTimeMillis();
-        	   if(!(switchGod.collision(Math.round(x),Math.round(y))) && !(switchAttack.collision(Math.round(x),Math.round(y)))){
+        	   if(!(switchGod.collision((int)(x),(int)(y))) && !(switchAttack.collision((int)(x),(int)(y)))){
         		   for(int i = temps.size() - 1; i >= 0; i--){
         			   if(temps.get(i).collision(Math.round(x), Math.round(y))){
         				   noBonus = false;
@@ -192,6 +229,7 @@ public class GameView extends SurfaceView {
 		        				   if((attack.get(attack.size()-1).getExploding())){
 		        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
 									   if(power > 0){
+										   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
 										   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
 										   temps.add(createTemp(240,400,bonusType.mana_potion));
 										   temps.add(createTemp(140,200,bonusType.repair));
@@ -205,16 +243,22 @@ public class GameView extends SurfaceView {
            }
            return true;     
        }
-
+       /*
+        * zadawanie dmg przez wszystkie ataki znajdujace sie w danej chwili na mapie
+        */
        public void executeDamage(){
     	   if((enemies.size()>0) && (attack.size()>0)){
     		   for(int i = enemies.size()-1; i >= 0; i--){
     			   if((attack.size()-1 >= 0)){
     				   for(int j = attack.size()-1; j >= 0; j--){
     					   if(!(attack.get(j).getExploding())){
-    						   int power = attack.get(j).checkCollision(enemies.get(i).getRect());
+    						   int power = 0;
+    						   if(!(enemies.get(i).getSt() == state.die)){
+	    						   power = attack.get(j).checkCollision(enemies.get(i).getRect());
+    						   }
 							   if(power > 0){
 								   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());//(power + attack.get(j).getDmg(), player.getCurrentGod());
+								   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
 								   if(attack.get(j).getElement() == element.shot ){ 
 									   if(enemies.get(i).getLife() > 0){
 										   attack.remove(attack.get(j));
@@ -230,5 +274,25 @@ public class GameView extends SurfaceView {
     			   }
     		   }
     	   }
+       }
+       /*
+        * zwiekszanie czasowe many(ambrozji) oraz aktualizacja jej poziomu
+        */
+       public void updateMana(){
+    	   ambrosia.updateStats(player.getCurrentMana());
+    	   if(System.currentTimeMillis() - this.manaTime > 1000){
+        	   player.addMana();
+        	   manaTime = System.currentTimeMillis();
+           }
+       }
+       public void shieldOlympDmg(int enemy, int a_number){
+    	   /*
+		    * atakujemy wroga shockiem
+		    */
+		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,1,
+				   enemies.get(enemy).getX() + enemies.get(enemy).getWidth()/2,
+				   enemies.get(enemy).getY() + enemies.get(enemy).getHeight()/2,true));
+		   attack.get(a_number).dmgToShield((int)(enemies.get(enemy).getDmg() * attack.get(a_number).getAbsorbRate()));
+		   player.dmgToOlymp((int)(enemies.get(enemy).getDmg() * (1 - attack.get(a_number).getAbsorbRate())));
        }
 }
