@@ -2,6 +2,7 @@ package com.edu4java.android.killthemall;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,13 +15,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-/*										TRZEBA W CHUJ ZROBIC !!!
- * 			________________________________________________________________________________
- * 			|ZAMIENIC WSZYSTKO Z PIKSELI (NA SZTYWNO) NA REPREZENTACJE KONKRETNYCH EKRANOW	|
- * 			|																				|
- * 			|																				|
- * 			|_______________________________________________________________________________|
- * 
+/*			
  * 									OPTYMALIZACJA (tylko jesli bedzie cielo)
  * 			________________________________________________________________________________
  *			|DODAC 3 LISTY DLA ENEMYSPRITE (gora-lewo / gora-prawo / dol-lewo / dol-prawo) 	|
@@ -104,27 +99,22 @@ public class GameView extends SurfaceView {
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
-    	   enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,10,10));
-           enemies.add(createEnemy(enemyType.knight,R.drawable.bad2,240,10));
-           enemies.add(createEnemy(enemyType.knight,R.drawable.bad1,80,10));
-           enemies.add(createEnemy(enemyType.dragon,R.drawable.psismok,240,10));
+//    	   enemies.add(createEnemy(enemyType.knight_summoner,10,10));
+//           enemies.add(createEnemy(enemyType.knight_summoner,240,10));
+//         enemies.add(createEnemy(enemyType.knight_summoner,80,10));
+           enemies.add(createEnemy(enemyType.dragon,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
-           //switchGod = new Switcher(this.player,this,true,0,0);
-           //switchAttack = new Switcher(this.player,this,false,80,64);
-           //switchGod = new Switcher(this.player,this,true,(int)(140 * this.w_factor), (int)(600 * this.h_factor));
-           //switchAttack = new Switcher(this.player,this,false,(int)(240 * this.w_factor), (int)(600 * this.h_factor));
-           switchGod = new Switcher(this.player,this,true,4,604);
-           switchAttack = new Switcher(this.player,this,false,293,604);
-           Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel);
+           switchGod = new Switcher(this.player,this,true,16,624);
+           switchAttack = new Switcher(this.player,this,false,333,624);
+           Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel3);
            panel = new Sprite(this,-1,600,bmp,"panel",0);
            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-           background = new Sprite(this,0,0,bmp,"background",0);
-           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia2);
-           ambrosia = new Sprite(this,198,720,bmp,"ambrosia",player.getMana());
+           background = new Sprite(this,-1,-1,bmp,"background",0);
+           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
+           ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
        }
-       private EnemySprite createEnemy(enemyType e, int resouce, int x, int y){
-    	   Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
-    	   return new EnemySprite(enemies,this, e,bmp,x,y);
+       private EnemySprite createEnemy(enemyType e, int x, int y){
+    	   return new EnemySprite(enemies,this, e,x,y);
        }
        private AttackSprite createAttack(attackType at, int lvl,int x, int y){
     	   return new AttackSprite(attack,this, at, lvl,x,y);
@@ -143,7 +133,7 @@ public class GameView extends SurfaceView {
     	   canvas.scale(this.w_factor, this.h_factor);
     	   background.onDraw(canvas);
            for (int i = enemies.size() - 1; i >= 0; i--) {
-        	   if(enemies.get(i).getDmgReady()){
+        	   if(enemies.get(i).getWarriorType() == warriorType.melee && enemies.get(i).getDmgReady()){
         		   /*
         		    * jesli mamy shielda to dzielimy dmg na shield i olimp
         		    */
@@ -175,7 +165,6 @@ public class GameView extends SurfaceView {
            panel.onDraw(canvas);
            executeDamage();
            updateMana();
-           
            /*
             * Obecne zycie i mana
             * (do usuniecia gdy nie gra bedzie gotowa)
@@ -284,11 +273,16 @@ public class GameView extends SurfaceView {
        }
        public void shieldOlympDmg(int enemy, int a_number){
     	   /*
-		    * atakujemy wroga shockiem
+		    * atakujemy wroga nowym atakiem
 		    */
-		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,1,
-				   enemies.get(enemy).getX() + enemies.get(enemy).getWidth()/2,
-				   enemies.get(enemy).getY() + enemies.get(enemy).getHeight()/2,true));
+    	   Random rnd = new Random();
+    	   if(attack.get(a_number).checkCollision(enemies.get(enemy).getRect()) == 0){
+	    	   if(rnd.nextInt(player.getLuck() + 1) > 0){
+	    		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,1,
+	    				   enemies.get(enemy).getX() + enemies.get(enemy).getWidth()/2,
+	    				   enemies.get(enemy).getY() + enemies.get(enemy).getHeight()/2,true));
+	    	   }
+    	   }
 		   attack.get(a_number).dmgToShield((int)(enemies.get(enemy).getDmg() * attack.get(a_number).getAbsorbRate()));
 		   player.dmgToOlymp((int)(enemies.get(enemy).getDmg() * (1 - attack.get(a_number).getAbsorbRate())));
        }

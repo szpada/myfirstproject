@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import java.util.Random;
 
-enum element{explosion,constant,crazy,multi_explosion,shot,shield};
+enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip};
 
 /**
  * @author Maciej
@@ -30,7 +30,7 @@ public class AttackSprite {
 	private static int waterSplash_mana = 20;
 	private static int tornado_mana = 20;
 	private static int water_level_mana = 20;
-	private static int flood_mana = 20;
+	private static int water_shield = 20;
 	private static int intarow_mana = 20;
 	private static int spear_mana = 20;
 	private static int shield_mana = 20;
@@ -107,8 +107,8 @@ public class AttackSprite {
 			this.life = 15;
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;
-			this.staticPosition = false;
-			this.element = element.explosion;
+			this.staticPosition = true;
+			this.element = element.whip;
 			break;
 		}
 	}
@@ -340,7 +340,7 @@ public class AttackSprite {
 			break;
 		case charge_defence:
 			this.x = 0;
-			this.y = 580;
+			this.y = 590;
 			this.manaCost = charge_defence_mana;
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shield);
 			this.columns = 2;
@@ -348,10 +348,10 @@ public class AttackSprite {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = 16;//this.lvl * 4 + 3*this.width/4;
+			this.range = 100;//this.lvl * 4 + 3*this.width/4;
 			this.dmg = 0;
 			this.slow = 0;
-			this.maxLife = 80;
+			this.maxLife = 480;
 			this.life = this.maxLife - 1;
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;
@@ -361,7 +361,7 @@ public class AttackSprite {
 		}
 	}
 	
-	public void onDraw(Canvas canvas) {
+   public void onDraw(Canvas canvas) {
         update();
         int srcX;
         int row;
@@ -404,13 +404,21 @@ public class AttackSprite {
         case shield:
         	srcX = (currentFrame % this.columns) * this.width;
         	srcY = (2 - ((int)((double)((double)this.life/(double)this.maxLife) * 3))) * this.height;
-            srcY =  this.height;
+            //srcY =  this.height;
             src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
             dst = new Rect(0, this.y, this.width, this.y + this.height);//(this.x,this.y,this.x + this.width, this.y + this.height);
             canvas.save();
             canvas.rotate(this.degree, this.x, this.y);
             canvas.drawBitmap(this.bmp, src, dst, null);
             canvas.restore();
+        	break;
+        case whip:
+        	srcX = currentFrame * this.width;//(currentFrame % this.columns) * this.width;
+            //row = currentFrame / this.rows;
+            srcY = 0;//(600 - this.y);//row * this.height;
+            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+            dst = new Rect(this.x-this.width/2, this.y, this.x + this.width/2, 600);
+            canvas.drawBitmap(this.bmp, src, dst, null);
         	break;
         }
         currentFrame++;
@@ -444,53 +452,61 @@ public class AttackSprite {
    }
    public int checkCollision(Rect rect){
 	   switch(this.element){
-	   case explosion:
-		   double distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
-		   if(distance < this.range){
-			   if(this.attp==attackType.meteor){
-				   if(this.currentFrame < 8){
-					   return 0;
+		   case explosion:
+		   case whip:
+			   double distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
+			   if(distance < this.range){
+				   if(this.attp==attackType.meteor){
+					   if(this.currentFrame < 8){
+						   return 0;
+					   }
+					   else{
+						   int damage = this.dmg / (this.currentFrame-7);
+						   return damage;
+					   }
+				   }
+				   if(distance/this.range < 0.2){
+					   return this.dmg;
+				   }
+				   else if(distance/this.range < 0.5){
+					   return this.dmg/2;
 				   }
 				   else{
-					   int damage = this.dmg / (this.currentFrame-7);
-					   return damage;
+					   return this.dmg/4;
 				   }
 			   }
-			   if(distance/this.range < 0.2){
-				   return this.dmg;
+			   return 0;
+		   case constant:
+		   case crazy:
+			   Rect temp = new Rect(this.rec);
+			   if(temp.intersect(rect)){
+				   return 1;
 			   }
-			   else if(distance/this.range < 0.5){
-				   return this.dmg/2;
+			   return -1;
+		   case shot:
+			   distance = Math.pow(Math.pow((this.rec.centerX() - rect.centerX()),2) + Math.pow((this.rec.centerY() - rect.centerY()),2),0.5);
+			   if(distance < this.range){
+				   this.attack.add(new AttackSprite(this.attack,this.gameView,attackType.fireball,1,this.x,this.y,true));
+				   if(distance/this.range < 0.5){
+					   return this.dmg;
+				   }
+				   else{
+					   return 2*this.dmg/3;
+				   }
 			   }
-			   else{
-				   return this.dmg/4;
+			   return 0;
+		   case shield:{
+			   if(this.y - rect.centerY() < this.range){
+				   return 0;
+			   }
+			   else {
+				   return -1;
 			   }
 		   }
-		   return 0;
-	   case constant:
-	   case crazy:
-		   Rect temp = new Rect(this.rec);
-		   if(temp.intersect(rect)){
-			   return 1;
-		   }
-		   return -1;
-	   case shot:
-		   distance = Math.pow(Math.pow((this.rec.centerX() - rect.centerX()),2) + Math.pow((this.rec.centerY() - rect.centerY()),2),0.5);
-		   if(distance < this.range){
-			   this.attack.add(new AttackSprite(this.attack,this.gameView,attackType.fireball,1,this.x,this.y,true));
-			   if(distance/this.range < 0.5){
-				   return this.dmg;
-			   }
-			   else{
-				   return 2*this.dmg/3;
-			   }
-		   }
-		   return 0;
 	   }
 	   return -1;
 	   
    }
-   
    public int getCoolDown(){
 		return this.cooldown;
    }

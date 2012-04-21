@@ -20,6 +20,7 @@ public class Sprite {
     private boolean animated;
     private String function;
     private int frames;
+    private int basicY; //zmienna dla ambrozji zeby mozna bylo w samym gameView ustalkic wysokosc
 
     public Sprite(GameView gameView,int x, int y, Bitmap bmp, String function,int MaxLife) {
     	this.gameView = gameView;
@@ -38,7 +39,8 @@ public class Sprite {
 			this.width = bmp.getWidth()/this.frames;
 		}
 		if(function.equalsIgnoreCase("ambrosia")){
-			this.frames = 5;
+			this.basicY = this.y;
+			this.frames = 4;
 			this.function = "ambrosia";
 			this.animated = true;
 			this.life = MaxLife;
@@ -77,7 +79,7 @@ public class Sprite {
 			 * this.life zawsze rowna sie 0 (przekazane w konstruktorze)
 			 * zmienic na rzeczywisty life zalezny od playera
 			 */
-			this.y = 592 + (this.life-this.currentLife)/2;
+			this.y = this.basicY + 2*(this.life-this.currentLife)/3;
 		}
     }
     

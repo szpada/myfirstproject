@@ -1,6 +1,8 @@
 package com.edu4java.android.killthemall;
 
 import java.util.List;
+import java.util.Random;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -34,6 +36,7 @@ public class TempSprite {
        private boolean clicked = false; //zmienna do kolizji (obiekt musi zniuknac gdy juz go nacisniemy
  
        public TempSprite(List<TempSprite> temps, GameView gameView, int x,int y, bonusType bt) {
+    	   Random rnd = new Random();
     	   this.gameView = gameView;
 		   this.temps = temps;
 		   this.x = x;
@@ -46,7 +49,7 @@ public class TempSprite {
 			   this.BMP_COLUMNS = 3;
 			   this.currentLife = 120;
 			   this.life = this.currentLife / this.BMP_ROWS;
-			   this.amount = 50;
+			   this.amount = 40 + rnd.nextInt(20);
 			   break; 
 		   case repair:
 			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.repair);
@@ -54,7 +57,7 @@ public class TempSprite {
 			   this.BMP_COLUMNS = 3;
 			   this.currentLife = 120;
 			   this.life = this.currentLife / this.BMP_ROWS;
-			   this.amount = 20;
+			   this.amount = 20 + rnd.nextInt(10);
 			   break;
 	       case exp:
 			   this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.repair);

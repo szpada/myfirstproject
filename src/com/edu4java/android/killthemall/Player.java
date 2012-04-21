@@ -4,7 +4,7 @@ import android.util.Log;
 
 enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
 				fireball,fireball_shot, firewall, meteor, empty1,
-				waterSplash, tornado, water_level, flood, empty2,
+				waterSplash, tornado, water_shield, flood, empty2,
 				arow, spear, shield, trap, empty3,
 				poison, consumption, corpse_explosion, pit, death_touch};
  
@@ -26,6 +26,7 @@ public class Player {
 	private int godsAttacks[][];
 	private int olympLife = 100;
 	private int olympMaxLife = 100;
+	private int luck = 1;
 	
 	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
@@ -129,5 +130,8 @@ public class Player {
 		if(this.olympLife > this.olympMaxLife){
 			this.olympLife = this.olympMaxLife;
 		}
+	}
+	public int getLuck(){
+		return this.luck;
 	}
 }

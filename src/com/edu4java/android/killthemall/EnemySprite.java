@@ -1,16 +1,19 @@
 package com.edu4java.android.killthemall;
 
 import java.util.List;
+import java.util.Random;
 //import java.util.Random;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-enum size{small, medium, large};
+enum size{small, medium, large, enormous};
 enum state{walk,fight,die};
-enum enemyType{knight,dragon};
+enum enemyType{knight,dragon, knight_summoner};
+enum warriorType{melee, summoner};
 
 /**
  * @author Maciej
@@ -26,12 +29,15 @@ public class EnemySprite {
     private Bitmap bmp;
     private size sz;
     private state st;
+    private warriorType wt;
     private List<EnemySprite> enemies;
     
     int[] DIRECTION_TO_ANIMATION_MAP = { 3, 1, 0, 2 };
-    private static int baseSize = 32; 
+    //private static int baseSize = 32; 
     private static int olympY = 600;
-    private int frames = 3;
+    private int frames;
+    
+    private enemyType summonType;//jednostka jaka summoner moze przywolac
     
     private int maxSpeed;
     private int speed;
@@ -69,36 +75,39 @@ public class EnemySprite {
      * 100 - Atak speed -> czestosc ataku
      */
     
-    public EnemySprite(List<EnemySprite> enemies,GameView gameView, enemyType tp, Bitmap bmp, int x, int y){
+    public EnemySprite(List<EnemySprite> enemies,GameView gameView, enemyType tp, int x, int y){
     	this.enemies = enemies;
         this.gameView = gameView;
-        this.bmp = bmp;
         this.x = x; 
         this.y = y;
         this.st = state.walk; 
         switch(tp){
     	case dragon:
+            this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.psismok);
     		this.sz = size.large;
     		this.width = 96;
   		   	this.height = 96;
-            this.attackSpeed = 30;
+            this.attackSpeed = 10;
             this.maxSpeed = 2;
             this.speed = 2;
             this.dmg = 10;
             this.life = 1000;
             this.maxLife = 1000;
-            this.range = 1;
+            this.range = 40;
             for(int i=0; i<5; i++){
             	this.res[i] = 0;
             	this.immute[i] = false;
             	this.absorbs[i] = false;
             }
+            this.frames = 3;
+            this.wt = warriorType.melee;
     		break;
 	    case knight:
+	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad1);
 			this.sz = size.small;
 			this.width = 32;
   		   	this.height = 32;
-	        this.attackSpeed = 15;
+	        this.attackSpeed = 30;
 	        this.maxSpeed = 3;
 	        this.speed = 3;
 	        this.dmg = 10;
@@ -110,15 +119,39 @@ public class EnemySprite {
 	        	this.immute[i] = false;
 	        	this.absorbs[i] = false;
 	        }
+	        this.frames = 3;
+	        this.wt = warriorType.melee;
+			break;
+	    case knight_summoner:
+	    	Random rnd = new Random();
+	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad2);
+			this.sz = size.small;
+			this.width = 32;
+		   	this.height = 32;
+	        this.attackSpeed = 15;
+	        this.maxSpeed = 2;
+	        this.speed = 2;
+	        this.dmg = 0;
+	        this.life = 100;
+	        this.maxLife = 100;
+	        this.range = rnd.nextInt(100) + 600;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 3;
+	        this.wt = warriorType.summoner;
+	        this.summonType = enemyType.knight;
 			break;
 		}
     }
     
     private void update() {
     	if(System.currentTimeMillis() - this.timer < this.slowTimes){
-    		if(System.currentTimeMillis() - this.timer < this.slowTimes/4){
-    			//this.slowed = false;
-    		}
+//    		if(System.currentTimeMillis() - this.timer < this.slowTimes/4){
+//    			//this.slowed = false;
+//    		}
     		this.speed = 1;
     	}
     	else{
@@ -137,9 +170,9 @@ public class EnemySprite {
 	    		this.recentStateChange = false;
 	    	}
 	    	this.currentFrame = 0;
-	    	if(this.life < 1){
-	    		enemies.remove(this);
-	    	}
+//	    	if(this.life < 1){
+//	    		enemies.remove(this);
+//	    	}
 	    }
 	    if(this.y + this.height + range >= olympY){
 	    	this.st = state.fight;
@@ -151,7 +184,11 @@ public class EnemySprite {
 	    		}
 	    	}
 	    	if(!this.recentStateChange){
-	    		if(this.attackIncrement < 100 - this.attackSpeed * this.speed){
+	    		int real_attack_speed = this.attackSpeed * this.speed/2;
+	    		if(real_attack_speed >= 100){
+	    			real_attack_speed = 99;
+	    		}
+	    		if(this.attackIncrement < 100 - real_attack_speed){
 	    			this.attackIncrement++;
 	    			this.currentFrame = 0;
 	    			this.dmgReady = false;
@@ -160,7 +197,37 @@ public class EnemySprite {
 	    			this.attackIncrement = 0;
 	    			this.recentStateChange = true;
 	    			if(this.currentFrame == this.frames/2){
-	    				this.dmgReady = true;
+	    				/*
+	    				 * ataki w zaleznosci od typu wojownika
+	    				 */
+	    				switch(this.wt){
+	    				case melee:
+	    					this.dmgReady = true;
+	    					break;
+	    				case summoner:
+	    					Random rand = new Random();
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.st = state.walk;
+	    					if(this.range <= 100){
+	    						this.range = 100;
+	    					}
+	    					else{
+	    						this.range = 3 * this.range / 4;
+	    					}
+	    					break;
+	    				}
+	    				
 	    			}
 	    		}
 	    	}
@@ -171,41 +238,55 @@ public class EnemySprite {
     }
     
     public void onDraw(Canvas canvas) {
-    	Paint paint = new Paint();
-		update();
-		int srcX = this.width * this.currentFrame;
-		int srcY = this.st.ordinal() * this.height;
-		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
-		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
-		canvas.drawBitmap(this.bmp, src, dst, null);
-		/*
-		 * Pasek zycia
-		 */
-		if((double)this.life/(double)this.maxLife > 0.66 ){
-			paint.setColor(Color.GREEN);
-		}
-		else if((double)this.life/(double)this.maxLife > 0.33 ){
-			paint.setColor(Color.YELLOW);
-		}
-		else{
-			paint.setColor(Color.RED);
-		}
-		/*
-		 * wersja ze zwerzajacym sie paskiem zycia do srodka
-		 */
-		canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
-		/*
-		 * wersja z paskiem znikajacym w lewo (standardowy)
-		 */
-		//canvas.drawRect(this.x, this.x + (int)((double)this.life/(double)this.maxLife * (double)this.width), this.y - 5, paint);
-		/*
-		 * wyswietlnia komunikatu o spowolnieniu przerobic to pozniej na 
-		 * bitmape rozplywajaca sie w powietrzu (animacja od srodka postaci az do paska zycia
-		 */
-		if(this.slowed){
-			paint.setColor(Color.BLUE);
-			canvas.drawText("Slowed", this.x + this.width/3, this.y + this.height/2, paint);
-		}
+    	if(this.st == state.die){
+    		int slowFrame = this.currentFrame / 10;
+    		//update();
+			int srcX = this.width * slowFrame;
+			int srcY = this.st.ordinal() * this.height;
+			Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+			Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+			canvas.drawBitmap(this.bmp, src, dst, null);
+			if(slowFrame >= this.frames){
+				enemies.remove(this);
+			}
+    	}
+    	else{
+	    	Paint paint = new Paint();
+			update();
+			int srcX = this.width * this.currentFrame;
+			int srcY = this.st.ordinal() * this.height;
+			Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+			Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+			canvas.drawBitmap(this.bmp, src, dst, null);
+			/*
+			 * Pasek zycia
+			 */
+			if((double)this.life/(double)this.maxLife > 0.66 ){
+				paint.setColor(Color.GREEN);
+			}
+			else if((double)this.life/(double)this.maxLife > 0.33 ){
+				paint.setColor(Color.YELLOW);
+			}
+			else{
+				paint.setColor(Color.RED);
+			}
+			/*
+			 * wersja ze zwerzajacym sie paskiem zycia do srodka
+			 */
+			canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
+			/*
+			 * wersja z paskiem znikajacym w lewo (standardowy)
+			 */
+			//canvas.drawRect(this.x, this.x + (int)((double)this.life/(double)this.maxLife * (double)this.width), this.y - 5, paint);
+			/*
+			 * wyswietlnia komunikatu o spowolnieniu przerobic to pozniej na 
+			 * bitmape rozplywajaca sie w powietrzu (animacja od srodka postaci az do paska zycia
+			 */
+			if(this.slowed){
+				paint.setColor(Color.BLUE);
+				canvas.drawText("Slowed", this.x + this.width/3, this.y + this.height/2, paint);
+			}
+    	}
 		this.currentFrame++;
     } 
     
@@ -291,5 +372,8 @@ public class EnemySprite {
 		this.slowed = true;
 		this.timer = System.currentTimeMillis();
 		this.slowTimes = slowedTimes_100 * 100;
+	}
+	public warriorType getWarriorType(){
+		return this.wt;
 	}
 }

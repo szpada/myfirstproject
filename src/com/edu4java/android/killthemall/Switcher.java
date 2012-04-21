@@ -18,8 +18,8 @@ public class Switcher {
 	private Bitmap bmp;
 	private int currentAttack;	//klatki na szerokosc
 	private int currentGod;		//klatki na wysokosc
-	private int width = 192;
-	private int height = 192;
+	private int width = 128;
+	private int height = 128;
 	private int x;
 	private int y;
 	
@@ -28,10 +28,10 @@ public class Switcher {
 		this.godORattack = godORattack;
 		this.gameView = gameView;;
 		if(this.godORattack){
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods1);
 		}
 		else if(!this.godORattack){
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacksonlythree);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacksonlythree2);
 		}
 		
 		this.x = x;//(int)(x * w_factor);
@@ -53,6 +53,7 @@ public class Switcher {
         Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y +this.height);
         //TEST SKALOWANIA
         //Rect dst = new Rect(this.x, this.y, this.x + (int)(this.width * w_factor), this.y + (int)(this.height * h_factor));
+        //canvas.drawB
         canvas.drawBitmap(this.bmp, src, dst, null);
 	}
 	public void onClick(){
