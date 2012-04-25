@@ -210,14 +210,6 @@ public class EnemySprite {
 	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
 	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
 	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
 	    					this.st = state.walk;
 	    					if(this.range <= 100){
 	    						this.range = 100;
@@ -284,7 +276,7 @@ public class EnemySprite {
 			 */
 			if(this.slowed){
 				paint.setColor(Color.BLUE);
-				canvas.drawText("Slowed", this.x + this.width/3, this.y + this.height/2, paint);
+				canvas.drawText("Slowed", this.x + this.width/3, this.y - this.height/2, paint);
 			}
     	}
 		this.currentFrame++;
@@ -375,5 +367,14 @@ public class EnemySprite {
 	}
 	public warriorType getWarriorType(){
 		return this.wt;
+	}
+	public void setY(int y){
+		this.y = y;
+	}
+	public void setX(int x){
+		this.x = x;
+	}
+	public double getDistance(EnemySprite es){
+		return Math.pow(Math.pow((this.x - es.getX()),2) + Math.pow((this.y - es.getY()),2),0.5);
 	}
 }

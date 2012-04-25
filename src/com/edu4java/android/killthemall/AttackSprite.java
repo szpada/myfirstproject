@@ -20,7 +20,7 @@ public class AttackSprite {
 	private static int shock_mana = 5;
 	private static int multi_shock_mana = 30;
 	private static int charge_defence_mana = 20;
-	private static int lightning_mana = 20;
+	private static int electric_circle_mana = 20;
 	private static int thunder_mana = 20;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
@@ -292,12 +292,30 @@ public class AttackSprite {
 			this.rec = new Rect(0,(this.y - this.height/4)+10-lvl, 480, (this.y + this.height/4)-10+lvl);
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = rand.nextInt(lvl) + 1;
-			this.slow = 30;
+			this.slow = 0;
 			this.life = this.lvl * 5;
 			this.cooldown = 500 + lvl * 100;
 			this.staticPosition = true;
 			this.exploding = false;
 			this.element = element.constant;
+			break;
+		case tornado:
+			this.manaCost = tornado_mana;
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.tornado);
+			this.columns = 4;
+			this.rows = 1;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
+			this.frames = (this.rows * this.columns) - 1;
+			this.range = this.lvl * 4 + 3*this.width/4;
+			this.dmg = rand.nextInt(lvl) + 2;
+			this.slow = 30;
+			this.life = 45;
+			this.cooldown = 900 - lvl * 100;
+			this.exploding = false;
+			this.staticPosition = false;
+			this.element = element.crazy;
+			this.rec = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
 			break;
 		/*
 		 * =======================================================
@@ -309,8 +327,8 @@ public class AttackSprite {
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
 			this.columns = 4;
 			this.rows = 4;
-			this.width = bmp.getWidth()/this.rows;
-			this.height = bmp.getHeight()/this.columns;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = this.lvl * 4 + 3*this.width/4;
 			this.dmg = rand.nextInt(lvl + 2) + 8;
@@ -358,6 +376,24 @@ public class AttackSprite {
 			this.staticPosition = true;
 			this.element = element.shield;
 			this.absorbRate = 0.2 * this.lvl;
+			break;
+		case shock_jumper:
+			this.manaCost = electric_circle_mana;
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
+			this.columns = 4;
+			this.rows = 4;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
+			this.frames = (this.rows * this.columns) - 1;
+			this.range = this.lvl * 4 + 3*this.width/4;
+			this.dmg = rand.nextInt(lvl + 2) + 8;
+			this.slow = 0;
+			this.life = 15;
+			this.cooldown = 900 - lvl * 100;
+			this.exploding = false;
+			this.staticPosition = true;
+			this.element = element.explosion;
+			break;
 		}
 	}
 	
@@ -407,10 +443,10 @@ public class AttackSprite {
             //srcY =  this.height;
             src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
             dst = new Rect(0, this.y, this.width, this.y + this.height);//(this.x,this.y,this.x + this.width, this.y + this.height);
-            canvas.save();
-            canvas.rotate(this.degree, this.x, this.y);
+            //canvas.save();
+            //canvas.rotate(this.degree, this.x, this.y);
             canvas.drawBitmap(this.bmp, src, dst, null);
-            canvas.restore();
+            //canvas.restore();
         	break;
         case whip:
         	srcX = currentFrame * this.width;//(currentFrame % this.columns) * this.width;
@@ -440,6 +476,12 @@ public class AttackSprite {
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y - rand.nextInt(distance),true));
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y + rand.nextInt(distance),true));
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
+		   }
+		   if(this.attp == attackType.shock_jumper){
+			   /*
+			    * SPRAWDZIC CZEMU TO GOWNO SIE WYSYPUJE!
+			    */
+			   attack.add(new AttackSprite(attack,gameView,attackType.shock_jumper,1,100,350, true));
 		   }
 		   attack.remove(this);
 	   }
@@ -545,5 +587,11 @@ public class AttackSprite {
    }
    public attackType getAttackType(){
 	   return this.attp;
+   }
+   public int getRange(){
+	   return this.range;
+   }
+   public int getLvl(){
+	   return this.lvl;
    }
 }

@@ -2,7 +2,7 @@ package com.edu4java.android.killthemall;
 
 import android.util.Log;
 
-enum attackType{shock, multi_shock, charge_defence, lightning, thunder,
+enum attackType{shock, multi_shock, charge_defence, shock_jumper, thunder,
 				fireball,fireball_shot, firewall, meteor, empty1,
 				waterSplash, tornado, water_shield, flood, empty2,
 				arow, spear, shield, trap, empty3,
