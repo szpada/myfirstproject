@@ -54,7 +54,7 @@ public class GameView extends SurfaceView {
     private int lastGod;
     private int lastAttack;
     private int base[][] = {
-    		{1,1,1,1,0},	//ELEKTRYCZNE
+    		{1,1,1,0,1},	//ELEKTRYCZNE
     		{1,1,1,1,0},	//OGNIEN
     		{1,1,0,0,0},	//WODA
     		{0,0,0,0,0},	//FIZYCZNE
@@ -101,8 +101,8 @@ public class GameView extends SurfaceView {
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
     	   enemies.add(createEnemy(enemyType.knight,10,10));
-         enemies.add(createEnemy(enemyType.knight,240,10));
-         enemies.add(createEnemy(enemyType.knight_summoner,80,10));
+    	   enemies.add(createEnemy(enemyType.knight,240,10));
+    	   enemies.add(createEnemy(enemyType.knight_summoner,80,10));
            enemies.add(createEnemy(enemyType.dragon,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
            switchGod = new Switcher(this.player,this,true,16,624);
@@ -231,29 +231,41 @@ public class GameView extends SurfaceView {
         		   }
         		   if(noBonus){
 	        		   synchronized (getHolder()) {
-	        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
-	        			   if(player.manaForAttack(temp.getManaCost())){
-	        				   attack.add(temp);
-		        			   this.lastAttack = player.getCurrentAttack();
-		        			   this.lastGod = player.getCurrentGod();
-		        			   for(int i = enemyAttacks.size()-1; i >= 0; i--){
-		        				   if((attack.get(attack.size()-1).getExploding())){
-		        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect());
-									   if(power > 0){
-										   enemyAttacks.get(i).attackedWithDmg(power);
-									   }
-		        				   }
-		        			   }
-		        			   for(int i = enemies.size()-1; i >= 0; i--){
-		        				   if((attack.get(attack.size()-1).getExploding())){
-		        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
-									   if(power > 0){
-										   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
-										   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
-										   temps.add(createTemp(240,400,bonusType.mana_potion));
-										   temps.add(createTemp(140,200,bonusType.repair));
-									   }
-		        				   }
+	        			   if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder && player.getAttackType() == attackType.thunder && System.currentTimeMillis() - lastClick < attack.get(attack.size()-1).getCoolDown() * 4){
+	        				   if(attack.get(attack.size()-1).getPower() < 50){
+	        					   if(player.manaForAttack(1)){
+	        						   attack.get(attack.size()-1).setPower(attack.get(attack.size()-1).getPower() + 1);
+	        					   }
+	        				   }
+	        			   }
+	        			   else if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder && System.currentTimeMillis() - lastClick >= attack.get(attack.size()-1).getCoolDown() * 4){
+	        				   attack.get(attack.size()-1).attackReady();
+	        			   }
+	        			   else{
+		        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
+		        			   if(player.manaForAttack(temp.getManaCost())){
+		        				   attack.add(temp);
+			        			   this.lastAttack = player.getCurrentAttack();
+			        			   this.lastGod = player.getCurrentGod();
+			        			   for(int i = enemyAttacks.size()-1; i >= 0; i--){
+			        				   if((attack.get(attack.size()-1).getExploding())){
+			        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect());
+										   if(power > 0){
+											   enemyAttacks.get(i).attackedWithDmg(power);
+										   }
+			        				   }
+			        			   }
+			        			   for(int i = enemies.size()-1; i >= 0; i--){
+			        				   if((attack.get(attack.size()-1).getExploding())){
+			        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
+										   if(power > 0){
+											   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
+											   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
+											   temps.add(createTemp(240,400,bonusType.mana_potion));
+											   temps.add(createTemp(140,200,bonusType.repair));
+										   }
+			        				   }
+			        			   }
 		        			   }
 	        			   }
 	        		   }
@@ -300,29 +312,34 @@ public class GameView extends SurfaceView {
 	    						   power = attack.get(j).checkCollision(enemies.get(i).getRect()); 
     						   }
 							   if(power > 0){
+								   
+								   
+								   /*
+								    * 				DO NAPRAWY!
+								    */
 //								   if(attack.get(j).getAttackType() == attackType.shock_jumper){
-									   //int table[] = new int[5];
-									   //table[0] = -1;
-									   //int counter = 0;
-									   //szukamy wrogow najblizej zaatakowanego
+//									   int table[] = new int[5];
+//									   table[0] = -1;
+//									   int counter = 0;
+//									   //szukamy wrogow najblizej zaatakowanego
 //									   for(int k = enemies.size()-1; k>=0; k--){
-										   //sprawdzamy czy odleglosc sie zgadza -> czy odleglosc miedzy dwoma wrogami jest mneijsza niz zasieg ataku
-//										   if(true){//enemies.get(k) != enemies.get(i) && enemies.get(k).getDistance(enemies.get(i)) < (double)attack.get(j).getRange()){
+//										   //sprawdzamy czy odleglosc sie zgadza -> czy odleglosc miedzy dwoma wrogami jest mneijsza niz zasieg ataku
+//										   if(enemies.get(k) != enemies.get(i) && enemies.get(k).getDistance(enemies.get(i)) < (double)attack.get(j).getRange()){
 //											   if(counter > attack.get(j).getLvl()){
 //												   break;
 //											   }
 //											   else{
 //												   counter++;
-//												   //table[counter] = k;
+//												   table[counter] = k;
 //											   }
 //										   }
 //									   }
 //									   Random rnd = new Random();
-//									   int enemy_number = 0;//table[rnd.nextInt(attack.get(j).getLvl())];
+//									   int enemy_number = table[rnd.nextInt(counter)];
 //									   if(enemy_number >= 0){
-//											   attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,enemies.get(enemy_number).getX(),enemies.get(enemy_number).getY(), true));
-//										   attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,100,350, true));
 //										   
+//										   //attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,enemies.get(enemy_number).getX(),enemies.get(enemy_number).getY(), true));
+//										   //attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,100,350, true));
 //									   }
 //								   }
 								   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());//(power + attack.get(j).getDmg(), player.getCurrentGod());

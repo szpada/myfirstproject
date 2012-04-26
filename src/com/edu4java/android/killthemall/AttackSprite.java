@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import java.util.Random;
 
-enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip};
+enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGainer};
 
 /**
  * @author Maciej
@@ -69,6 +69,7 @@ public class AttackSprite {
 	private int lvl;
 	private int manaCost;
 	private element element;
+	private int power; //do ataku typu atak gainer
 	private boolean staticPosition; //czy ma latac po ekranie jak pojebane czy nie
 	private boolean exploding; //ataki ktore dzialaja tylko podczas nacisniecia
 								//false oznacza ze do konca istnienia sprite-a bedzie on zadawal obrazenia
@@ -170,6 +171,28 @@ public class AttackSprite {
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;
 			this.staticPosition = false;
+			this.element = element.explosion;
+			break;
+		case shock_jumper:
+			if(manaFree){
+				this.manaCost = 0;
+			}
+			else{
+				this.manaCost = electric_circle_mana;
+			}
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
+			this.columns = 4;
+			this.rows = 4;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
+			this.frames = (this.rows * this.columns) - 1;
+			this.range = this.lvl * 4 + 3*this.width/4;
+			this.dmg = rand.nextInt(lvl + 2) + 8;
+			this.slow = 0;
+			this.life = 15;
+			this.cooldown = 900 - lvl * 100;
+			this.exploding = false;
+			this.staticPosition = true;
 			this.element = element.explosion;
 			break;
 		}
@@ -394,6 +417,24 @@ public class AttackSprite {
 			this.staticPosition = true;
 			this.element = element.explosion;
 			break;
+		case thunder:
+			this.manaCost = electric_circle_mana;
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.electriccircle);
+			this.columns = 4;
+			this.rows = 1;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
+			this.frames = (this.rows * this.columns) - 1;
+			this.range = this.lvl * 4 + 3*this.width/4;
+			this.dmg = rand.nextInt(lvl + 2) + 8;
+			this.slow = 0;
+			this.life = 10;
+			this.cooldown = 50;
+			this.exploding = false;
+			this.staticPosition = true;
+			this.element = element.powerGainer;
+			this.power = 1;
+			break;
 		}
 	}
 	
@@ -456,6 +497,18 @@ public class AttackSprite {
             dst = new Rect(this.x-this.width/2, this.y, this.x + this.width/2, 600);
             canvas.drawBitmap(this.bmp, src, dst, null);
         	break;
+        case powerGainer:
+        	srcX = currentFrame * this.width;//(currentFrame % this.columns) * this.width;
+            //row = currentFrame / this.rows;
+            srcY = 0;//(600 - this.y);//row * this.height;
+            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+            float scaler = this.power/5;
+            //dst = new Rect((int)(this.x - ((this.width/2) * scaler)), (int)(this.y- ((this.height/2)*scaler)), (int)(this.x + ((this.width/2)*scaler)), (int)(this.y + ((this.height/2)*scaler)));
+            //dst = new Rect((int)(this.x-this.width/2 * 10/(float)power), (int)((this.y * 10/(float)power)) , (int)((this.x + this.width/2) * 10/(float)power), (int)(this.y * 10/(float)power + this.height/2 * 10/(float)power));
+            //dst = new Rect((this.x-this.width/2)* 10/power, ((this.y - this.height/2)* 10/power , this.x + this.width/2, this.y+ this.height/2);
+            dst = new Rect(240 - this.width/5 - power,580 - this.height/5 - power,240 + this.width/5 + power , 580 + this.height/5 + power);
+            canvas.drawBitmap(this.bmp, src, dst, null);
+        	break;
         }
         currentFrame++;
    }
@@ -478,9 +531,6 @@ public class AttackSprite {
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
 		   }
 		   if(this.attp == attackType.shock_jumper){
-			   /*
-			    * SPRAWDZIC CZEMU TO GOWNO SIE WYSYPUJE!
-			    */
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock_jumper,1,100,350, true));
 		   }
 		   attack.remove(this);
@@ -489,6 +539,12 @@ public class AttackSprite {
 		   this.y += -this.speed;
 		   this.x += -this.x_distance;
 		   this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
+	   }
+	   if(this.attp == attackType.thunder){
+//		   if(this.power == 5){
+//			   Random rnd = new Random();
+//			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,rnd.nextInt(100) + 100, rnd.nextInt(400) + 150, true));
+//		   }
 	   }
 	   life--;
    }
@@ -593,5 +649,15 @@ public class AttackSprite {
    }
    public int getLvl(){
 	   return this.lvl;
+   }
+   public int getPower(){
+	   return this.power;
+   }
+   public void setPower(int power){
+	   this.power = power;
+	   this.life += 2;
+   }
+   public void attackReady(){
+	   attack.add(new AttackSprite(attack,this.gameView,attackType.shock,1,this.x, this.y));
    }
 }

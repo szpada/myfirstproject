@@ -44,6 +44,7 @@ public class Player {
 			if(currentAttack < 5){
 				if(godsAttacks[currentGod][currentAttack] <= 0){
 					this.currentAttack++;
+					Log.d("player","zmieniony atak");
 				}
 				else {
 					break;
@@ -61,7 +62,7 @@ public class Player {
 			if(currentGod < 5){
 				if(godsAttacks[currentGod][0] <= 0){
 					currentGod++;
-					Log.d("pl","zmieniony god");
+					Log.d("player","zmieniony god");
 				}
 				else {
 					break;
