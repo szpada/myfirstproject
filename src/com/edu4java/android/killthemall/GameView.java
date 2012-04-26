@@ -238,9 +238,9 @@ public class GameView extends SurfaceView {
 	        					   }
 	        				   }
 	        			   }
-	        			   else if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder && System.currentTimeMillis() - lastClick >= attack.get(attack.size()-1).getCoolDown() * 4){
-	        				   attack.get(attack.size()-1).attackReady();
-	        			   }
+//	        			   else if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder){
+//	        				   attack.get(attack.size()-1).attackReady();
+//	        			   }
 	        			   else{
 		        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
 		        			   if(player.manaForAttack(temp.getManaCost())){

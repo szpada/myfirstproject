@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import java.util.Random;
 
-enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGainer};
+enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGainer, angle_whip};
 
 /**
  * @author Maciej
@@ -111,6 +111,38 @@ public class AttackSprite {
 			this.staticPosition = true;
 			this.element = element.whip;
 			break;
+		case thunder_shot:
+			this.x = 240;
+			this.y = 620;
+			Random rnd = new Random();
+			if(manaFree){
+				this.manaCost = 0;
+			}
+			else{
+				this.manaCost = thunder_mana;
+			}
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.thundershot);
+			this.columns = 4;
+			this.rows = 1;
+			this.width = bmp.getWidth()/this.columns;
+			this.height = bmp.getHeight()/this.rows;
+			this.frames = (this.rows * this.columns) - 1;
+			this.range = 16;
+			this.dmg = rnd.nextInt(this.lvl) + 50;
+			this.slow = 0;
+			this.life = 15;
+			this.cooldown = 900 - lvl * 100;
+			this.exploding = false;
+			this.staticPosition = true;
+			this.element = element.angle_whip;
+			if(this.x >= x){
+				this.degree = - (float)Math.toDegrees(Math.atan((float)(this.x - x)/((float)(this.y - y))));
+			}
+			else{
+				this.degree = (float)Math.toDegrees(Math.atan((float)(x - this.x)/((float)(this.y - y))));
+			}
+			break;
+			
 		}
 	}
 	
@@ -434,6 +466,7 @@ public class AttackSprite {
 			this.staticPosition = true;
 			this.element = element.powerGainer;
 			this.power = 1;
+			this.rec = new Rect(240 - this.width/5 - power,580 - this.height/5 - 2 * power,240 + this.width/5 + power , 580 + this.height/5);
 			break;
 		}
 	}
@@ -506,8 +539,21 @@ public class AttackSprite {
             //dst = new Rect((int)(this.x - ((this.width/2) * scaler)), (int)(this.y- ((this.height/2)*scaler)), (int)(this.x + ((this.width/2)*scaler)), (int)(this.y + ((this.height/2)*scaler)));
             //dst = new Rect((int)(this.x-this.width/2 * 10/(float)power), (int)((this.y * 10/(float)power)) , (int)((this.x + this.width/2) * 10/(float)power), (int)(this.y * 10/(float)power + this.height/2 * 10/(float)power));
             //dst = new Rect((this.x-this.width/2)* 10/power, ((this.y - this.height/2)* 10/power , this.x + this.width/2, this.y+ this.height/2);
-            dst = new Rect(240 - this.width/5 - power,580 - this.height/5 - power,240 + this.width/5 + power , 580 + this.height/5 + power);
+            dst = new Rect(240 - this.width/5 - power,580 - this.height/5 - 2 * power,240 + this.width/5 + power , 580 + this.height/5);
+            this.rec = dst;
             canvas.drawBitmap(this.bmp, src, dst, null);
+        	break;
+        case angle_whip:
+        	srcX = currentFrame * this.width;//(currentFrame % this.columns) * this.width;
+            //row = currentFrame / this.rows;
+            srcY = 0;//(600 - this.y);//row * this.height;
+            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+            //dst = new Rect(this.x-this.width/2, this.y, this.x + this.width/2, this.y + this.height/2);
+            dst = new Rect(208, -100, 272, 600);
+            canvas.save();
+            canvas.rotate(this.degree, this.x, this.y);
+            canvas.drawBitmap(this.bmp, src, dst, null);
+            canvas.restore();
         	break;
         }
         currentFrame++;
@@ -532,6 +578,9 @@ public class AttackSprite {
 		   }
 		   if(this.attp == attackType.shock_jumper){
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock_jumper,1,100,350, true));
+		   }
+		   if(this.attp == attackType.thunder){
+			   attack.add(new AttackSprite(attack,this.gameView,otherAttacks.thunder_shot,this.lvl * this.power,this.x, this.y,false));
 		   }
 		   attack.remove(this);
 	   }
@@ -576,6 +625,8 @@ public class AttackSprite {
 			   return 0;
 		   case constant:
 		   case crazy:
+		   case powerGainer:
+		   //case angle_whip:
 			   Rect temp = new Rect(this.rec);
 			   if(temp.intersect(rect)){
 				   return 1;
@@ -655,9 +706,9 @@ public class AttackSprite {
    }
    public void setPower(int power){
 	   this.power = power;
-	   this.life += 2;
+	   this.life += 1;
    }
    public void attackReady(){
-	   attack.add(new AttackSprite(attack,this.gameView,attackType.shock,1,this.x, this.y));
+	   
    }
 }

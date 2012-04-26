@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">Rage of Gods</string>
+    <string name="pies">&quot;pies&quot;</string>
 
 </resources>

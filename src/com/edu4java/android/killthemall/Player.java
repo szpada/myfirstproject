@@ -8,7 +8,7 @@ enum attackType{shock, multi_shock, charge_defence, shock_jumper, thunder,
 				arow, spear, shield, trap, empty3,
 				poison, consumption, corpse_explosion, pit, death_touch};
  
-enum otherAttacks{chargeShieldAttack};
+enum otherAttacks{chargeShieldAttack, thunder_shot};
 				
 /**
  * @author Maciej
