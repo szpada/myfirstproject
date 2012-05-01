@@ -5,7 +5,10 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
+
 import java.util.Random;
 
 enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGainer, angle_whip};
@@ -17,11 +20,16 @@ enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGain
 
 public class AttackSprite {
 	
+	private static int Thunder_position_X = 240;	//zmienne potrzebne dla thunder ataku
+	private static int Thunder_position_Y = 580;
+	private int realX;
+	private int realY;
+	
 	private static int shock_mana = 5;
 	private static int multi_shock_mana = 30;
 	private static int charge_defence_mana = 20;
 	private static int electric_circle_mana = 20;
-	private static int thunder_mana = 20;
+	private static int thunder_mana = 10;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
 	private static int fireball_shot_mana = 20;
@@ -114,6 +122,8 @@ public class AttackSprite {
 		case thunder_shot:
 			this.x = 240;
 			this.y = 620;
+			this.realX = x;
+			this.realY = y;
 			Random rnd = new Random();
 			if(manaFree){
 				this.manaCost = 0;
@@ -128,7 +138,7 @@ public class AttackSprite {
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = 16;
-			this.dmg = rnd.nextInt(this.lvl) + 50;
+			this.dmg = rnd.nextInt(this.lvl) + 20;
 			this.slow = 0;
 			this.life = 15;
 			this.cooldown = 900 - lvl * 100;
@@ -141,8 +151,10 @@ public class AttackSprite {
 			else{
 				this.degree = (float)Math.toDegrees(Math.atan((float)(x - this.x)/((float)(this.y - y))));
 			}
+			//this.rec = new Rect(240 - power, -100, 240 + power, 600);
+			this.rec = new Rect(208, -100, 272, 600);
+			Log.d("thunder shot", "kat = " + this.degree);
 			break;
-			
 		}
 	}
 	
@@ -450,7 +462,7 @@ public class AttackSprite {
 			this.element = element.explosion;
 			break;
 		case thunder:
-			this.manaCost = electric_circle_mana;
+			this.manaCost = thunder_mana;
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.electriccircle);
 			this.columns = 4;
 			this.rows = 1;
@@ -539,7 +551,7 @@ public class AttackSprite {
             //dst = new Rect((int)(this.x - ((this.width/2) * scaler)), (int)(this.y- ((this.height/2)*scaler)), (int)(this.x + ((this.width/2)*scaler)), (int)(this.y + ((this.height/2)*scaler)));
             //dst = new Rect((int)(this.x-this.width/2 * 10/(float)power), (int)((this.y * 10/(float)power)) , (int)((this.x + this.width/2) * 10/(float)power), (int)(this.y * 10/(float)power + this.height/2 * 10/(float)power));
             //dst = new Rect((this.x-this.width/2)* 10/power, ((this.y - this.height/2)* 10/power , this.x + this.width/2, this.y+ this.height/2);
-            dst = new Rect(240 - this.width/5 - power,580 - this.height/5 - 2 * power,240 + this.width/5 + power , 580 + this.height/5);
+            dst = new Rect(this.Thunder_position_X - this.width/5 - power,this.Thunder_position_Y - this.height/5 - 2 * power,this.Thunder_position_X + this.width/5 + power , this.Thunder_position_Y + this.height/5);
             this.rec = dst;
             canvas.drawBitmap(this.bmp, src, dst, null);
         	break;
@@ -550,6 +562,7 @@ public class AttackSprite {
             src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
             //dst = new Rect(this.x-this.width/2, this.y, this.x + this.width/2, this.y + this.height/2);
             dst = new Rect(208, -100, 272, 600);
+            //dst = new Rect(240 - power, -100, 240 + power, 600);
             canvas.save();
             canvas.rotate(this.degree, this.x, this.y);
             canvas.drawBitmap(this.bmp, src, dst, null);
@@ -629,7 +642,7 @@ public class AttackSprite {
 		   //case angle_whip:
 			   Rect temp = new Rect(this.rec);
 			   if(temp.intersect(rect)){
-				   return 1;
+				   return this.dmg;
 			   }
 			   return -1;
 		   case shot:
@@ -652,6 +665,52 @@ public class AttackSprite {
 				   return -1;
 			   }
 		   }
+		   case angle_whip:
+			   /*sprawdzamy czy wrog znajduje sie w polu razenia ataku
+			    * 
+			    *	Wzór na prost¹ przechodz¹ca przez dwa punkty P1(x1,y1) P2(x2,y2) :
+			    *			(x2 - x1)(Y - y1) = (y2 - y1)(X - x1)
+			    *
+			    *	Do tego dorzucam sprawdzenie czy punkt nalezy do tej prostej +- range
+			    */
+//			   Log.d("thunder", "(y2 - y1)(X - x1) = " + (this.Thunder_position_Y - this.realY) * ((rect.centerX())));
+//			   Log.d("thunder", "(x2 - x1)(Y - y1) = " + ((this.Thunder_position_X - this.realX) * (rect.centerY() - this.realY)));
+//			   Log.d("thunder", "(y2 - y1)(X - x1) = " + (this.Thunder_position_Y - this.realY) * ((rect.centerX())));
+//			   
+//			   if(((this.Thunder_position_Y - this.realY) * ((rect.centerX() - this.realX) - this.range)) <= ((this.Thunder_position_X - this.realX) * (rect.centerY() - this.realY))
+//					   && 
+//				   ((this.Thunder_position_X - this.realX) * (rect.centerY() - this.realY))	<= ((this.Thunder_position_Y - this.realY) * (rect.centerX() - this.realX)) + this.range){
+//				   return this.dmg;
+//			   }
+//			   else {
+//				   return 0;
+//			   }
+			   /*
+			    * NOWA METODA KURWA! ZAJEBISTA! this.rec ataku pozosatwiamy na miejscu a obrtacamy o kat (minus kat) srodki ciezkosci bitmap
+			    * wrogow!
+			    */
+			   
+			   double newX = rect.centerX()*Math.cos(-this.degree) + rect.centerY()*Math.sin(-this.degree);
+			   double newY = rect.centerX()*Math.sin(-this.degree) - rect.centerY()*Math.cos(-this.degree);
+			   
+			   int z_x = (int) (( rect.centerX()*Math.cos(-this.degree) - rect.centerY()* Math.sin(-this.degree))  );// + this.Thunder_position_X);
+		       int z_y = (int) (( rect.centerX()*Math.sin(-this.degree) + rect.centerY()* Math.cos(-this.degree))  );//+ this.Thunder_position_Y);  
+		        
+			   double x1 = (rect.centerX()-this.Thunder_position_X)*Math.cos(this.degree) - (rect.centerY()-this.Thunder_position_Y)*Math.sin(this.degree)+this.Thunder_position_X;
+			   double y1 = (rect.centerX()-this.Thunder_position_X)*Math.sin(this.degree) + (rect.centerY()-this.Thunder_position_Y)*Math.cos(this.degree)+this.Thunder_position_Y;
+			   
+			   Log.d("thunder", "degree = " + this.degree);
+			   Log.d("thunder", "x = " + rect.centerX());
+			   Log.d("thunder", "y = " + rect.centerY());
+			   Log.d("thunder", "x1 = " + z_x);
+			   Log.d("thunder", "y1 = " + z_y);
+			   
+			   if(this.rec.contains((int)z_x, (int)z_y)){
+				   return this.dmg;
+			   }
+			   else{
+				   return 0;
+			   }
 	   }
 	   return -1;
 	   

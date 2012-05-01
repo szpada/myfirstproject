@@ -100,9 +100,9 @@ public class GameView extends SurfaceView {
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
-    	   enemies.add(createEnemy(enemyType.knight,10,10));
-    	   enemies.add(createEnemy(enemyType.knight,240,10));
-    	   enemies.add(createEnemy(enemyType.knight_summoner,80,10));
+//    	   enemies.add(createEnemy(enemyType.knight,10,10));
+//    	   enemies.add(createEnemy(enemyType.knight,240,10));
+//    	   enemies.add(createEnemy(enemyType.knight_summoner,80,10));
            enemies.add(createEnemy(enemyType.dragon,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
            switchGod = new Switcher(this.player,this,true,16,624);
