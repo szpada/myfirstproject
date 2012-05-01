@@ -11,7 +11,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-enum element{explosion,constant,crazy,multi_explosion,shot,shield,whip,powerGainer, angle_whip};
+enum element{explosion,constant,crazy,shot,shield,whip,powerGainer, angle_whip, storm};
 
 /**
  * @author Maciej
@@ -25,10 +25,21 @@ public class AttackSprite {
 	private int realX;
 	private int realY;
 	
+	private int unit_under; //zmienna do storma (czy ktos jest pod nim)
+	private int dir; //zmienna przechowujaca kierunek
+	/*
+	 * 0	- gora
+	 * 1	- dol
+	 * 2	- lewo
+	 * 3	- prawo
+	 * 
+	 * 4 =<	- poprzedni
+	 */
+	
 	private static int shock_mana = 5;
 	private static int multi_shock_mana = 30;
 	private static int charge_defence_mana = 20;
-	private static int electric_circle_mana = 20;
+	private static int storm_mana = 20;
 	private static int thunder_mana = 10;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
@@ -39,7 +50,7 @@ public class AttackSprite {
 	private static int tornado_mana = 20;
 	private static int water_level_mana = 20;
 	private static int water_shield = 20;
-	private static int intarow_mana = 20;
+	private static int arow_mana = 20;
 	private static int spear_mana = 20;
 	private static int shield_mana = 20;
 	private static int trap_mana = 20;
@@ -85,7 +96,6 @@ public class AttackSprite {
 	/*
 	 * konstruktor atakow niestandardowych
 	 */
-	
 	public AttackSprite(List<AttackSprite> attack,GameView gameView, otherAttacks at, int lvl, int x, int y,boolean manaFree){
 		Random rand = new Random();
 		this.gameView = gameView;
@@ -157,11 +167,9 @@ public class AttackSprite {
 			break;
 		}
 	}
-	
 	/*
 	 * konstruktor dodatkowy dla atakow wywolywanych przez inne ataki (manafree)case shock:
 	 */
-	
 	public AttackSprite(List<AttackSprite> attack,GameView gameView, attackType at, int lvl, int x, int y,boolean manaFree){
 		Random rand = new Random();
 		this.gameView = gameView;
@@ -217,12 +225,12 @@ public class AttackSprite {
 			this.staticPosition = false;
 			this.element = element.explosion;
 			break;
-		case shock_jumper:
+		case storm:
 			if(manaFree){
 				this.manaCost = 0;
 			}
 			else{
-				this.manaCost = electric_circle_mana;
+				this.manaCost = storm_mana;
 			}
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
 			this.columns = 4;
@@ -241,11 +249,9 @@ public class AttackSprite {
 			break;
 		}
 	}
-	
 	/*
 	 * konstruktor w³asciwy - normlanych atakow
 	 */
-	
 	public AttackSprite(List<AttackSprite> attack,GameView gameView, attackType at, int lvl, int x, int y){
 		Random rand = new Random();
 		this.gameView = gameView;
@@ -444,22 +450,25 @@ public class AttackSprite {
 			this.element = element.shield;
 			this.absorbRate = 0.2 * this.lvl;
 			break;
-		case shock_jumper:
-			this.manaCost = electric_circle_mana;
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.shock);
+		case storm:
+			this.manaCost = storm_mana;
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.storm);
 			this.columns = 4;
-			this.rows = 4;
+			this.rows = 2;
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
-			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.lvl * 4 + 3*this.width/4;
+			this.frames = this.columns - 1;
+			this.range = 64;
 			this.dmg = rand.nextInt(lvl + 2) + 8;
 			this.slow = 0;
-			this.life = 15;
+			this.life = 360;
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;
-			this.staticPosition = true;
-			this.element = element.explosion;
+			this.staticPosition = false;
+			this.element = element.storm;
+			this.unit_under = 0;
+			this.dir = rand.nextInt(4);
+			this.rec = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
 			break;
 		case thunder:
 			this.manaCost = thunder_mana;
@@ -568,14 +577,61 @@ public class AttackSprite {
             canvas.drawBitmap(this.bmp, src, dst, null);
             canvas.restore();
         	break;
+        case storm:
+        	srcX = (currentFrame % this.columns) * this.width;
+            //row = currentFrame / this.rows;
+            srcY = this.unit_under * this.height;//row * this.height;
+            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+            dst = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
+            canvas.drawBitmap(this.bmp, src, dst, null);
+            this.rec = new Rect(this.x-this.width/4, this.y-this.height/4, this.x + this.width/4, this.y + this.height/4);
+        	break;
         }
         currentFrame++;
    }
    private void update() {
 	   if(!this.staticPosition){
 		   Random rnd = new Random();
-		   this.x = this.x + rnd.nextInt(11) - 5;
-		   this.y = this.y + rnd.nextInt(11) - 5;
+		   if(this.element == element.storm){
+			   int new_direction = rnd.nextInt(16);
+			   if(new_direction < 4){
+				   this.dir = new_direction;
+			   }
+			   switch(this.dir){
+			   case 0:
+				   this.x += -1;
+				   this.y += -2;
+				   break;
+			   case 1:
+				   this.x += 1;
+				   this.y += 2;
+				   break;
+			   case 2:
+				   this.x += -1;
+				   this.y +=  2;
+				   break;
+			   case 3:
+				   this.x +=  1;
+				   this.y += -2;
+				   break;
+			   }
+			   if(this.rec.centerX() + this.width/2 >= gameView.getWidth()){
+				   this.dir = 2;
+			   }
+			   if(this.rec.centerX() + this.width/2 <= 0){
+				   this.dir = 3;
+			   }
+			   if(this.rec.centerY() + this.height/2 >= 600){
+				   this.dir = 0;
+			   }
+			   if(this.rec.centerY() + this.height/2 <= 0){
+				   this.dir = 1;
+			   }
+		   }
+		   else{
+			   this.x = this.x + rnd.nextInt(11) - 5;
+			   this.y = this.y + rnd.nextInt(11) - 5;
+		   }
 	   }
 	   if(this.currentFrame > this.frames){
 		   currentFrame = 0;
@@ -589,8 +645,8 @@ public class AttackSprite {
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y + rand.nextInt(distance),true));
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
 		   }
-		   if(this.attp == attackType.shock_jumper){
-			   attack.add(new AttackSprite(attack,gameView,attackType.shock_jumper,1,100,350, true));
+		   if(this.attp == attackType.storm){
+			   //attack.add(new AttackSprite(attack,gameView,attackType.storm,1,100,350, true));
 		   }
 		   if(this.attp == attackType.thunder){
 			   attack.add(new AttackSprite(attack,this.gameView,otherAttacks.thunder_shot,this.lvl * this.power,this.x, this.y,false));
@@ -665,6 +721,16 @@ public class AttackSprite {
 				   return -1;
 			   }
 		   }
+		   case storm:
+			   distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
+			   if(distance < this.range){
+			   //if(this.rec.contains(rect.centerX(), rect.centerY())){
+				   this.unit_under = 1;
+				   Random rnd = new Random();
+				   return rnd.nextInt(this.dmg);
+			   }
+			   this.unit_under = 0;
+			   return -1;
 		   case angle_whip:
 			   /*sprawdzamy czy wrog znajduje sie w polu razenia ataku
 			    * 
@@ -729,13 +795,7 @@ public class AttackSprite {
 	   return this.exploding;
    }
    public int getManaCost(){
-//	   if(this.attp == attackType.multi_shock){
-//		   int mana = multi_shock_mana + 4 * shock_mana;
-//		   return mana;
-//	   }
-//	   else{
-		   return this.manaCost;
-//	   }
+	   return this.manaCost;
    }
    public int getSlow(){
 	   return this.slow;

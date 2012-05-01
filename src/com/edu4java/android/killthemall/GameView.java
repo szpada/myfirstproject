@@ -54,7 +54,7 @@ public class GameView extends SurfaceView {
     private int lastGod;
     private int lastAttack;
     private int base[][] = {
-    		{1,1,1,0,1},	//ELEKTRYCZNE
+    		{1,1,1,1,1},	//ELEKTRYCZNE
     		{1,1,1,1,0},	//OGNIEN
     		{1,1,0,0,0},	//WODA
     		{0,0,0,0,0},	//FIZYCZNE
