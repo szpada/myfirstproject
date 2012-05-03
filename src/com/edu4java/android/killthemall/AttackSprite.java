@@ -585,6 +585,7 @@ public class AttackSprite {
             dst = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
             canvas.drawBitmap(this.bmp, src, dst, null);
             this.rec = new Rect(this.x-this.width/4, this.y-this.height/4, this.x + this.width/4, this.y + this.height/4);
+            this.unit_under = 0;
         	break;
         }
         currentFrame++;
@@ -645,9 +646,6 @@ public class AttackSprite {
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y + rand.nextInt(distance),true));
 			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
 		   }
-		   if(this.attp == attackType.storm){
-			   //attack.add(new AttackSprite(attack,gameView,attackType.storm,1,100,350, true));
-		   }
 		   if(this.attp == attackType.thunder){
 			   attack.add(new AttackSprite(attack,this.gameView,otherAttacks.thunder_shot,this.lvl * this.power,this.x, this.y,false));
 		   }
@@ -657,12 +655,6 @@ public class AttackSprite {
 		   this.y += -this.speed;
 		   this.x += -this.x_distance;
 		   this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
-	   }
-	   if(this.attp == attackType.thunder){
-//		   if(this.power == 5){
-//			   Random rnd = new Random();
-//			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,rnd.nextInt(100) + 100, rnd.nextInt(400) + 150, true));
-//		   }
 	   }
 	   life--;
    }
@@ -700,7 +692,7 @@ public class AttackSprite {
 			   if(temp.intersect(rect)){
 				   return this.dmg;
 			   }
-			   return -1;
+			   return 0;
 		   case shot:
 			   distance = Math.pow(Math.pow((this.rec.centerX() - rect.centerX()),2) + Math.pow((this.rec.centerY() - rect.centerY()),2),0.5);
 			   if(distance < this.range){
@@ -713,23 +705,20 @@ public class AttackSprite {
 				   }
 			   }
 			   return 0;
-		   case shield:{
+		   case shield:
 			   if(this.y - rect.centerY() < this.range){
 				   return 0;
 			   }
 			   else {
 				   return -1;
 			   }
-		   }
 		   case storm:
 			   distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
 			   if(distance < this.range){
-			   //if(this.rec.contains(rect.centerX(), rect.centerY())){
 				   this.unit_under = 1;
 				   Random rnd = new Random();
 				   return rnd.nextInt(this.dmg);
 			   }
-			   this.unit_under = 0;
 			   return -1;
 		   case angle_whip:
 			   /*sprawdzamy czy wrog znajduje sie w polu razenia ataku

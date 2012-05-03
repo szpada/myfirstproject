@@ -9,11 +9,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 enum size{small, medium, large, enormous};
 enum state{walk,fight,die};
-enum enemyType{knight,dragon, knight_summoner};
-enum warriorType{melee, summoner};
+enum enemyType{knight,dragon, knight_general, balista, catapult};
+enum warriorType{melee, summoner, range, general};
 
 /**
  * @author Maciej
@@ -31,6 +32,7 @@ public class EnemySprite {
     private state st;
     private warriorType wt;
     private List<EnemySprite> enemies;
+    private List<EnemyAttack> attacks;
     
     int[] DIRECTION_TO_ANIMATION_MAP = { 3, 1, 0, 2 };
     //private static int baseSize = 32; 
@@ -38,6 +40,8 @@ public class EnemySprite {
     private int frames;
     
     private enemyType summonType;//jednostka jaka summoner moze przywolac
+    private enemyAttackType ammoType; //pociski jednostek typu range
+    private int ammoSpeed; //predkosc pocisku wroga
     
     private int maxSpeed;
     private int speed;
@@ -75,33 +79,34 @@ public class EnemySprite {
      * 100 - Atak speed -> czestosc ataku
      */
     
-    public EnemySprite(List<EnemySprite> enemies,GameView gameView, enemyType tp, int x, int y){
+    public EnemySprite(List<EnemySprite> enemies,GameView gameView, enemyType tp, int x, int y, List<EnemyAttack> ea){
     	this.enemies = enemies;
+    	this.attacks = ea;
         this.gameView = gameView;
         this.x = x; 
         this.y = y;
         this.st = state.walk; 
         switch(tp){
     	case dragon:
-            this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.psismok);
-    		this.sz = size.large;
-    		this.width = 96;
+    		this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.psismok);
+			this.sz = size.small;
+			this.width = 96;
   		   	this.height = 96;
-            this.attackSpeed = 10;
-            this.maxSpeed = 2;
-            this.speed = 2;
-            this.dmg = 10;
-            this.life = 1000;
-            this.maxLife = 1000;
-            this.range = 40;
-            for(int i=0; i<5; i++){
-            	this.res[i] = 0;
-            	this.immute[i] = false;
-            	this.absorbs[i] = false;
-            }
-            this.frames = 3;
-            this.wt = warriorType.melee;
-    		break;
+	        this.attackSpeed = 20;
+	        this.maxSpeed = 2;
+	        this.speed = 2;
+	        this.dmg = 10;
+	        this.life = 500;
+	        this.maxLife = 500;
+	        this.range = 40;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 4;
+	        this.wt = warriorType.melee;
+			break;
 	    case knight:
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad1);
 			this.sz = size.small;
@@ -113,7 +118,7 @@ public class EnemySprite {
 	        this.dmg = 10;
 	        this.life = 100;
 	        this.maxLife = 100;
-	        this.range = 1;
+	        this.range = 4;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
 	        	this.immute[i] = false;
@@ -122,7 +127,7 @@ public class EnemySprite {
 	        this.frames = 3;
 	        this.wt = warriorType.melee;
 			break;
-	    case knight_summoner:
+	    case knight_general:
 	    	Random rnd = new Random();
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad2);
 			this.sz = size.small;
@@ -141,8 +146,52 @@ public class EnemySprite {
 	        	this.absorbs[i] = false;
 	        }
 	        this.frames = 3;
-	        this.wt = warriorType.summoner;
+	        this.wt = warriorType.general;
 	        this.summonType = enemyType.knight;
+			break;
+	    case balista:
+	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapult);
+			this.sz = size.small;
+			this.width = 64;
+		   	this.height = 64;
+	        this.attackSpeed = 15;
+	        this.maxSpeed = 3;
+	        this.speed = 3;
+	        this.dmg = 0;
+	        this.life = 500;
+	        this.maxLife = 500;
+	        this.range = 300;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 4;
+	        this.wt = warriorType.range;
+	        this.ammoType = enemyAttackType.spear;
+	        this.ammoSpeed = 2;
+			break;
+	    case catapult:
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapult);
+			this.sz = size.small;
+			this.width = 64;
+		   	this.height = 64;
+	        this.attackSpeed = 20;
+	        this.maxSpeed = 3;
+	        this.speed = 3;
+	        this.dmg = 0;
+	        this.life = 500;
+	        this.maxLife = 500;
+	        this.range = 500;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 4;
+	        this.wt = warriorType.range;
+	        this.ammoType = enemyAttackType.catapult_stone;
+	        this.ammoSpeed = 5;
 			break;
 		}
     }
@@ -170,9 +219,6 @@ public class EnemySprite {
 	    		this.recentStateChange = false;
 	    	}
 	    	this.currentFrame = 0;
-//	    	if(this.life < 1){
-//	    		enemies.remove(this);
-//	    	}
 	    }
 	    if(this.y + this.height + range >= olympY){
 	    	this.st = state.fight;
@@ -196,20 +242,21 @@ public class EnemySprite {
 	    		else{
 	    			this.attackIncrement = 0;
 	    			this.recentStateChange = true;
-	    			if(this.currentFrame == this.frames/2){
+	    			if(this.currentFrame >= (this.frames-1)/2){
 	    				/*
 	    				 * ataki w zaleznosci od typu wojownika
 	    				 */
+	    				Log.d("enemy", " jestem w switchu ");
 	    				switch(this.wt){
 	    				case melee:
 	    					this.dmgReady = true;
 	    					break;
-	    				case summoner:
+	    				case general:
 	    					Random rand = new Random();
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
-	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0,this.attacks));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0,this.attacks));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0,this.attacks));
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40,0,this.attacks));
 	    					this.st = state.walk;
 	    					if(this.range <= 100){
 	    						this.range = 100;
@@ -217,6 +264,17 @@ public class EnemySprite {
 	    					else{
 	    						this.range = 3 * this.range / 4;
 	    					}
+	    					break;
+	    				case range:
+	    					//this.dmgReady = true;
+	    					Log.d("range", "- " + this.dmgReady);
+	    					Random rnd = new Random();
+	    					/*
+	    					 * CZEMU TA KURWA NIE DZIALA?
+	    					 */
+//	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, 340, 0, 140, 700, 1, enemyAttackType.spear));
+	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rnd.nextInt(400) + 40, 600, 1 , enemyAttackType.spear));
+	    					//this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x, this.y, rnd.nextInt(400) + 40, 600, 1 , this.ammoType));
 	    					break;
 	    				}
 	    				
@@ -376,5 +434,14 @@ public class EnemySprite {
 	}
 	public double getDistance(EnemySprite es){
 		return Math.pow(Math.pow((this.x - es.getX()),2) + Math.pow((this.y - es.getY()),2),0.5);
+	}
+	public int getAmmoSpeed(){
+		return this.ammoSpeed;
+	}
+	public enemyAttackType getAmmoType(){
+		return this.ammoType;
+	}
+	public void dmgReady(boolean state){
+		this.dmgReady = state;
 	}
 }

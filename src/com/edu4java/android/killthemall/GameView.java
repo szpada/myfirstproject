@@ -100,9 +100,11 @@ public class GameView extends SurfaceView {
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
-//    	   enemies.add(createEnemy(enemyType.knight,10,10));
-//    	   enemies.add(createEnemy(enemyType.knight,240,10));
-//    	   enemies.add(createEnemy(enemyType.knight_summoner,80,10));
+//    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
+    	   enemies.add(createEnemy(enemyType.balista,10,10));
+    	   enemies.add(createEnemy(enemyType.catapult,200,10));
+    	   enemies.add(createEnemy(enemyType.knight,10,10));
+//    	   enemies.add(createEnemy(enemyType.knight,240,10));  	   
            enemies.add(createEnemy(enemyType.dragon,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
            switchGod = new Switcher(this.player,this,true,16,624);
@@ -114,11 +116,11 @@ public class GameView extends SurfaceView {
            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
            ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
            
-           //enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
-           //enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.spear));
+           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
+           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.catapult_stone));
        }
        private EnemySprite createEnemy(enemyType e, int x, int y){
-    	   return new EnemySprite(enemies,this, e,x,y);
+    	   return new EnemySprite(enemies,this,e,x,y, enemyAttacks);
        }
        private AttackSprite createAttack(attackType at, int lvl,int x, int y){
     	   return new AttackSprite(attack,this, at, lvl,x,y);
@@ -144,24 +146,6 @@ public class GameView extends SurfaceView {
     	   canvas.scale(this.w_factor, this.h_factor);
     	   background.onDraw(canvas);
     	   /*
-    	    * zadawanie dmg olimpowi przez ataki wrogow (dystansowe)
-    	    */
-    	   for (int i = enemyAttacks.size() - 1; i >= 0; i--) {
-        	   if(enemyAttacks.get(i).getY() >= panel.getY()){
-        		   /*
-        		    * jesli mamy shielda to dzielimy dmg na shield i olimp
-        		    */
-        		   if(shield_on){
-        			   shieldOlympDmg_shot(enemyAttacks.get(i).getDmg(),attack_number);
-        		   }
-        		   else{
-	        		   player.dmgToOlymp(enemyAttacks.get(i).getDmg());
-        		   }
-        		   enemyAttacks.get(i).setState(attackState.die);
-        	   }
-        	   enemyAttacks.get(i).onDraw(canvas);
-           }
-    	   /*
     	    * zadawanie dmg olimpowi przez wrogow atakujacych wrecz
     	    */
            for (int i = enemies.size() - 1; i >= 0; i--) {
@@ -175,8 +159,43 @@ public class GameView extends SurfaceView {
         		   else{
 	        		   player.dmgToOlymp(enemies.get(i).getDmg());
         		   }
+//        		   enemies.get(i).dmgReady(false);
         	   }
+//        	   /*
+//        	    * tworzenie atakow dla wrogow typu range
+//        	    */
+//        	   else if(enemies.get(i).getWarriorType() == warriorType.range && enemies.get(i).getDmgReady()){
+//        		   Random rnd = new Random();
+//        		   Log.d("range", "dodaje ataki");
+//        		   enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.spear));
+//        		   enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 
+//        				   enemies.get(i).getX() + enemies.get(i).getWidth()/2, 	//X
+//        				   enemies.get(i).getY() + enemies.get(i).getHeight()/2, 	//Y								
+//        				   rnd.nextInt(400) + 40, 									//X docelowe
+//        				   600, 													//Y docelowe
+//        				   enemies.get(i).getAmmoSpeed(), 							//Predkosc pocisku
+//        				   enemies.get(i).getAmmoType()));							//Rodzaj pocisku
+//        		   enemies.get(i).dmgReady(false);
+//        	   }
         	   enemies.get(i).onDraw(canvas);
+           }
+           /*
+    	    * zadawanie dmg olimpowi przez ataki wrogow (dystansowe)
+    	    */
+    	   for (int i = enemyAttacks.size() - 1; i >= 0; i--) {
+        	   if(enemyAttacks.get(i).getY() >= panel.getY() && enemyAttacks.get(i).getAttackState() != attackState.die){
+        		   /*
+        		    * jesli mamy shielda to dzielimy dmg na shield i olimp
+        		    */
+        		   if(shield_on){
+        			   shieldOlympDmg_shot(enemyAttacks.get(i).getDmg(),attack_number);
+        		   }
+        		   else{
+	        		   player.dmgToOlymp(enemyAttacks.get(i).getDmg());
+        		   }
+        		   enemyAttacks.get(i).setState(attackState.die);
+        	   }
+        	   enemyAttacks.get(i).onDraw(canvas);
            }
            for (int i = attack.size() - 1; i >= 0; i--) {
         	   attack.get(i).onDraw(canvas);
@@ -209,7 +228,6 @@ public class GameView extends SurfaceView {
            float y = event.getY();
            x = x / this.w_factor;
            y = y / this.h_factor;
-           Log.d("GameView", "kliknalem w : [x] = " + Float.toString(x) + "[y] = " + Float.toString(y));
     	   if((player.getCurrentGod() != this.lastGod) || player.getCurrentAttack() != this.lastAttack){
     		   coolDown = 300;
            }
@@ -238,9 +256,6 @@ public class GameView extends SurfaceView {
 	        					   }
 	        				   }
 	        			   }
-//	        			   else if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder){
-//	        				   attack.get(attack.size()-1).attackReady();
-//	        			   }
 	        			   else{
 		        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
 		        			   if(player.manaForAttack(temp.getManaCost())){
