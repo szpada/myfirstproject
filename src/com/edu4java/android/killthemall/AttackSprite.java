@@ -468,7 +468,8 @@ public class AttackSprite {
 			this.element = element.storm;
 			this.unit_under = 0;
 			this.dir = rand.nextInt(4);
-			this.rec = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
+			//this.rec = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
+			this.rec = new Rect(this.x + this.width/4, this.y, this.x + this.width, this.y + this.height);
 			break;
 		case thunder:
 			this.manaCost = thunder_mana;
@@ -584,7 +585,8 @@ public class AttackSprite {
             src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
             dst = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);
             canvas.drawBitmap(this.bmp, src, dst, null);
-            this.rec = new Rect(this.x-this.width/4, this.y-this.height/4, this.x + this.width/4, this.y + this.height/4);
+//            this.rec = new Rect(this.x - this.width/4, this.y-this.height/4, this.x + this.width/4, this.y + this.height/4);
+            this.rec = new Rect(this.x + this.width/4, this.y, this.x + this.width, this.y + this.height);
             this.unit_under = 0;
         	break;
         }
@@ -745,6 +747,9 @@ public class AttackSprite {
 			    * wrogow!
 			    */
 			   
+			   /*
+			    * TYLKO KURWA NIE DZIALA T_T
+			    */
 			   double newX = rect.centerX()*Math.cos(-this.degree) + rect.centerY()*Math.sin(-this.degree);
 			   double newY = rect.centerX()*Math.sin(-this.degree) - rect.centerY()*Math.cos(-this.degree);
 			   

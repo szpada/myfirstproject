@@ -12,9 +12,9 @@ import android.graphics.Rect;
 import android.util.Log;
 
 enum size{small, medium, large, enormous};
-enum state{walk,fight,die};
-enum enemyType{knight,dragon, knight_general, balista, catapult};
-enum warriorType{melee, summoner, range, general};
+enum state{walk,fight,die,summon,shoot};	//summon dla bossa i jednostek ktore sa "tworzone" przez inne. shoot tylko dla bosa
+enum enemyType{knight,dragon, knight_general, balista, catapult, fire_imp, fire_titan};
+enum warriorType{melee, summoner, range, general, boss};
 
 /**
  * @author Maciej
@@ -42,6 +42,8 @@ public class EnemySprite {
     private enemyType summonType;//jednostka jaka summoner moze przywolac
     private enemyAttackType ammoType; //pociski jednostek typu range
     private int ammoSpeed; //predkosc pocisku wroga
+    private state next_state; //nastepny atak bossa
+    private int melee_range; //zasieg wrecz dla bossow
     
     private int maxSpeed;
     private int speed;
@@ -98,7 +100,7 @@ public class EnemySprite {
 	        this.dmg = 10;
 	        this.life = 500;
 	        this.maxLife = 500;
-	        this.range = 40;
+	        this.range = 400;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
 	        	this.immute[i] = false;
@@ -106,6 +108,7 @@ public class EnemySprite {
 	        }
 	        this.frames = 4;
 	        this.wt = warriorType.melee;
+	        this.summonType = enemyType.fire_imp;
 			break;
 	    case knight:
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad1);
@@ -139,7 +142,7 @@ public class EnemySprite {
 	        this.dmg = 0;
 	        this.life = 100;
 	        this.maxLife = 100;
-	        this.range = rnd.nextInt(100) + 600;
+	        this.range = rnd.nextInt(100) + 300;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
 	        	this.immute[i] = false;
@@ -193,6 +196,49 @@ public class EnemySprite {
 	        this.ammoType = enemyAttackType.catapult_stone;
 	        this.ammoSpeed = 5;
 			break;
+	    case fire_imp:
+	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad2);
+			this.sz = size.small;
+			this.width = 32;
+  		   	this.height = 32;
+	        this.attackSpeed = 30;
+	        this.maxSpeed = 3;
+	        this.speed = 3;
+	        this.dmg = 10;
+	        this.life = 100;
+	        this.maxLife = 100;
+	        this.range = 4;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 3;
+	        this.wt = warriorType.melee;
+	        this.st = state.summon;
+			break;
+	    case fire_titan:
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.firetitan);
+			this.sz = size.small;
+			this.width = 128;
+  		   	this.height = 128;
+	        this.attackSpeed = 20;
+	        this.maxSpeed = 2;
+	        this.speed = 2;
+	        this.dmg = 10;
+	        this.life = 500;
+	        this.maxLife = 500;
+	        this.range = 400;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 4;
+	        this.wt = warriorType.boss;
+	        this.summonType = enemyType.fire_imp;
+	        this.next_state = state.shoot;
+	        this.melee_range = 20;
 		}
     }
     
@@ -214,14 +260,22 @@ public class EnemySprite {
 			   this.recentStateChange = true;
 		   }
 	    }
+	    /*
+	     * zmienic to zeby nie wyswietlal pierwszej klatki a puszczal "jalowa animacje" oprocz tego
+	     * powinien zmieniac stan przed wykonaniem ataku
+	     * 
+	     */
 	    if(this.currentFrame > this.frames-1){
-	    	if(this.recentStateChange && this.st == state.fight){
+	    	if(this.recentStateChange && this.st != state.walk && this.st != state.die ){
 	    		this.recentStateChange = false;
 	    	}
 	    	this.currentFrame = 0;
 	    }
 	    if(this.y + this.height + range >= olympY){
 	    	this.st = state.fight;
+	    	if(this.wt == warriorType.boss){
+	    		this.st = this.next_state;
+	    	}
 	    	if(this.life < 1){
 	    		this.setSt(state.die);
 	    		if(!this.recentStateChange){
@@ -246,7 +300,6 @@ public class EnemySprite {
 	    				/*
 	    				 * ataki w zaleznosci od typu wojownika
 	    				 */
-	    				Log.d("enemy", " jestem w switchu ");
 	    				switch(this.wt){
 	    				case melee:
 	    					this.dmgReady = true;
@@ -266,15 +319,44 @@ public class EnemySprite {
 	    					}
 	    					break;
 	    				case range:
-	    					//this.dmgReady = true;
-	    					Log.d("range", "- " + this.dmgReady);
 	    					Random rnd = new Random();
-	    					/*
-	    					 * CZEMU TA KURWA NIE DZIALA?
-	    					 */
-//	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, 340, 0, 140, 700, 1, enemyAttackType.spear));
-	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rnd.nextInt(400) + 40, 600, 1 , enemyAttackType.spear));
-	    					//this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x, this.y, rnd.nextInt(400) + 40, 600, 1 , this.ammoType));
+	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rnd.nextInt(400) + 40, 700, 1 , this.ammoType));
+	    					break;
+	    				case summoner:
+	    					rand = new Random();
+	    					this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40, this.y,this.attacks));
+	    					this.st = state.walk;
+	    					if(this.range <= 100){
+	    						this.range = 100;
+	    					}
+	    					else{
+	    						this.range = 3 * this.range / 4;
+	    					}
+	    					break;
+	    				case boss:
+	    					if(this.range <= this.melee_range){
+	    						this.range = this.melee_range;
+	    						this.st = state.fight;
+	    						this.wt = warriorType.melee;
+	    					}
+	    					else{
+	    						this.range = 3 * this.range / 4;
+	    					}
+	    					rand = new Random();
+	    					if(this.st == state.summon){
+	    						this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40, this.y,this.attacks));
+	    					}
+	    					else if(this.st == state.shoot){
+	    						this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rand.nextInt(400) + 40, 700, 1 , enemyAttackType.spear));
+	    					}
+	    					this.st = state.walk;
+	    					//rand = new Random();
+	    					if(rand.nextBoolean()){
+	    						this.next_state = state.summon;
+	    					}
+	    					else{
+	    						this.next_state = state.shoot;
+	    					}
 	    					break;
 	    				}
 	    				
@@ -298,6 +380,18 @@ public class EnemySprite {
 			canvas.drawBitmap(this.bmp, src, dst, null);
 			if(slowFrame >= this.frames){
 				enemies.remove(this);
+			}
+    	}
+    	else if(this.st == state.summon && this.wt != warriorType.boss){
+    		int slowFrame = this.currentFrame / 10;
+    		//update();
+			int srcX = this.width * slowFrame;
+			int srcY = this.st.ordinal() * this.height;
+			Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+			Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+			canvas.drawBitmap(this.bmp, src, dst, null);
+			if(slowFrame >= this.frames-1){
+				this.st = state.walk;
 			}
     	}
     	else{
@@ -324,14 +418,6 @@ public class EnemySprite {
 			 * wersja ze zwerzajacym sie paskiem zycia do srodka
 			 */
 			canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
-			/*
-			 * wersja z paskiem znikajacym w lewo (standardowy)
-			 */
-			//canvas.drawRect(this.x, this.x + (int)((double)this.life/(double)this.maxLife * (double)this.width), this.y - 5, paint);
-			/*
-			 * wyswietlnia komunikatu o spowolnieniu przerobic to pozniej na 
-			 * bitmape rozplywajaca sie w powietrzu (animacja od srodka postaci az do paska zycia
-			 */
 			if(this.slowed){
 				paint.setColor(Color.BLUE);
 				canvas.drawText("Slowed", this.x + this.width/3, this.y - this.height/2, paint);

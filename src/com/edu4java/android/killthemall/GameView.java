@@ -100,12 +100,13 @@ public class GameView extends SurfaceView {
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
-//    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
-    	   enemies.add(createEnemy(enemyType.balista,10,10));
+    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
+//    	   enemies.add(createEnemy(enemyType.balista,10,10));
     	   enemies.add(createEnemy(enemyType.catapult,200,10));
     	   enemies.add(createEnemy(enemyType.knight,10,10));
 //    	   enemies.add(createEnemy(enemyType.knight,240,10));  	   
-           enemies.add(createEnemy(enemyType.dragon,240,10));
+//           enemies.add(createEnemy(enemyType.dragon,240,10));
+    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
            switchGod = new Switcher(this.player,this,true,16,624);
            switchAttack = new Switcher(this.player,this,false,333,624);
@@ -116,8 +117,8 @@ public class GameView extends SurfaceView {
            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
            ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
            
-           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
-           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.catapult_stone));
+//           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
+//           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.catapult_stone));
        }
        private EnemySprite createEnemy(enemyType e, int x, int y){
     	   return new EnemySprite(enemies,this,e,x,y, enemyAttacks);
