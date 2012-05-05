@@ -6,7 +6,36 @@ import java.util.List;
 public class Level {
 	private List<Wave> waves = new ArrayList<Wave>();
 	
-	public Level(level lvl){
-			waves.add(new Wave(lvl, army.knight_squad));
+	public Level(difficulty dif){
+		switch(dif){
+		/*
+		 * fale sa dodawane w zaleznosci od wybranego poziomu trudnosci
+		 */
+		case tutorial:
+			// FALA #1
+			waves.add(new Wave(enemyType.knight,enemyType.knight));
+			// FALA #2
+			waves.add(new Wave(enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight));
+			// FALA #3
+			waves.add(new Wave(enemyType.knight,enemyType.knight,enemyType.catapult,enemyType.knight,
+					enemyType.knight));
+			// FALA #4
+			waves.add(new Wave(enemyType.catapult,enemyType.knight,enemyType.knight,enemyType.knight_general,
+					enemyType.knight,enemyType.knight,enemyType.knight,enemyType.balista));
+			// FALA #5
+			waves.add(new Wave(enemyType.knight_general,enemyType.dragon,enemyType.knight_general));
+			break;
+		case basic:
+			// FALA #1
+			waves.add(new Wave(enemyType.catapult,enemyType.catapult,enemyType.catapult,enemyType.catapult,
+					enemyType.catapult,enemyType.catapult,enemyType.catapult,enemyType.catapult));
+			break;
 		}
+	}
+	public List<Wave> getWave(){
+		return this.waves;
+	}
+	public int waveSize(){
+		return waves.size();
+	}
 }
