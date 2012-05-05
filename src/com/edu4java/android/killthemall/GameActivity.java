@@ -41,7 +41,9 @@ public class GameActivity extends Activity {
         //mPrefs = this.getPreferences(MODE_PRIVATE); 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GameView(this, w_factor, h_factor));
+        Level lvl = new Level(difficulty.tutorial);
+        setContentView(new GameView(this, w_factor, h_factor, lvl));
+
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {

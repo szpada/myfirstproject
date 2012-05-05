@@ -44,6 +44,9 @@ public class GameView extends SurfaceView {
     private List<AttackSprite> attack = new ArrayList<AttackSprite>();
     private List<TempSprite> temps = new ArrayList<TempSprite>();
     private List<EnemyAttack> enemyAttacks = new ArrayList<EnemyAttack>();
+    private List<Wave> waves = new ArrayList<Wave>();
+    private Level level;
+    private int current_wave = -1;
     
     private Switcher switchGod;
 	private Switcher switchAttack;
@@ -65,10 +68,14 @@ public class GameView extends SurfaceView {
    
    private Player player = new Player("pies",0,0,base,200,100,2);
    
-   public GameView(Context context, double w_factor, double h_factor) {
+   public GameView(Context context, double w_factor, double h_factor, Level level) {
          super(context);
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
+ 	   	 this.level = level;
+ 	   	 
+ 	   	 this.waves = this.level.getWave();
+ 	   	 
          gameLoopThread = new GameLoopThread(this);
          getHolder().addCallback(new SurfaceHolder.Callback() {
                 //@Override
@@ -100,14 +107,17 @@ public class GameView extends SurfaceView {
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
-    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
+//    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
 //    	   enemies.add(createEnemy(enemyType.balista,10,10));
-    	   enemies.add(createEnemy(enemyType.catapult,200,10));
-    	   enemies.add(createEnemy(enemyType.knight,10,10));
+//    	   enemies.add(createEnemy(enemyType.catapult,200,10));
+//    	   enemies.add(createEnemy(enemyType.knight,10,10));
 //    	   enemies.add(createEnemy(enemyType.knight,240,10));  	   
 //           enemies.add(createEnemy(enemyType.dragon,240,10));
-    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
+//    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
+           
+           nextWave(1);	//dodaj pierwsza fale;
+           
            switchGod = new Switcher(this.player,this,true,16,624);
            switchAttack = new Switcher(this.player,this,false,333,624);
            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel3);
@@ -131,6 +141,8 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
+    	   nextWave(this.enemies.size());	//nowa fala dodawana kiedy cala poprzednia jest martwa
+    	   
     	   boolean shield_on = false; //zmienna potrzebna do dzielenia dmg miedzy olimpem a shieldem
     	   int attack_number = 0;
     	   for (int j = attack.size() - 1; j >= 0; j--) {
@@ -143,7 +155,6 @@ public class GameView extends SurfaceView {
     	   /*
     	    * wyswietlanie ca³ej grafiki i update many
     	    */
-    	   //canvas.save();
     	   canvas.scale(this.w_factor, this.h_factor);
     	   background.onDraw(canvas);
     	   /*
@@ -162,22 +173,6 @@ public class GameView extends SurfaceView {
         		   }
 //        		   enemies.get(i).dmgReady(false);
         	   }
-//        	   /*
-//        	    * tworzenie atakow dla wrogow typu range
-//        	    */
-//        	   else if(enemies.get(i).getWarriorType() == warriorType.range && enemies.get(i).getDmgReady()){
-//        		   Random rnd = new Random();
-//        		   Log.d("range", "dodaje ataki");
-//        		   enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.spear));
-//        		   enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 
-//        				   enemies.get(i).getX() + enemies.get(i).getWidth()/2, 	//X
-//        				   enemies.get(i).getY() + enemies.get(i).getHeight()/2, 	//Y								
-//        				   rnd.nextInt(400) + 40, 									//X docelowe
-//        				   600, 													//Y docelowe
-//        				   enemies.get(i).getAmmoSpeed(), 							//Predkosc pocisku
-//        				   enemies.get(i).getAmmoType()));							//Rodzaj pocisku
-//        		   enemies.get(i).dmgReady(false);
-//        	   }
         	   enemies.get(i).onDraw(canvas);
            }
            /*
@@ -328,36 +323,6 @@ public class GameView extends SurfaceView {
 	    						   power = attack.get(j).checkCollision(enemies.get(i).getRect()); 
     						   }
 							   if(power > 0){
-								   
-								   
-								   /*
-								    * 				DO NAPRAWY!
-								    */
-//								   if(attack.get(j).getAttackType() == attackType.shock_jumper){
-//									   int table[] = new int[5];
-//									   table[0] = -1;
-//									   int counter = 0;
-//									   //szukamy wrogow najblizej zaatakowanego
-//									   for(int k = enemies.size()-1; k>=0; k--){
-//										   //sprawdzamy czy odleglosc sie zgadza -> czy odleglosc miedzy dwoma wrogami jest mneijsza niz zasieg ataku
-//										   if(enemies.get(k) != enemies.get(i) && enemies.get(k).getDistance(enemies.get(i)) < (double)attack.get(j).getRange()){
-//											   if(counter > attack.get(j).getLvl()){
-//												   break;
-//											   }
-//											   else{
-//												   counter++;
-//												   table[counter] = k;
-//											   }
-//										   }
-//									   }
-//									   Random rnd = new Random();
-//									   int enemy_number = table[rnd.nextInt(counter)];
-//									   if(enemy_number >= 0){
-//										   
-//										   //attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,enemies.get(enemy_number).getX(),enemies.get(enemy_number).getY(), true));
-//										   //attack.add(new AttackSprite(attack,this,attackType.shock_jumper,1,100,350, true));
-//									   }
-//								   }
 								   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());//(power + attack.get(j).getDmg(), player.getCurrentGod());
 								   //enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
 								   enemies.get(i).setSlowTime(attack.get(j).getSlow());
@@ -405,5 +370,22 @@ public class GameView extends SurfaceView {
        public void shieldOlympDmg_shot(int dmg, int a_number){
     	   attack.get(a_number).dmgToShield((int)(dmg * attack.get(a_number).getAbsorbRate()));
 		   player.dmgToOlymp((int)(dmg * (1 - attack.get(a_number).getAbsorbRate())));
+       }
+       public void nextWave(int size){
+    	   if(size == 0 && this.current_wave < this.level.waveSize()-1){
+    		   Log.d("waves", "enemy size = " + size);
+    		   Log.d("waves", "wave  size = " + this.level.waveSize());
+    		   this.current_wave++;
+    		   List<Unit> units = new ArrayList<Unit>();
+    		   if(this.waves.size() > 0){
+    			   units = waves.get(this.current_wave).getUnits();
+    			   Log.d("waves", "unitsy zaladowane");
+    			   for(int j = units.size()-1; j >= 0; j--){
+    				   Log.d("waves", "petla for przejazd nr : " + j);
+    				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
+    			   }
+    			   Log.d("waves", "wyszedlem z fora");
+    		   }
+    	   }
        }
 }
