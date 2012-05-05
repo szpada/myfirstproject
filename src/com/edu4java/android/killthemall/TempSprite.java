@@ -97,7 +97,7 @@ public class TempSprite {
        }
        
        public boolean collision(int x, int y){
-    	   Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+    	   Rect dst = new Rect(this.x - this.width/2, this.y - this.height/2, this.x + 3 *this.width/2, this.y + 3 *this.height/2);
    			if(dst.contains(x, y)){
    				this.clicked = true;
    				return true;

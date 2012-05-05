@@ -364,9 +364,9 @@ public class AttackSprite {
 			this.height = bmp.getHeight()/this.rows;
 			this.rec = new Rect(0,(this.y - this.height/4)+10-lvl, 480, (this.y + this.height/4)-10+lvl);
 			this.frames = (this.rows * this.columns) - 1;
-			this.dmg = rand.nextInt(lvl) + 1;
+			this.dmg = rand.nextInt(lvl*2) + 2;
 			this.slow = 0;
-			this.life = this.lvl * 5;
+			this.life = (this.lvl+1) * 5;
 			this.cooldown = 500 + lvl * 100;
 			this.staticPosition = true;
 			this.exploding = false;

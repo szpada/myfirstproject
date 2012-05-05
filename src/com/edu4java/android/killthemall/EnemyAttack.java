@@ -49,12 +49,18 @@ public class EnemyAttack {
 		this.ea = enemyType;
 		switch(ea){
 		case spear:
+<<<<<<< HEAD
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapultammo);
 			this.columns = 3;
+=======
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad2);
+			this.columns = 4;
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
 			this.rows = 2;
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
+<<<<<<< HEAD
 			this.dmg = 20;
 			this.life = 10;
 			this.as = attackState.fly;
@@ -74,6 +80,10 @@ public class EnemyAttack {
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = 40;
 			this.life = 20;
+=======
+			this.dmg = 1;
+			this.life = 1;
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
 			this.as = attackState.fly;
 			if(this.x >= this.x_destination){
 				this.degree = -(float)Math.toDegrees(Math.atan((float)(this.x_destination - this.x)/((float)(this.y_destination - this.y))));
@@ -90,9 +100,15 @@ public class EnemyAttack {
         Rect src;
         Rect dst;
         if(this.as == attackState.die){
+<<<<<<< HEAD
         	int slowedFrame = currentFrame/5;
 //        	switch(this.ea){
 //            case spear:
+=======
+        	int slowedFrame = currentFrame/2;
+        	switch(this.ea){
+            case spear:
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
             	srcX = (slowedFrame % this.columns) * this.width;
                 srcY = this.as.ordinal() * this.height;
                 src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
@@ -101,6 +117,7 @@ public class EnemyAttack {
                 canvas.rotate(this.degree, this.x, this.y);
                 canvas.drawBitmap(this.bmp, src, dst, null);
                 canvas.restore();
+<<<<<<< HEAD
 //            	break;
 //            }
         }
@@ -108,6 +125,15 @@ public class EnemyAttack {
         	update();
 //	        switch(this.ea){
 //	        case spear:
+=======
+            	break;
+            }
+        }
+        else{
+        	update();
+	        switch(this.ea){
+	        case spear:
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
 	        	srcX = (currentFrame % this.columns) * this.width;
 	            srcY = this.as.ordinal() * this.height;
 	            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
@@ -116,10 +142,17 @@ public class EnemyAttack {
 	            canvas.rotate(this.degree, this.x, this.y);
 	            canvas.drawBitmap(this.bmp, src, dst, null);
 	            canvas.restore();
+<<<<<<< HEAD
 //	        	break;
 //	        }
         }
         if(this.as == attackState.die && this.currentFrame >= this.frames){
+=======
+	        	break;
+	        }
+        }
+        if(this.as == attackState.die && this.currentFrame >= this.frames-1){
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
         	enemyAttacks.remove(this);
         }
         this.currentFrame++;
@@ -128,17 +161,27 @@ public class EnemyAttack {
     	if(this.currentFrame > this.frames){
  		   currentFrame = 0;
  	   	}
+<<<<<<< HEAD
+=======
+ 	   	if(this.life < 1) {
+ 		   enemyAttacks.remove(this);
+ 	   	}
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
  	   	if(this.ea == enemyAttackType.spear){
  	   		this.y += (this.y_destination - this.currentY)/this.speed;
  	   		this.x += (this.x_destination - this.currentX)/this.speed;
  	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
  	   	}
+<<<<<<< HEAD
  	    if(this.ea == enemyAttackType.catapult_stone){
 	   		this.y += (this.y_destination - this.currentY)/this.speed;
 	   		this.x += (this.x_destination - this.currentX)/this.speed;
 	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
 	   	}
  	    if(this.life < 1){
+=======
+ 	   if(this.life < 1){
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
 		    this.as = attackState.die;
 			this.currentFrame = 0;		
 	    }

@@ -100,7 +100,7 @@ public class EnemySprite {
 	        this.dmg = 10;
 	        this.life = 500;
 	        this.maxLife = 500;
-	        this.range = 400;
+	        this.range = 20;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
 	        	this.immute[i] = false;

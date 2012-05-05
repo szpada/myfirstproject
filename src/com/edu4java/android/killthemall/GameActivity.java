@@ -43,6 +43,10 @@ public class GameActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Level lvl = new Level(difficulty.tutorial);
         setContentView(new GameView(this, w_factor, h_factor, lvl));
+<<<<<<< HEAD
+=======
+
+>>>>>>> bd922f88a8c6525f2a69f34b043beb6977fbcfed
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {
