@@ -44,6 +44,7 @@ public class GameView extends SurfaceView {
     private List<AttackSprite> attack = new ArrayList<AttackSprite>();
     private List<TempSprite> temps = new ArrayList<TempSprite>();
     private List<EnemyAttack> enemyAttacks = new ArrayList<EnemyAttack>();
+    private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
     private int current_wave = -1;
     
@@ -72,6 +73,9 @@ public class GameView extends SurfaceView {
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
  	   	 this.level = level;
+ 	   	 
+ 	   	 this.waves = this.level.getWave();
+ 	   	 
          gameLoopThread = new GameLoopThread(this);
          getHolder().addCallback(new SurfaceHolder.Callback() {
                 //@Override
@@ -368,19 +372,19 @@ public class GameView extends SurfaceView {
 		   player.dmgToOlymp((int)(dmg * (1 - attack.get(a_number).getAbsorbRate())));
        }
        public void nextWave(int size){
-    	   if(size == 0 && this.level.waveSize() > 0){
+    	   if(size == 0 && this.current_wave < this.level.waveSize()-1){
     		   Log.d("waves", "enemy size = " + size);
     		   Log.d("waves", "wave  size = " + this.level.waveSize());
     		   this.current_wave++;
-    		   List<Wave> waves = new ArrayList<Wave>();
     		   List<Unit> units = new ArrayList<Unit>();
-    		   waves = this.level.getWave();
-    		   if(waves.size() > 0){
+    		   if(this.waves.size() > 0){
     			   units = waves.get(this.current_wave).getUnits();
+    			   Log.d("waves", "unitsy zaladowane");
     			   for(int j = units.size()-1; j >= 0; j--){
+    				   Log.d("waves", "petla for przejazd nr : " + j);
     				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
     			   }
-    			   waves.remove(this.current_wave);
+    			   Log.d("waves", "wyszedlem z fora");
     		   }
     	   }
        }
