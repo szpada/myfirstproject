@@ -112,7 +112,7 @@ public class GameView extends SurfaceView {
 //    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
            temps.add(createTemp(240,400,bonusType.mana_potion));
            
-           nextWave(1);
+           nextWave(1);	//dodaj pierwsza fale;
            
            switchGod = new Switcher(this.player,this,true,16,624);
            switchAttack = new Switcher(this.player,this,false,333,624);
@@ -137,7 +137,8 @@ public class GameView extends SurfaceView {
        }
        @Override
        protected void onDraw(Canvas canvas) {
-    	   nextWave(this.enemies.size());
+    	   nextWave(this.enemies.size());	//nowa fala dodawana kiedy cala poprzednia jest martwa
+    	   
     	   boolean shield_on = false; //zmienna potrzebna do dzielenia dmg miedzy olimpem a shieldem
     	   int attack_number = 0;
     	   for (int j = attack.size() - 1; j >= 0; j--) {
@@ -368,6 +369,8 @@ public class GameView extends SurfaceView {
        }
        public void nextWave(int size){
     	   if(size == 0 && this.level.waveSize() > 0){
+    		   Log.d("waves", "enemy size = " + size);
+    		   Log.d("waves", "wave  size = " + this.level.waveSize());
     		   this.current_wave++;
     		   List<Wave> waves = new ArrayList<Wave>();
     		   List<Unit> units = new ArrayList<Unit>();
@@ -377,6 +380,7 @@ public class GameView extends SurfaceView {
     			   for(int j = units.size()-1; j >= 0; j--){
     				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
     			   }
+    			   waves.remove(this.current_wave);
     		   }
     	   }
        }
