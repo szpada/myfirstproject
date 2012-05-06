@@ -3,6 +3,8 @@
  */
 package com.gra.rozgrywka;
 
+import java.io.FileNotFoundException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +21,11 @@ import android.view.WindowManager;
 public class GameActivity extends Activity {
 	private SharedPreferences mPrefs;
 	private String TAG = "GameActive";
+	private GameView gview;
+	private GameLoopThread gthread;
+	private Player gplayer;
+	private SaveService saver;
+	
 	
 	/**
 	 * 
@@ -29,6 +36,8 @@ public class GameActivity extends Activity {
     	 */
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
     	DisplayMetrics displaymetrics = new DisplayMetrics(); 
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
         int height = displaymetrics.heightPixels; 
@@ -39,10 +48,30 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         //mPrefs = this.getPreferences(MODE_PRIVATE); 
+        Log.d("GameActivity", "jestem w GameActivity.onCreate");
+        
+        saver = new SaveService(GameActivity.this);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        
         Level lvl = new Level(difficulty.tutorial);
-        setContentView(new GameView(this, w_factor, h_factor, lvl));
+        gview = new GameView(this, w_factor, h_factor, lvl);
+        gthread = gview.getGameLoopThread();
+        
+        readLastSavedState();
+        
+//        if (savedInstanceState != null) {
+//        	Log.d("GameActivity", "jestem w GameActivity.niepustySIS");
+//        	gplayer = gview.getPlayer();
+//        	int god = savedInstanceState.getInt("GOD");
+//        	int attack = savedInstanceState.getInt("ATTACK");
+//	    	gplayer.setCurrentAttack(attack);
+//	    	gplayer.setCurrentGod(god);
+//        	gview.setPlayer(gplayer);
+//        	
+//        }
+        
+        setContentView(gview);
 
     }
     
@@ -50,40 +79,76 @@ public class GameActivity extends Activity {
     	  // Save UI state changes to the savedInstanceState.
     	  // This bundle will be passed to onCreate if the process is
     	  // killed and restarted.
-//	    	  savedInstanceState.putBoolean("MyBoolean", true);
-//	    	  savedInstanceState.putDouble("myDouble", 1.9);
-//	    	  savedInstanceState.putInt("MyInt", 1);
-//	    	  savedInstanceState.putString("MyString", "Welcome back to Android");
-    	  // etc.
-    	  super.onSaveInstanceState(savedInstanceState);
+    	super.onSaveInstanceState(savedInstanceState);
+//    	  if (savedInstanceState != null) {
+//	    	  savedInstanceState.putInt("GOD", gview.getPlayer().getCurrentGod());
+//	    	  savedInstanceState.putInt("ATTACK", gview.getPlayer().getCurrentAttack());
+//	    	  Log.d("GameActivity", "jestem w GameActivity.onSaveIS");
+//	    	  
+//    	  }
+	    	  
+    	  
     	}
     
     public void onRestoreInstanceState(Bundle savedInstanceState) {
     	  super.onRestoreInstanceState(savedInstanceState);
+    	  Log.d("GameActivity", "jestem w GameActivity.onRestoreIS");
     	  // Restore UI state from the savedInstanceState.
     	  // This bundle has also been passed to onCreate.
-//	    	  boolean myBoolean = savedInstanceState.getBoolean("MyBoolean");
-//	    	  double myDouble = savedInstanceState.getDouble("myDouble");
-//	    	  int myInt = savedInstanceState.getInt("MyInt");
-//	    	  String myString = savedInstanceState.getString("MyString");
+    	  
+    	  
     	}
     
     protected void onResume() {
         super.onResume();
-
-
+        Log.d("GameActivity", "jestem w GameActivity.onPause()");
+        
+        readLastSavedState();
+        
+        
     }
     
-    protected void onPause() {
-    	Log.d("GameActivity", "jestem w GameActivity.onPause()");
-//    	Intent intnt = new Intent(this , Main.class);
-//		startActivity(intnt);
-    	
-        super.onPause();
+    private void readLastSavedState() {
+    	SavedState p = saver.readLastState();
+        
+        if (p != null) {
+        	Log.d("GameActivity", "laduje playera z pamieci");
+//        	gview.setAttack(p.getAttack());
+//        	gview.setEnemies(p.getEnemies());
+//        	gview.setEnemyAttacks(p.getEnemyAttacks());
+        	gview.setLevel(p.getLevel());
+        	gview.setPlayer(p.getPlayer());
+//        	gview.setTemps(p.getTemps());
+//        	gview.setWaves(p.getWaves());
+        	
+        	
+        	
+        }
+		
+	}
 
-//	        SharedPreferences.Editor ed = mPrefs.edit();
-//	        ed.putInt("view_mode", mCurViewMode);
-//	        ed.commit();
+	protected void onPause() {
+    	super.onPause();
+    	Log.d("GameActivity", "jestem w GameActivity.onPause()");
+//    	gview.getGameLoopThread().
+    	saveCurrentState();
+    	
+    	
+        
+        	
     }
+
+	private void saveCurrentState() {
+		SavedState p = new SavedState();
+//		p.setAttack(gview.getAttack());
+//		p.setEnemies(gview.getEnemies());
+//		p.setEnemyAttacks(gview.getEnemyAttacks());
+		p.setLevel(gview.getLevel());
+		p.setPlayer(gview.getPlayer());
+//		p.setTemps(gview.getTemps());
+//		p.setWaves(gview.getWaves());
+		saver.save(p);
+		
+	}
 }
 

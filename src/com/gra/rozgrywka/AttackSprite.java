@@ -1,15 +1,14 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
-
-import java.util.Random;
 
 import com.gra.R;
 
@@ -20,7 +19,7 @@ enum element{explosion,constant,crazy,shot,shield,whip,powerGainer, angle_whip, 
  * animacje atakow - ich pozycja, stale parametry i chwilowe wartosci
  */
 
-public class AttackSprite {
+public class AttackSprite implements Serializable {
 	
 	private static int Thunder_position_X = 240;	//zmienne potrzebne dla thunder ataku
 	private static int Thunder_position_Y = 580;

@@ -67,7 +67,7 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,1000,1000,2,100,100);
+   private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
          super(context);
@@ -76,7 +76,7 @@ public class GameView extends SurfaceView {
  	   	 this.level = level;
  	   	 
  	   	 this.waves = this.level.getWave();
- 	   	 
+ 	   	  	   	
          gameLoopThread = new GameLoopThread(this);
          getHolder().addCallback(new SurfaceHolder.Callback() {
                 //@Override
@@ -95,7 +95,14 @@ public class GameView extends SurfaceView {
                 public void surfaceCreated(SurfaceHolder holder) {
                        createSprites();
                        gameLoopThread.setRunning(true);
-                       gameLoopThread.start();
+                       
+                       try {
+						gameLoopThread.start();
+					} catch (IllegalThreadStateException e) {
+						Log.d("GameView", "bylo thread exception");
+						e.printStackTrace();
+					}
+                       
                 }
                 //@Override
                 public void surfaceChanged(SurfaceHolder holder, int format,int width, int height) {
@@ -389,4 +396,108 @@ public class GameView extends SurfaceView {
     		   }
     	   }
        }
+
+	public List<EnemySprite> getEnemies() {
+		return enemies;
+	}
+
+	public void setEnemies(List<EnemySprite> enemies) {
+		this.enemies = enemies;
+	}
+
+	public List<AttackSprite> getAttack() {
+		return attack;
+	}
+
+	public void setAttack(List<AttackSprite> attack) {
+		this.attack = attack;
+	}
+
+	public List<TempSprite> getTemps() {
+		return temps;
+	}
+
+	public void setTemps(List<TempSprite> temps) {
+		this.temps = temps;
+	}
+
+	public List<EnemyAttack> getEnemyAttacks() {
+		return enemyAttacks;
+	}
+
+	public void setEnemyAttacks(List<EnemyAttack> enemyAttacks) {
+		this.enemyAttacks = enemyAttacks;
+	}
+
+	public List<Wave> getWaves() {
+		return waves;
+	}
+
+	public void setWaves(List<Wave> waves) {
+		this.waves = waves;
+	}
+
+	public Switcher getSwitchGod() {
+		return switchGod;
+	}
+
+	public void setSwitchGod(Switcher switchGod) {
+		this.switchGod = switchGod;
+	}
+
+	public Switcher getSwitchAttack() {
+		return switchAttack;
+	}
+
+	public void setSwitchAttack(Switcher switchAttack) {
+		this.switchAttack = switchAttack;
+	}
+
+	public Sprite getAmbrosia() {
+		return ambrosia;
+	}
+
+	public void setAmbrosia(Sprite ambrosia) {
+		this.ambrosia = ambrosia;
+	}
+
+	public int getLastGod() {
+		return lastGod;
+	}
+
+	public void setLastGod(int lastGod) {
+		this.lastGod = lastGod;
+	}
+
+	public int getLastAttack() {
+		return lastAttack;
+	}
+
+	public void setLastAttack(int lastAttack) {
+		this.lastAttack = lastAttack;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public GameLoopThread getGameLoopThread() {
+		return gameLoopThread;
+	}
+
+	public void setGameLoopThread(GameLoopThread gameLoopThread) {
+		this.gameLoopThread = gameLoopThread;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
 }

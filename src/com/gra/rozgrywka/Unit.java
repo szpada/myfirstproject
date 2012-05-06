@@ -1,6 +1,8 @@
 package com.gra.rozgrywka;
 
-public class Unit {
+import java.io.Serializable;
+
+public class Unit implements Serializable {
 	private int x;
 	private int y;
 	private enemyType enemy;

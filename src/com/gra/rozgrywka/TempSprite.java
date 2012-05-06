@@ -1,5 +1,6 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
 import com.gra.R;
 
 enum bonusType{mana_potion, repair, exp};
@@ -17,7 +19,7 @@ enum bonusType{mana_potion, repair, exp};
  * bonusy wyswietlajace sie na ekranie - np. extra mana, extra cosie
  */
 
-public class TempSprite {
+public class TempSprite implements Serializable{
        private int x;
        private int y;
        private int width;

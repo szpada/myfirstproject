@@ -1,15 +1,16 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
-//import java.util.Random;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
+
 import com.gra.R;
 
 enum size{small, medium, large, enormous};
@@ -23,7 +24,7 @@ enum warriorType{melee, summoner, range, general, boss};
  * przechowuje jego stale parametry i chwilowe wartosci
  * kontrola animacji
  */
-public class EnemySprite { 
+public class EnemySprite implements Serializable { 
        // direction = 0 up, 1 left, 2 down, 3 right,
        // animation = 3 back, 1 left, 0 front, 2 right
 	

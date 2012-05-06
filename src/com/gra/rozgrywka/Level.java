@@ -1,9 +1,10 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level {
+public class Level implements Serializable{
 	private List<Wave> waves = new ArrayList<Wave>();
 	
 	public Level(difficulty dif){

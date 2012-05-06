@@ -1,9 +1,8 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Random;
 
-import android.R;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,7 +12,7 @@ enum enemyAttackType{spear,catapult_stone};
 
 enum attackState{fly,die};
 
-public class EnemyAttack {
+public class EnemyAttack implements Serializable {
 	private int x;
 	private int y;
 	private int currentX;

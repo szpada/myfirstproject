@@ -1,5 +1,7 @@
 package com.gra.rozgrywka;
 
+import java.io.Serializable;
+
 import android.util.Log;
 
 enum attackType{shock, multi_shock, charge_defence, storm, thunder,
@@ -14,12 +16,14 @@ enum otherAttacks{chargeShieldAttack, thunder_shot};
  * @author Maciej
  * akcje gracza, ataki, zmiany bogow, itd
  */
-public class Player { 
+public class Player 
+	implements Serializable
+	{ 
 	private String name;
 	private int points;
 	private int upgradePoints;
-	private int currentGod = 0;
-	private int currentAttack = 0;
+	private int currentGod; // = 0;
+	private int currentAttack; // = 0;
 	private int currentMana;
 	private int maxMana;
 	private int manaSpeed;
@@ -28,7 +32,7 @@ public class Player {
 	private int olympMaxLife;
 	private int luck = 1;
 	
-	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife){ 
+	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife, int currentGod, int currentAttack){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
 		this.name = name;
 		this.points = points;
@@ -39,6 +43,8 @@ public class Player {
 		this.manaSpeed = manaSpeed;
 		this.olympLife = currentLife;
 		this.olympMaxLife = maxLife;
+		this.currentGod = currentGod;
+		this.currentAttack = currentAttack;
 	}
 	
 	/*
@@ -141,5 +147,17 @@ public class Player {
 	}
 	public int getLuck(){
 		return this.luck;
+	}
+
+	public void setCurrentGod(int currentGod) {
+		this.currentGod = currentGod;
+	}
+
+	public void setCurrentAttack(int currentAttack) {
+		this.currentAttack = currentAttack;
+	}
+
+	public void setCurrentMana(int currentMana) {
+		this.currentMana = currentMana;
 	}
 }
