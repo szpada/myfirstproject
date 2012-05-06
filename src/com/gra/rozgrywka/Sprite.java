@@ -8,6 +8,8 @@ import android.graphics.Rect;
 public class Sprite {
        // direction = 0 up, 1 left, 2 down, 3 right,
        // animation = 3 back, 1 left, 0 front, 2 right
+	private TreeView treeView;
+	
 	private GameView gameView;
     private Bitmap bmp;
     private int x;
@@ -51,6 +53,23 @@ public class Sprite {
 	    	this.animated = false;
 	    }
 	}
+    public Sprite(TreeView treeView,int x, int y, Bitmap bmp, String function,int MaxLife) {
+    	this.treeView = treeView;
+		this.x = x;
+		this.y = y;
+		this.bmp = bmp;
+		this.width = bmp.getWidth();
+		this.height = bmp.getHeight();
+		this.currentframe = 0;
+		if(function.equalsIgnoreCase("olymp")){
+			this.frames = 1;
+			this.function = "olymp";
+			this.animated = false;
+			this.life = MaxLife;
+			this.currentLife = MaxLife;
+			this.width = bmp.getWidth()/this.frames;
+		}
+    }
       
     public void onDraw(Canvas canvas) {
     	if(this.animated){

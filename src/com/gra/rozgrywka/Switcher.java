@@ -13,7 +13,9 @@ import com.gra.R;
  */
 public class Switcher {
 	private Player player;
-	private GameView gameView;
+	private GameView gameView;	//widok gry
+	private TreeView treeView;	//widok drzewka rozwoju
+	private int god;			//numer boga
 	private boolean godORattack; //true god false = attack
 	private Bitmap bmp;
 	private int currentAttack;	//klatki na szerokosc
@@ -23,19 +25,31 @@ public class Switcher {
 	private int x;
 	private int y;
 	
+	/*
+	 * konstruktor dla gameView
+	 */
 	public Switcher(Player player,GameView gameView, boolean godORattack, int x, int y){
 		this.player = player;
 		this.godORattack = godORattack;
-		this.gameView = gameView;;
+		this.gameView = gameView;
 		if(this.godORattack){
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods1);
 		}
 		else if(!this.godORattack){
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacksonlythree2);
 		}
-		
-		this.x = x;//(int)(x * w_factor);
-		this.y = y;//(int)(y * h_factor);
+		this.x = x;
+		this.y = y;
+	}
+	/*
+	 * konstruktor dla treeView
+	 */
+	public Switcher(TreeView treeView, int x, int y, int god){
+		this.treeView = treeView;
+		this.god = god;
+		this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods1);
+		this.x = x;
+		this.y = y;
 	}
 	public void onDraw(Canvas canvas){
 		int srcX = 0;
