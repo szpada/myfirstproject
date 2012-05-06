@@ -119,7 +119,8 @@ public class GameActivity extends Activity {
         	gview.setLevel(p.getLevel());
         	gview.setPlayer(p.getPlayer());
 //        	gview.setTemps(p.getTemps());
-//        	gview.setWaves(p.getWaves());
+        	gview.setWaves(p.getWaves());
+        	gview.setCurrent_wave(p.getCurrent_wave());
         	
         	
         	
@@ -146,7 +147,8 @@ public class GameActivity extends Activity {
 		p.setLevel(gview.getLevel());
 		p.setPlayer(gview.getPlayer());
 //		p.setTemps(gview.getTemps());
-//		p.setWaves(gview.getWaves());
+		p.setWaves(gview.getWaves());
+		p.setCurrent_wave(gview.getCurrent_wave());
 		saver.save(p);
 		
 	}

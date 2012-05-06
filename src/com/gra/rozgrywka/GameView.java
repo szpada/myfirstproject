@@ -500,4 +500,12 @@ public class GameView extends SurfaceView {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
+
+	public int getCurrent_wave() {
+		return current_wave;
+	}
+
+	public void setCurrent_wave(int current_wave) {
+		this.current_wave = current_wave;
+	}
 }

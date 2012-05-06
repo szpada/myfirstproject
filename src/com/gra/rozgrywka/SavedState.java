@@ -15,9 +15,11 @@ public class SavedState
 //    private List<AttackSprite> attack = new ArrayList<AttackSprite>();
 //    private List<TempSprite> temps = new ArrayList<TempSprite>();
 //    private List<EnemyAttack> enemyAttacks = new ArrayList<EnemyAttack>();
-//    private List<Wave> waves = new ArrayList<Wave>();
+	
+    private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
     private Player player;
+    private int current_wave;
     
     public SavedState() {
     	
@@ -64,14 +66,14 @@ public class SavedState
 //	}
 
 
-//	public List<Wave> getWaves() {
-//		return waves;
-//	}
-//
-//
-//	public void setWaves(List<Wave> waves) {
-//		this.waves = waves;
-//	}
+	public List<Wave> getWaves() {
+		return waves;
+	}
+
+
+	public void setWaves(List<Wave> waves) {
+		this.waves = waves;
+	}
 
 
 	public Level getLevel() {
@@ -91,6 +93,16 @@ public class SavedState
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+
+	public int getCurrent_wave() {
+		return current_wave;
+	}
+
+
+	public void setCurrent_wave(int current_wave) {
+		this.current_wave = current_wave;
 	}
 
     
