@@ -75,11 +75,7 @@ public class Sprite {
 			else if(this.currentframe > frames-1){
 				this.currentframe = 0;
 			}
-			/*
-			 * this.life zawsze rowna sie 0 (przekazane w konstruktorze)
-			 * zmienic na rzeczywisty life zalezny od playera
-			 */
-			this.y = this.basicY + 2*(this.life-this.currentLife)/3;
+			this.y = this.basicY + (this.life*100/this.currentLife)/8;
 		}
     }
     

@@ -30,7 +30,7 @@ public class Menu extends Activity {
         Button StartGameButton = (Button)findViewById(R.id.StartGame);
         StartGameButton.setOnClickListener(new OnClickListener() {
         	
-        	@Override
+        	//@Override
 			public void onClick(View v) {
         		Intent StartGameIntent = new Intent(Menu.this,GameActivity.class);
         		startActivity(StartGameIntent);
@@ -40,7 +40,7 @@ public class Menu extends Activity {
         Button HelpButton = (Button)findViewById(R.id.Help);
         HelpButton.setOnClickListener(new OnClickListener() {
         	
-        	@Override
+        	//@Override
 			public void onClick(View v) {
         		Intent HelpIntent = new Intent(Menu.this,Help.class);
         		startActivity(HelpIntent);
@@ -50,7 +50,7 @@ public class Menu extends Activity {
         Button OptionsButton = (Button)findViewById(R.id.Options);
         OptionsButton.setOnClickListener(new OnClickListener() {
         	
-        	@Override
+        	//@Override
 			public void onClick(View v) {
         		Intent OptionsIntent = new Intent(Menu.this,Options.class);
         		startActivity(OptionsIntent);

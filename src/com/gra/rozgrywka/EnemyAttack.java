@@ -1,9 +1,9 @@
 package com.gra.rozgrywka;
 
 import java.util.List;
-import com.gra.R;
 import java.util.Random;
 
+import android.R;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -50,15 +50,12 @@ public class EnemyAttack {
 		this.ea = enemyType;
 		switch(ea){
 		case spear:
-
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapultammo);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), com.gra.R.drawable.catapultammo);
 			this.columns = 3;
-
 			this.rows = 2;
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-
 			this.dmg = 20;
 			this.life = 10;
 			this.as = attackState.fly;
@@ -70,7 +67,7 @@ public class EnemyAttack {
 			}
 			break;
 		case catapult_stone:
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapultammo);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), com.gra.R.drawable.catapultammo);
 			this.columns = 3;
 			this.rows = 2;
 			this.width = bmp.getWidth()/this.columns;
@@ -78,7 +75,8 @@ public class EnemyAttack {
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = 40;
 			this.life = 20;
-
+			this.dmg = 1;
+			this.life = 1;
 			this.as = attackState.fly;
 			if(this.x >= this.x_destination){
 				this.degree = -(float)Math.toDegrees(Math.atan((float)(this.x_destination - this.x)/((float)(this.y_destination - this.y))));
@@ -95,11 +93,9 @@ public class EnemyAttack {
         Rect src;
         Rect dst;
         if(this.as == attackState.die){
-
         	int slowedFrame = currentFrame/5;
-//        	switch(this.ea){
-//            case spear:
-
+        	switch(this.ea){
+            case spear:
             	srcX = (slowedFrame % this.columns) * this.width;
                 srcY = this.as.ordinal() * this.height;
                 src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
@@ -108,15 +104,23 @@ public class EnemyAttack {
                 canvas.rotate(this.degree, this.x, this.y);
                 canvas.drawBitmap(this.bmp, src, dst, null);
                 canvas.restore();
-
-//            	break;
-//            }
+            	break;
+	        case catapult_stone:
+	        	srcX = (slowedFrame % this.columns) * this.width;
+	            srcY = this.as.ordinal() * this.height;
+	            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+	            dst = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);//(this.x,this.y,this.x + this.width, this.y + this.height);
+	            canvas.save();
+	            canvas.rotate(this.degree, this.x, this.y);
+	            canvas.drawBitmap(this.bmp, src, dst, null);
+	            canvas.restore();
+	        	break;
+	        }
         }
         else{
         	update();
-//	        switch(this.ea){
-//	        case spear:
-
+	        switch(this.ea){
+	        case spear:
 	        	srcX = (currentFrame % this.columns) * this.width;
 	            srcY = this.as.ordinal() * this.height;
 	            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
@@ -125,12 +129,20 @@ public class EnemyAttack {
 	            canvas.rotate(this.degree, this.x, this.y);
 	            canvas.drawBitmap(this.bmp, src, dst, null);
 	            canvas.restore();
-
-//	        	break;
-//	        }
+	        	break;
+	        case catapult_stone:
+	        	srcX = (currentFrame % this.columns) * this.width;
+	            srcY = this.as.ordinal() * this.height;
+	            src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
+	            dst = new Rect(this.x-this.width/2, this.y-this.height/2, this.x + this.width/2, this.y + this.height/2);//(this.x,this.y,this.x + this.width, this.y + this.height);
+	            canvas.save();
+	            canvas.rotate(this.degree, this.x, this.y);
+	            canvas.drawBitmap(this.bmp, src, dst, null);
+	            canvas.restore();
+	        	break;
+	        }
         }
         if(this.as == attackState.die && this.currentFrame >= this.frames){
-
         	enemyAttacks.remove(this);
         }
         this.currentFrame++;
@@ -139,21 +151,22 @@ public class EnemyAttack {
     	if(this.currentFrame > this.frames){
  		   currentFrame = 0;
  	   	}
-
-
- 	   	if(this.ea == enemyAttackType.spear){
- 	   		this.y += (this.y_destination - this.currentY)/this.speed;
- 	   		this.x += (this.x_destination - this.currentX)/this.speed;
- 	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
+ 	   	if(this.life < 1) {
+ 		   enemyAttacks.remove(this);
  	   	}
-
- 	    if(this.ea == enemyAttackType.catapult_stone){
-	   		this.y += (this.y_destination - this.currentY)/this.speed;
-	   		this.x += (this.x_destination - this.currentX)/this.speed;
+// 	   	if(this.ea == enemyAttackType.spear){
+// 	   		this.y += (this.y_destination - this.currentY)/this.speed;
+// 	   		this.x += (this.x_destination - this.currentX)/this.speed;
+// 	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
+// 	   	}
+// 	    if(this.ea == enemyAttackType.catapult_stone){
+//	   		this.y += (this.y_destination - this.currentY)/this.speed;
+//	   		this.x += (this.x_destination - this.currentX)/this.speed;
 	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
-	   	}
+//	   	}
+ 	   	this.y += (this.y_destination - this.currentY)/this.speed;
+   		this.x += (this.x_destination - this.currentX)/this.speed;
  	    if(this.life < 1){
-
 		    this.as = attackState.die;
 			this.currentFrame = 0;		
 	    }

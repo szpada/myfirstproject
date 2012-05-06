@@ -24,11 +24,11 @@ public class Player {
 	private int maxMana;
 	private int manaSpeed;
 	private int godsAttacks[][];
-	private int olympLife = 100;
-	private int olympMaxLife = 100;
+	private int olympLife;
+	private int olympMaxLife;
 	private int luck = 1;
 	
-	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed){ 
+	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
 		this.name = name;
 		this.points = points;
@@ -37,14 +37,19 @@ public class Player {
 		this.currentMana = currentMana;
 		this.maxMana = maxMana;
 		this.manaSpeed = manaSpeed;
+		this.olympLife = currentLife;
+		this.olympMaxLife = maxLife;
 	}
+	
+	/*
+	 * funkcja wybierajaca nastepny atak (w danym bogu)
+	 */
 	public void nextAttack(){
 		this.currentAttack++;
 		while(true){
 			if(currentAttack < 5){
 				if(godsAttacks[currentGod][currentAttack] <= 0){
 					this.currentAttack++;
-					Log.d("player","zmieniony atak");
 				}
 				else {
 					break;
@@ -55,6 +60,9 @@ public class Player {
 			}
 		}
 	}
+	/*
+	 * funkcja wybiera nastepnego boga
+	 */
 	public void nextGod(){
 		this.currentGod++;
 		this.currentAttack = 0;
@@ -62,7 +70,6 @@ public class Player {
 			if(currentGod < 5){
 				if(godsAttacks[currentGod][0] <= 0){
 					currentGod++;
-					Log.d("player","zmieniony god");
 				}
 				else {
 					break;

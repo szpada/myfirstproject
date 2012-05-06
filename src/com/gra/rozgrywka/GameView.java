@@ -67,7 +67,7 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,200,100,2);
+   private Player player = new Player("pies",0,0,base,1000,1000,2,100,100);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
          super(context);

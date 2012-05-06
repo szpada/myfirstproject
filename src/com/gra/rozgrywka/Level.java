@@ -19,8 +19,12 @@ public class Level {
 			// FALA #3
 			waves.add(new Wave(enemyType.knight,enemyType.knight,enemyType.catapult,enemyType.knight,
 					enemyType.knight));
-
 			// FALA #4
+			waves.add(new Wave(enemyType.catapult,enemyType.knight,enemyType.knight,enemyType.knight_general,
+					enemyType.knight,enemyType.knight,enemyType.knight,enemyType.balista));
+			// FALA #5
+			waves.add(new Wave(enemyType.knight_general,enemyType.dragon,enemyType.knight_general));
+			//FALA #4
 			waves.add(new Wave(enemyType.catapult,enemyType.knight,enemyType.knight,enemyType.knight_general,
 					enemyType.knight,enemyType.knight,enemyType.knight,enemyType.balista));
 			// FALA #5
@@ -28,7 +32,6 @@ public class Level {
 			// FALA #6
 			waves.add(new Wave(enemyType.fire_imp,enemyType.fire_imp,enemyType.fire_imp,enemyType.fire_titan,enemyType.fire_imp,
 					enemyType.fire_imp,enemyType.fire_imp));
-
 			break;
 		case basic:
 			// FALA #1
