@@ -475,7 +475,7 @@ public class AttackSprite {
 			break;
 		case thunder:
 			this.manaCost = thunder_mana;
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.thundershot);
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.electriccircle);
 			this.columns = 4;
 			this.rows = 1;
 			this.width = bmp.getWidth()/this.columns;

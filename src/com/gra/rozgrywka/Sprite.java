@@ -94,7 +94,7 @@ public class Sprite {
 			else if(this.currentframe > frames-1){
 				this.currentframe = 0;
 			}
-			this.y = this.basicY + (this.life*100/this.currentLife)/8;
+			this.y = this.basicY + 120 + (-110 * (this.currentLife)/this.life);
 		}
     }
     
