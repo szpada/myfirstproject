@@ -10,6 +10,7 @@ import java.io.StreamCorruptedException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 
 
@@ -40,6 +41,16 @@ public class SaveService {
 		return saveService;
 	}
 
+	
+	public boolean exists() {
+		Log.d("SAVER", context.fileList().toString());
+		
+		
+		return true;
+	}
+	
+	
+	
 	public  void save(SavedState object){
 		try {
 			fOut = context.openFileOutput(SAVE_FILENAME, Activity.MODE_PRIVATE);

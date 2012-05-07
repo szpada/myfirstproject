@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -26,6 +27,7 @@ public class GameActivity extends Activity {
 	private Player gplayer;
 	private SaveService saver;
 	
+	private boolean resuming = false;
 	
 	/**
 	 * 
@@ -37,6 +39,14 @@ public class GameActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+//		boolean resuming = false;
+		Bundle extras = getIntent().getExtras();
+		if(extras !=null) {
+			Log.d("GameActivity","byly extrasy");
+			resuming = extras.getBoolean("RESUMING");
+			Log.d("GameActivity",Boolean.toString(resuming));
+		}
 		
     	DisplayMetrics displaymetrics = new DisplayMetrics(); 
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
@@ -55,10 +65,18 @@ public class GameActivity extends Activity {
 
         
         Level lvl = new Level(difficulty.tutorial);
-        gview = new GameView(this, w_factor, h_factor, lvl);
-        gthread = gview.getGameLoopThread();
         
-        readLastSavedState();
+        
+        gview = new GameView(this, w_factor, h_factor, lvl);
+        
+        Log.d("GameActivity", "new gameview");
+        gthread = gview.getGameLoopThread();
+        Log.d("GameActivity", "get thread");
+        
+        if (resuming) { //only if the game is beeing resumed.
+        	readLastSavedState();
+        }
+        Log.d("GameActivity", "read last saved state");
         
 //        if (savedInstanceState != null) {
 //        	Log.d("GameActivity", "jestem w GameActivity.niepustySIS");
@@ -72,7 +90,7 @@ public class GameActivity extends Activity {
 //        }
         
         setContentView(gview);
-
+        
     }
     
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -101,10 +119,13 @@ public class GameActivity extends Activity {
     
     protected void onResume() {
         super.onResume();
-        Log.d("GameActivity", "jestem w GameActivity.onPause()");
+        Log.d("GameActivity", "jestem w GameActivity.onResume()");
         
-        readLastSavedState();
-        
+        if (resuming) { //only if the game is beeing resumed.
+        	readLastSavedState();
+        }
+		
+		Log.d("GameActivity", "read last saved state");
         
     }
     
@@ -134,9 +155,15 @@ public class GameActivity extends Activity {
 //    	gview.getGameLoopThread().
     	saveCurrentState();
     	
-    	
         
         	
+    }
+	
+	protected void onStop() 
+    {
+        super.onStop();
+        Log.d("GameActivity", "MYonStop is called");
+        finish();
     }
 
 	private void saveCurrentState() {
@@ -152,5 +179,8 @@ public class GameActivity extends Activity {
 		saver.save(p);
 		
 	}
+	
+
+	
 }
 

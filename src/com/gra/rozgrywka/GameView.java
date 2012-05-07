@@ -26,8 +26,6 @@ import android.view.SurfaceView;
  * 			|_______________________________________________________________________________|
  */
 
-
-
 /**
  * @author Maciej
  * glowny widok - plansza gry i wszystko co sie na niej dzieje
@@ -47,7 +45,7 @@ public class GameView extends SurfaceView {
     private List<EnemyAttack> enemyAttacks = new ArrayList<EnemyAttack>();
     private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
-    private int current_wave = -1;
+    private int current_wave = 0;
     
     private Switcher switchGod;
 	private Switcher switchAttack;
@@ -101,6 +99,7 @@ public class GameView extends SurfaceView {
 					} catch (IllegalThreadStateException e) {
 						Log.d("GameView", "bylo thread exception");
 						e.printStackTrace();
+						throw e;
 					}
                        
                 }
@@ -110,8 +109,13 @@ public class GameView extends SurfaceView {
                 }
          }); 
        }
+   		
+   
+       
 
-       private void createSprites() {
+
+	private void createSprites() {
+    	   this.
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
@@ -383,7 +387,6 @@ public class GameView extends SurfaceView {
     	   if(size == 0 && this.current_wave < this.level.waveSize()-1){
     		   Log.d("waves", "enemy size = " + size);
     		   Log.d("waves", "wave  size = " + this.level.waveSize());
-    		   this.current_wave++;
     		   List<Unit> units = new ArrayList<Unit>();
     		   if(this.waves.size() > 0){
     			   units = waves.get(this.current_wave).getUnits();
@@ -392,6 +395,7 @@ public class GameView extends SurfaceView {
     				   Log.d("waves", "petla for przejazd nr : " + j);
     				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
     			   }
+    			   this.current_wave++;
     			   Log.d("waves", "wyszedlem z fora");
     		   }
     	   }
