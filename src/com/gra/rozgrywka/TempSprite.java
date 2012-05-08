@@ -112,5 +112,14 @@ public class TempSprite implements Serializable{
        public int getAmount(){
     	   return this.amount;
        }
-
+       public Unit getThisAsUnit(){
+     	   return new Unit(this.bt,this.x,this.y,this.life,this.amount,this.currentFrame);
+       }
+       public void setAll(int x, int y, int life, int amount, int currentFrame){
+    	   	this.x = x;
+	   		this.y = y;
+	   		this.life = life;
+	   		this.amount = amount;
+	   		this.currentFrame = currentFrame;
+       }
 }

@@ -192,4 +192,13 @@ public class EnemyAttack implements Serializable {
     public void setState(attackState ats){
     	this.as = ats;
     }
+    public Unit getThisAsUnit(){
+ 	   return new Unit(this.ea,this.x,this.y,this.life,this.as,this.currentFrame,this.degree,this.x_destination, this.y_destination, this.speed);
+    }
+    public void setAll(int life, attackState state, int currentFrame, float degree){
+		this.life = life;
+		this.as= state;
+		this.currentFrame = currentFrame;
+		this.degree = degree;
+    }
 }

@@ -61,7 +61,7 @@ public class GameView extends SurfaceView {
     		{1,1,0,0,0},	//WODA
     		{0,0,0,0,0},	//FIZYCZNE
     		{0,0,0,0,0}		//SMIERC
-   };
+    };
    
    private String TAG = "GameView";
    
@@ -511,5 +511,128 @@ public class GameView extends SurfaceView {
 
 	public void setCurrent_wave(int current_wave) {
 		this.current_wave = current_wave;
+	}
+	/*
+	 * metoda zwracajaca liste wrogow w postaci serializable (lista unitow)
+	 */
+	public List<Unit> getSerializableEnemies(){
+		List<Unit> serializableEnemies = new ArrayList<Unit>();
+		for(int i = enemies.size()-1; i>=0; i--){
+			Unit sEnemy = enemies.get(i).getThisAsUnit();
+			serializableEnemies.add(sEnemy);
+		}
+		return serializableEnemies;
+	}
+	/*
+	 * metoda zwracajaca liste atakow w postaci serializable (lista unitow)
+	 */
+	public List<Unit> getSerializableAttacks(){
+		List<Unit> serializableAttacks = new ArrayList<Unit>();
+		for(int i = attack.size()-1; i>=0; i--){
+			Unit sAttack = attack.get(i).getThisAsUnit();
+			serializableAttacks.add(sAttack);
+		}
+		return serializableAttacks;
+	}
+	/*
+	 * metoda zwracajaca liste tempow w postaci serializable (lista unitow)
+	 */
+	public List<Unit> getSerializableTemps(){
+		List<Unit> serializableTemps = new ArrayList<Unit>();
+		for(int i = temps.size()-1; i>=0; i--){
+			Unit sTemp = temps.get(i).getThisAsUnit();
+			serializableTemps.add(sTemp);
+		}
+		return serializableTemps;
+	}
+	/*
+	 * metoda zwracajaca liste atakow wrogow w postaci serializable (lista unitow)
+	 */
+	public List<Unit> getSerializableEnemyAttacks(){
+		List<Unit> serializableEnemyAttacks = new ArrayList<Unit>();
+		for(int i = enemyAttacks.size()-1; i>=0; i--){
+			Unit sEnemyAttack = temps.get(i).getThisAsUnit();
+			serializableEnemyAttacks.add(sEnemyAttack);
+		}
+		return serializableEnemyAttacks;
+	}
+	/*
+	 * metoda wypelniajaca liste wrogow na podstawie zserializowanej(?) listy
+	 */
+	public void setSerializableEnemies(List<Unit> sEnemies){
+		for(int i= 0; i <=sEnemies.size()-1; i++){
+			enemies.add(createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY()));
+			/*
+			 * setter
+			 */
+			enemies.get(i).setAll(	sEnemies.get(i).getX(), 
+									sEnemies.get(i).getY(), 
+									sEnemies.get(i).getLife(),
+									sEnemies.get(i).getSlowedTimes(), 
+									sEnemies.get(i).getState(), 
+									sEnemies.get(i).getRange(), 
+									sEnemies.get(i).getCurrentFrame());
+		}
+		
+	}
+	/*
+	 * metoda wypelniajaca liste atakow na podstawie zserializowanej(?) listy
+	 */
+	public void setSerializableAttacks(List<Unit> sAttacks){
+		for(int i= 0; i <=sAttacks.size()-1; i++){
+			attack.add(createAttack(sAttacks.get(i).getAttackType(),sAttacks.get(i).getLevel(),sAttacks.get(i).getX(),sAttacks.get(i).getY()));
+			/*
+			 * setter
+			 */
+			attack.get(i).SetAll(sAttacks.get(i).getX(),
+						sAttacks.get(i).getY(),
+						sAttacks.get(i).getLife(),
+						sAttacks.get(i).getDegree(),
+						sAttacks.get(i).getRange(),
+						sAttacks.get(i).getCurrentFrame(), 
+						sAttacks.get(i).getRect(), 
+						sAttacks.get(i).getXdistance());
+		}
+		
+	}
+	/*
+	 * metoda wypelniajaca liste atakow na podstawie zserializowanej(?) listy
+	 */
+	public void setSerializableTemps(List<Unit> sTemps){
+		for(int i= 0; i <=sTemps.size()-1; i++){
+			temps.add(createTemp(sTemps.get(i).getX(),sTemps.get(i).getY(),sTemps.get(i).getBonusType()));
+			/*
+			 * setter
+			 */
+			temps.get(i).setAll(sTemps.get(i).getX(), 
+								sTemps.get(i).getY(), 
+								sTemps.get(i).getLife(), 
+								sTemps.get(i).getAmount(), 
+								sTemps.get(i).getCurrentFrame());
+		}
+		
+	}
+	/*
+	 * metoda wypelniajaca liste atakow wroga na podstawie zserializowanej(?) listy
+	 */
+	public void setSerializableEnemyAttacks(List<Unit> sEnemyAttacks){
+		for(int i= 0; i <=sEnemyAttacks.size()-1; i++){
+			enemyAttacks.add(new EnemyAttack(enemyAttacks,this,
+											sEnemyAttacks.get(i).getX(),
+											sEnemyAttacks.get(i).getY(),
+											sEnemyAttacks.get(i).getXdestination(),
+											sEnemyAttacks.get(i).getYdestination(),
+											sEnemyAttacks.get(i).getSpeed(),
+											sEnemyAttacks.get(i).getEnemyAttackType()
+											));
+			/*
+			 * setter
+			 */
+			enemyAttacks.get(i).setAll(	sEnemyAttacks.get(i).getLife(),
+										sEnemyAttacks.get(i).getAttackState(),
+										sEnemyAttacks.get(i).getCurrentFrame(),
+										sEnemyAttacks.get(i).getDegree());
+		}
+		
 	}
 }

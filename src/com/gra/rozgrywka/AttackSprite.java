@@ -825,4 +825,17 @@ public class AttackSprite implements Serializable {
    public void attackReady(){
 	   
    }
+   public Unit getThisAsUnit(){
+	   return new Unit(this.attp,this.lvl, this.x,this.y,this.life,this.currentFrame,this.degree,this.dmg,this.range,this.rec,this.x_distance);
+   }
+   public void SetAll(int x,int y, int life, float degree, int range, int currentFrame, Rect rect,int x_distance){
+	   	this.x = x;
+		this.y = y;
+		this.life = life;
+		this.degree = degree;
+		this.range = range;
+		this.currentFrame = currentFrame;
+		this.rec = rect;
+		this.x_distance = x_distance;
+   }
 }

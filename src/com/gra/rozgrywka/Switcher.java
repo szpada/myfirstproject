@@ -14,12 +14,10 @@ import com.gra.R;
 public class Switcher {
 	private Player player;
 	private GameView gameView;	//widok gry
-	private TreeView treeView;	//widok drzewka rozwoju
-	private int god;			//numer boga
 	private boolean godORattack; //true god false = attack
 	private Bitmap bmp;
-	private int currentAttack;	//klatki na szerokosc
-	private int currentGod;		//klatki na wysokosc
+	private int currentAttack;
+	private int currentGod;
 	private int width = 128;
 	private int height = 128;
 	private int x;
@@ -38,16 +36,6 @@ public class Switcher {
 		else if(!this.godORattack){
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.attacksonlythree2);
 		}
-		this.x = x;
-		this.y = y;
-	}
-	/*
-	 * konstruktor dla treeView
-	 */
-	public Switcher(TreeView treeView, int x, int y, int god){
-		this.treeView = treeView;
-		this.god = god;
-		this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.onlythreegods1);
 		this.x = x;
 		this.y = y;
 	}

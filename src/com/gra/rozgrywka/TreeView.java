@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -49,8 +50,30 @@ import android.view.View;
 public class TreeView extends SurfaceView {
 	private float h_factor;
 	private float w_factor;
+	private long lastClick;
+	private int currentGod;/*
+							*	0 - zeus
+							*	1 - hefajstos
+							*	2 - posejdon
+							*/
 	private TreeLoopThread treeLoopThread;
 	private Sprite backGround;
+	private InfoSprite info;
+	private Sprite zeus;
+	private Sprite hephaestus;
+	private Sprite poseidon;
+	/*
+	 * player - potrzebny do testowania drzewa rozwoju
+	 * pozniej bedzie przekazywany jako argument w konstruktorze
+	 */
+	private int base[][] = {
+    		{1,1,1,1,1},	//ELEKTRYCZNE
+    		{1,1,1,1,0},	//OGNIEN
+    		{1,1,0,0,0},	//WODA
+    		{0,0,0,0,0},	//FIZYCZNE
+    		{0,0,0,0,0}		//SMIERC
+    };
+	private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
 	/**
 	 * @param context
 	 */
@@ -58,7 +81,6 @@ public class TreeView extends SurfaceView {
 		super(context);
         this.h_factor = (float)h_factor;
  	   	this.w_factor = (float)w_factor;
- 	   	 
         treeLoopThread = new TreeLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
@@ -87,11 +109,45 @@ public class TreeView extends SurfaceView {
 	}
 	
 	public void createSprites(){
-		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel3);
-		this.backGround = new Sprite(this,100, 20, bmp, "olymp", 1);
+		this.backGround = new Sprite(this,0, 0, backgroundType.background);
+		this.info = new InfoSprite(this,100,300,attackType.charge_defence);
+		this.zeus = new Sprite(this,300,200,backgroundType.zeus);
+		this.poseidon = new Sprite(this,300,400,backgroundType.hephaestus);
+		this.hephaestus = new Sprite(this,300,600,backgroundType.poseidon);
 	}
 	public void onDraw(Canvas canvas){
+		
 		this.backGround.onDraw(canvas);
+		//this.info.onDraw(canvas);
+		this.zeus.onDraw(canvas);
+		this.hephaestus.onDraw(canvas);
+		this.poseidon.onDraw(canvas);
 	}
-
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		int coolDown = 300;
+		float x = event.getX();
+		float y = event.getY();
+		/*
+		 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
+		 */
+		//x = x / this.w_factor;
+		//y = y / this.h_factor;
+		if(System.currentTimeMillis() - lastClick > coolDown) {
+     	   lastClick = System.currentTimeMillis();
+     	   if(zeus.checkCollision((int)x, (int)y)){
+     		  this.backGround.setCurrentGod(0);
+     		  this.currentGod = 0;
+     	   }
+     	   else if(hephaestus.checkCollision((int)x, (int)y)){
+     		  this.backGround.setCurrentGod(1);
+     		 this.currentGod = 1;
+     	   }
+     	   else if(poseidon.checkCollision((int)x, (int)y)){
+     		  this.backGround.setCurrentGod(2);
+     		 this.currentGod = 2;
+    	   }
+		}
+		return true;
+	}
 }

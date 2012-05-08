@@ -41,6 +41,7 @@ public class EnemySprite implements Serializable {
     private static int olympY = 600;
     private int frames;
     
+    private enemyType thisType;
     private enemyType summonType;//jednostka jaka summoner moze przywolac
     private enemyAttackType ammoType; //pociski jednostek typu range
     private int ammoSpeed; //predkosc pocisku wroga
@@ -90,6 +91,7 @@ public class EnemySprite implements Serializable {
         this.x = x; 
         this.y = y;
         this.st = state.walk; 
+        this.thisType = tp;
         switch(tp){
     	case dragon:
     		this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.psismok);
@@ -419,7 +421,9 @@ public class EnemySprite implements Serializable {
 			/*
 			 * wersja ze zwerzajacym sie paskiem zycia do srodka
 			 */
-			canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
+			if(this.maxLife > this.life){
+				canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
+			}
 			if(this.slowed){
 				paint.setColor(Color.BLUE);
 				canvas.drawText("Slowed", this.x + this.width/3, this.y - this.height/2, paint);
@@ -531,5 +535,17 @@ public class EnemySprite implements Serializable {
 	}
 	public void dmgReady(boolean state){
 		this.dmgReady = state;
+	}
+	public Unit getThisAsUnit(){
+	 	   return new Unit(this.thisType,this.x,this.y,this.life,this.slowTimes,this.st,this.range,this.currentFrame);
+    }
+	public void setAll(int x,int y,int life, int slow_times,state st,int range, int currentFrame){
+		this.x = x;
+		this.y = y;
+		this.life = life;
+		this.slowTimes = slow_times;
+		this.st = st;
+		this.range = range;
+		this.currentFrame = currentFrame;
 	}
 }

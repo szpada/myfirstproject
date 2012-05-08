@@ -11,10 +11,10 @@ import java.util.List;
 public class SavedState 
 	implements Serializable
 	{
-//	private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
-//    private List<AttackSprite> attack = new ArrayList<AttackSprite>();
-//    private List<TempSprite> temps = new ArrayList<TempSprite>();
-//    private List<EnemyAttack> enemyAttacks = new ArrayList<EnemyAttack>();
+	private List<Unit> enemies = new ArrayList<Unit>();
+	private List<Unit> attack = new ArrayList<Unit>();
+	private List<Unit> temps = new ArrayList<Unit>();
+	private List<Unit> enemyAttacks = new ArrayList<Unit>();
 	
     private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
@@ -25,46 +25,42 @@ public class SavedState
     	
     }
 
-
-//	public List<EnemySprite> getEnemies() {
-//		return enemies;
-//	}
-//
-//
-//	public void setEnemies(List<EnemySprite> enemies) {
-//		this.enemies = enemies;
-//	}
-//
-//
-//	public List<AttackSprite> getAttack() {
-//		return attack;
-//	}
-//
-//
-//	public void setAttack(List<AttackSprite> attack) {
-//		this.attack = attack;
-//	}
-//
-//
-//	public List<TempSprite> getTemps() {
-//		return temps;
-//	}
-//
-//
-//	public void setTemps(List<TempSprite> temps) {
-//		this.temps = temps;
-//	}
-//
-//
-//	public List<EnemyAttack> getEnemyAttacks() {
-//		return enemyAttacks;
-//	}
-//
-//
-//	public void setEnemyAttacks(List<EnemyAttack> enemyAttacks) {
-//		this.enemyAttacks = enemyAttacks;
-//	}
-
+/**
+ * @author Szpada
+ * 
+ * Gettery i settery do list wrogów, atakow i tempow (na podstawie ktorych potem stworzymy jednostki na planszy)
+ */
+	public List<Unit> getEnemies() {
+		return enemies;
+	}
+	
+	public void setEnemies(List<Unit> enemies) {
+		this.enemies = enemies;
+	}
+	
+	public List<Unit> getAttack() {
+		return attack;
+	}
+	
+	public void setAttack(List<Unit> attack) {
+		this.attack = attack;
+	}
+	
+	public List<Unit> getTemps() {
+		return temps;
+	}
+	
+	public void setTemps(List<Unit> temps) {
+		this.temps = temps;
+	}
+	
+	public List<Unit> getEnemyAttacks() {
+		return enemyAttacks;
+	}
+	
+	public void setEnemyAttacks(List<Unit> enemyAttacks) {
+		this.enemyAttacks = enemyAttacks;
+	}
 
 	public List<Wave> getWaves() {
 		return waves;
