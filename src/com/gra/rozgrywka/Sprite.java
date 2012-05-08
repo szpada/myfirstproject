@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-enum backgroundType{background, zeus, hephaestus, poseidon,empty};
+enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack};
 
 public class Sprite {
        // direction = 0 up, 1 left, 2 down, 3 right,
@@ -30,6 +30,10 @@ public class Sprite {
     private Rect rec;
     private int godNumber; //numer aktualneg oboga - zmienna potrzebna do drzewka rozwoju
     private int gods = 3; //ile jest bogow - drzewek rozwoju narysowanych na bitmapie
+    private int attacks = 5;
+    private int attackNumber;
+    private int sourceX;
+    private int sourceY;
 
     public Sprite(GameView gameView,int x, int y, Bitmap bmp, String function,int MaxLife) {
     	this.gameView = gameView;
@@ -39,6 +43,8 @@ public class Sprite {
 		this.width = bmp.getWidth();
 		this.height = bmp.getHeight();
 		this.currentframe = 0;
+		this.sourceX = 0;
+		this.sourceY = 0;
 		if(function.equalsIgnoreCase("olymp")){
 			this.frames = 1;
 			this.function = "olymp";
@@ -73,39 +79,80 @@ public class Sprite {
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
+			this.sourceX = 0;
+			this.sourceY = 0;
 			break;
 		case zeus:
-		case poseidon:
-		case hephaestus:
 			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
-			this.width = bmp.getWidth()/gods;
+			this.width = bmp.getWidth()/this.gods;
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
+			this.sourceX = 0;
+			this.sourceY = 0;
+			break;
+		case poseidon:
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
+			this.width = bmp.getWidth()/this.gods;
+			this.height = bmp.getHeight();
+			this.frames = 1;
+			this.animated = false;
+			this.sourceX = this.width;
+			this.sourceY = 0;
+			break;
+		case hephaestus:
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
+			this.width = bmp.getWidth()/this.gods;
+			this.height = bmp.getHeight();
+			this.frames = 1;
+			this.animated = false;
+			this.sourceX = this.width * 2;
+			this.sourceY = 0;
 			break;
 		}
+    }
+	public Sprite(TreeView treeView,int x, int y, int attack_number, int god_number) {
+	    	this.treeView = treeView;
+			this.x = x;
+			this.y = y;
+			this.currentframe = 0;
+			this.attackNumber = attack_number;
+			this.godNumber = god_number;
+			this.bt = backgroundType.attack;
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.attacksonlythree2);
+			this.width = bmp.getWidth()/this.attacks;
+			this.height = bmp.getHeight();
+			this.frames = 1;
+			this.animated = false;
     }
       
     public void onDraw(Canvas canvas) {
     	if(this.animated){
     		update();
     	}
-    	int srcX;
-    	int srcY = 0;
-    	if(bt == backgroundType.zeus){
-    		srcX = 0;
-		}
-		else if(bt == backgroundType.hephaestus){
-			srcX = this.width;
-		}
-		else if(bt == backgroundType.poseidon){
-			srcX = this.width * 2;
-		}
-		else if(bt == backgroundType.background){
-			srcX = this.width * this.godNumber;
-		}
-		else{
+    	int srcX = this.sourceX;
+    	int srcY = this.sourceY;
+//    	if(bt == backgroundType.zeus){
+//    		srcX = 0;
+//		}
+//		else if(bt == backgroundType.hephaestus){
+//			srcX = this.width;
+//		}
+//		else if(bt == backgroundType.poseidon){
+//			srcX = this.width * 2;
+//		}
+//		else if(bt == backgroundType.background){
+//			srcX = this.width * this.godNumber;
+//		}
+		if(this.animated){
 			srcX = currentframe * this.width;
+		}
+		if(this.bt == backgroundType.background){
+			srcX = this.godNumber * this.width;
+		}
+		else if(this.bt == backgroundType.attack){
+			srcX = this.width * this.godNumber;
+			srcY = this.height * this.attackNumber;
 		}
 		
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
