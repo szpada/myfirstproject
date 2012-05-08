@@ -565,13 +565,17 @@ public class GameView extends SurfaceView {
 			/*
 			 * setter
 			 */
-			enemies.get(i).setAll(	sEnemies.get(i).getX(), 
+			enemies.get(i).setAll(	sEnemies.get(i).getX(),
 									sEnemies.get(i).getY(), 
 									sEnemies.get(i).getLife(),
 									sEnemies.get(i).getSlowedTimes(), 
 									sEnemies.get(i).getState(), 
 									sEnemies.get(i).getRange(), 
 									sEnemies.get(i).getCurrentFrame());
+									/*
+									 * wlasnie skumalem ze kilka gowien z seterow
+									 * sie powtarza ale juz chuj na ryj z tym :D
+									 */
 		}
 		
 	}

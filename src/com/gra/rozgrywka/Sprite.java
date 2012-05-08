@@ -68,7 +68,7 @@ public class Sprite {
 		this.bt = bt;
 		switch(bt){
 		case background:
-			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.firemenu);
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.treemenu);
 			this.width = bmp.getWidth()/this.gods;
 			this.height = bmp.getHeight();
 			this.frames = 1;
@@ -118,13 +118,13 @@ public class Sprite {
 	}
     
     private void update(){
+    	if(this.currentframe < 0){
+			this.currentframe = 0;
+		}
+		else if(this.currentframe > frames-1){
+			this.currentframe = 0;
+		}
     	if(this.function.equalsIgnoreCase("ambrosia")){
-			if(this.currentframe < 0){
-				this.currentframe = 0;
-			}
-			else if(this.currentframe > frames-1){
-				this.currentframe = 0;
-			}
 			this.y = this.basicY + 120 + (-110 * (this.currentLife)/this.life);
 		}
     }

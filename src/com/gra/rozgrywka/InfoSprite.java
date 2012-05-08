@@ -32,7 +32,7 @@ public class InfoSprite {
 		this.animation_x = x + 16;
 		this.animation_y = y + 16;
 		this.attack = attack;
-		this.windowBitmap  = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.guzikdown);
+		this.windowBitmap  = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.firetitan);
 		this.window_height = this.windowBitmap.getHeight();
 		this.window_width = this.windowBitmap.getWidth();
 		
@@ -41,7 +41,7 @@ public class InfoSprite {
 			this.animationBitmap = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.fireballshot);
 			this.columns = 4;
 			this.rows = 1;
-			this.frames = columns*rows -1;
+			this.frames = columns*rows - 1;
 			this.animation_height = this.animationBitmap.getHeight()/this.rows;
 			this.animation_width = this.animationBitmap.getWidth()/this.columns;
 			break;
@@ -68,7 +68,7 @@ public class InfoSprite {
 	}
 	public void update(){
 		this.currentFrame++;
-		if(this.currentFrame > this.frames){
+		if(this.currentFrame >= this.frames){
 			this.currentFrame = 0;
 		}
 	}
