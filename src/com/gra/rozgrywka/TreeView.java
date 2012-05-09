@@ -129,8 +129,8 @@ public class TreeView extends SurfaceView {
 		this.backGround = new Sprite(this,0, 0, backgroundType.background);
 		this.info = new InfoSprite(this,100,300,attackType.charge_defence);
 		this.zeus = new Sprite(this,300,200,backgroundType.zeus);
-		this.poseidon = new Sprite(this,300,400,backgroundType.hephaestus);
-		this.hephaestus = new Sprite(this,300,600,backgroundType.poseidon);
+		this.poseidon = new Sprite(this,300,600,backgroundType.hephaestus);
+		this.hephaestus = new Sprite(this,300,400,backgroundType.poseidon);
 		
 		this.shock = new Sprite(this,100,500,0,0);
 		this.fireball_shot = new Sprite(this,100,400,1,0);
@@ -148,7 +148,7 @@ public class TreeView extends SurfaceView {
 		this.poseidon.onDraw(canvas);
 		switch(this.currentGod){
 		case 0:
-			this.shock.onDraw(canvas);
+			//this.shock.onDraw(canvas);
 			//this.multi_shock.onDraw(canvas);
 			break;
 		case 1:
@@ -177,11 +177,11 @@ public class TreeView extends SurfaceView {
      	   }
      	   else if(hephaestus.checkCollision((int)x, (int)y)){
      		  this.backGround.setCurrentGod(1);
-     		  this.currentGod = 1;
+     		  this.currentGod = 2;
      	   }
      	   else if(poseidon.checkCollision((int)x, (int)y)){
      		  this.backGround.setCurrentGod(2);
-     		  this.currentGod = 2;
+     		  this.currentGod = 1;
     	   }
 		}
 		return true;

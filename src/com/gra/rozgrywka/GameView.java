@@ -551,9 +551,10 @@ public class GameView extends SurfaceView {
 	public List<Unit> getSerializableEnemyAttacks(){
 		List<Unit> serializableEnemyAttacks = new ArrayList<Unit>();
 		for(int i = enemyAttacks.size()-1; i>=0; i--){
-			Unit sEnemyAttack = temps.get(i).getThisAsUnit();
+			Unit sEnemyAttack = enemyAttacks.get(i).getThisAsUnit();
 			serializableEnemyAttacks.add(sEnemyAttack);
 		}
+		Log.d("EnemyAttacks", "serializable size [getter] = " + serializableEnemyAttacks.size());
 		return serializableEnemyAttacks;
 	}
 	/*
@@ -629,14 +630,7 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableEnemyAttacks(List<Unit> sEnemyAttacks){
 		for(int i= 0; i <=sEnemyAttacks.size()-1; i++){
-//			enemyAttacks.add(new EnemyAttack(enemyAttacks,this,
-//											sEnemyAttacks.get(i).getX(),
-//											sEnemyAttacks.get(i).getY(),
-//											sEnemyAttacks.get(i).getXdestination(),
-//											sEnemyAttacks.get(i).getYdestination(),
-//											sEnemyAttacks.get(i).getSpeed(),
-//											sEnemyAttacks.get(i).getEnemyAttackType()
-//											));
+			Log.d("EnemyAttacks", "serializable size [setter] = " + sEnemyAttacks.size());
 			/*
 			 * setter
 			 */
@@ -653,6 +647,7 @@ public class GameView extends SurfaceView {
 										sEnemyAttacks.get(i).getCurrentFrame(),
 										sEnemyAttacks.get(i).getDegree());
 			enemyAttacks.add(ea);
+			//enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
 		}
 		
 	}
