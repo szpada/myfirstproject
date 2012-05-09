@@ -74,9 +74,10 @@ public class GameActivity extends Activity {
         gthread = gview.getGameLoopThread();
         Log.d("GameActivity", "get thread");
         
-        if (resuming) { //only if the game is beeing resumed.
-        	readLastSavedState();
-        }
+//        tymczasowo to usuwamy zeby unitsy sie nie ladowaly podwojnie
+//        if (resuming) { //only if the game is beeing resumed.
+//        	readLastSavedState();
+//        }
         Log.d("GameActivity", "read last saved state");
         
 //        if (savedInstanceState != null) {
