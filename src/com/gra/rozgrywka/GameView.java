@@ -561,11 +561,13 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableEnemies(List<Unit> sEnemies){
 		for(int i= 0; i <=sEnemies.size()-1; i++){
-			enemies.add(createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY()));
+//			enemies.add(createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY()));
 			/*
 			 * setter
 			 */
-			enemies.get(i).setAll(	sEnemies.get(i).getX(),
+			
+			EnemySprite e = createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY());
+			e.setAll(sEnemies.get(i).getX(),
 									sEnemies.get(i).getY(), 
 									sEnemies.get(i).getLife(),
 									sEnemies.get(i).getSlowedTimes(), 
@@ -576,6 +578,7 @@ public class GameView extends SurfaceView {
 									 * wlasnie skumalem ze kilka gowien z seterow
 									 * sie powtarza ale juz chuj na ryj z tym :D
 									 */
+			enemies.add(e);
 		}
 		
 	}
@@ -584,11 +587,12 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableAttacks(List<Unit> sAttacks){
 		for(int i= 0; i <=sAttacks.size()-1; i++){
-			attack.add(createAttack(sAttacks.get(i).getAttackType(),sAttacks.get(i).getLevel(),sAttacks.get(i).getX(),sAttacks.get(i).getY()));
+//			attack.add(createAttack(sAttacks.get(i).getAttackType(),sAttacks.get(i).getLevel(),sAttacks.get(i).getX(),sAttacks.get(i).getY()));
 			/*
 			 * setter
 			 */
-			attack.get(i).SetAll(sAttacks.get(i).getX(),
+			AttackSprite a = createAttack(sAttacks.get(i).getAttackType(),sAttacks.get(i).getLevel(),sAttacks.get(i).getX(),sAttacks.get(i).getY());
+			a.SetAll(sAttacks.get(i).getX(),
 						sAttacks.get(i).getY(),
 						sAttacks.get(i).getLife(),
 						sAttacks.get(i).getDegree(),
@@ -596,6 +600,8 @@ public class GameView extends SurfaceView {
 						sAttacks.get(i).getCurrentFrame(), 
 						sAttacks.get(i).getRect(), 
 						sAttacks.get(i).getXdistance());
+			attack.add(a);
+			
 		}
 		
 	}
@@ -604,15 +610,17 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableTemps(List<Unit> sTemps){
 		for(int i= 0; i <=sTemps.size()-1; i++){
-			temps.add(createTemp(sTemps.get(i).getX(),sTemps.get(i).getY(),sTemps.get(i).getBonusType()));
+//			temps.add(createTemp(sTemps.get(i).getX(),sTemps.get(i).getY(),sTemps.get(i).getBonusType()));
 			/*
 			 * setter
 			 */
-			temps.get(i).setAll(sTemps.get(i).getX(), 
+			TempSprite t = createTemp(sTemps.get(i).getX(),sTemps.get(i).getY(),sTemps.get(i).getBonusType());
+			t.setAll(sTemps.get(i).getX(), 
 								sTemps.get(i).getY(), 
 								sTemps.get(i).getLife(), 
 								sTemps.get(i).getAmount(), 
 								sTemps.get(i).getCurrentFrame());
+			temps.add(t);
 		}
 		
 	}
@@ -621,21 +629,30 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableEnemyAttacks(List<Unit> sEnemyAttacks){
 		for(int i= 0; i <=sEnemyAttacks.size()-1; i++){
-			enemyAttacks.add(new EnemyAttack(enemyAttacks,this,
-											sEnemyAttacks.get(i).getX(),
-											sEnemyAttacks.get(i).getY(),
-											sEnemyAttacks.get(i).getXdestination(),
-											sEnemyAttacks.get(i).getYdestination(),
-											sEnemyAttacks.get(i).getSpeed(),
-											sEnemyAttacks.get(i).getEnemyAttackType()
-											));
+//			enemyAttacks.add(new EnemyAttack(enemyAttacks,this,
+//											sEnemyAttacks.get(i).getX(),
+//											sEnemyAttacks.get(i).getY(),
+//											sEnemyAttacks.get(i).getXdestination(),
+//											sEnemyAttacks.get(i).getYdestination(),
+//											sEnemyAttacks.get(i).getSpeed(),
+//											sEnemyAttacks.get(i).getEnemyAttackType()
+//											));
 			/*
 			 * setter
 			 */
-			enemyAttacks.get(i).setAll(	sEnemyAttacks.get(i).getLife(),
+			EnemyAttack ea = new EnemyAttack(enemyAttacks,this,
+					sEnemyAttacks.get(i).getX(),
+					sEnemyAttacks.get(i).getY(),
+					sEnemyAttacks.get(i).getXdestination(),
+					sEnemyAttacks.get(i).getYdestination(),
+					sEnemyAttacks.get(i).getSpeed(),
+					sEnemyAttacks.get(i).getEnemyAttackType()
+					);
+			ea.setAll(	sEnemyAttacks.get(i).getLife(),
 										sEnemyAttacks.get(i).getAttackState(),
 										sEnemyAttacks.get(i).getCurrentFrame(),
 										sEnemyAttacks.get(i).getDegree());
+			enemyAttacks.add(ea);
 		}
 		
 	}

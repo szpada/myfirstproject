@@ -61,7 +61,8 @@ public class GameActivity extends Activity {
         Log.d("GameActivity", "jestem w GameActivity.onCreate");
         
         saver = new SaveService(GameActivity.this);
-
+        
+        boolean x = saver.exists();
 
         
         Level lvl = new Level(difficulty.tutorial);
@@ -134,12 +135,12 @@ public class GameActivity extends Activity {
         
         if (p != null) {
         	Log.d("GameActivity", "laduje playera z pamieci");
-//        	gview.setAttack(p.getAttack());
-//        	gview.setEnemies(p.getEnemies());
-//        	gview.setEnemyAttacks(p.getEnemyAttacks());
+        	gview.setSerializableAttacks(p.getAttack());
+        	gview.setSerializableEnemies(p.getEnemies());
+        	gview.setSerializableEnemyAttacks(p.getEnemyAttacks());
         	gview.setLevel(p.getLevel());
         	gview.setPlayer(p.getPlayer());
-//        	gview.setTemps(p.getTemps());
+        	gview.setSerializableTemps(p.getTemps());
         	gview.setWaves(p.getWaves());
         	gview.setCurrent_wave(p.getCurrent_wave());
         	
@@ -168,12 +169,12 @@ public class GameActivity extends Activity {
 
 	private void saveCurrentState() {
 		SavedState p = new SavedState();
-//		p.setAttack(gview.getAttack());
-//		p.setEnemies(gview.getEnemies());
-//		p.setEnemyAttacks(gview.getEnemyAttacks());
+		p.setAttack(gview.getSerializableAttacks());
+		p.setEnemies(gview.getSerializableEnemies());
+		p.setEnemyAttacks(gview.getSerializableEnemyAttacks());
 		p.setLevel(gview.getLevel());
 		p.setPlayer(gview.getPlayer());
-//		p.setTemps(gview.getTemps());
+		p.setTemps(gview.getSerializableTemps());
 		p.setWaves(gview.getWaves());
 		p.setCurrent_wave(gview.getCurrent_wave());
 		saver.save(p);

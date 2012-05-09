@@ -1,8 +1,11 @@
 package com.gra.rozgrywka;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import android.graphics.Rect;
+
 
 public class Unit implements Serializable {
 	private int x;
@@ -21,7 +24,7 @@ public class Unit implements Serializable {
 	private int speed;
 	private float degree;
 	
-	private Rect rect;
+	private transient Rect rect;
 	private enemyType enemy;
 	private attackType attack;
 	private bonusType bonus;
@@ -29,7 +32,10 @@ public class Unit implements Serializable {
 	private state st;
 	private attackState attackstate;
 	
-	
+//	private int rectBottom;
+//	private int rectLeft;
+//	private int rectRight;
+//	private int rectTop;
 	
 	public Unit(enemyType enemy, int x, int y){
 		this.enemy = enemy;
@@ -63,6 +69,12 @@ public class Unit implements Serializable {
 		this.currentFrame = currentFrame;
 		this.rect = rect;
 		this.x_distance = x_distance;
+		
+		//zastepstwo za recta
+//		this.rectBottom=rect.bottom;
+//		this.rectLeft=rect.left;
+//		this.rectRight=rect.right;
+//		this.rectTop=rect.top;
 	}
 	/*
 	 * konstruktor dla tempow
@@ -139,6 +151,8 @@ public class Unit implements Serializable {
 		return this.degree;
 	}
 	public Rect getRect(){
+//		Rect r = new Rect(rectLeft,rectTop,rectRight,rectBottom);
+//		return r;
 		return this.rect;
 	}
 	public attackType getAttackType(){
@@ -156,4 +170,39 @@ public class Unit implements Serializable {
 	public attackState getAttackState(){
 		return this.attackstate;
 	}
+	
+	private synchronized void writeObject(final ObjectOutputStream out)
+    throws IOException {
+  // Serialize everything but the rect
+  out.defaultWriteObject();
+
+//  check if there is a rect, if so then save its corners
+  if (rect!= null) {
+  out.writeBoolean(true);
+  out.writeInt(rect.left);
+  out.writeInt(rect.top);
+  out.writeInt(rect.right);
+  out.writeInt(rect.bottom);
+
+  }
+  else {
+	  out.writeBoolean(false); 
+  }
+  
+}
+
+private void readObject(ObjectInputStream in) throws IOException,
+    ClassNotFoundException {
+  // Read everything but the rect
+  in.defaultReadObject();
+
+  // Now read the rect
+  if (in.readBoolean()) {
+  rect = new Rect(in.readInt(), in.readInt(), in.readInt(), in.readInt());
+  }
+  
+}
+	
+	
+	
 }
