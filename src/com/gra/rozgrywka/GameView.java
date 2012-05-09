@@ -554,7 +554,6 @@ public class GameView extends SurfaceView {
 			Unit sEnemyAttack = enemyAttacks.get(i).getThisAsUnit();
 			serializableEnemyAttacks.add(sEnemyAttack);
 		}
-		Log.d("EnemyAttacks", "serializable size [getter] = " + serializableEnemyAttacks.size());
 		return serializableEnemyAttacks;
 	}
 	/*
@@ -562,7 +561,6 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableEnemies(List<Unit> sEnemies){
 		for(int i= 0; i <=sEnemies.size()-1; i++){
-//			enemies.add(createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY()));
 			/*
 			 * setter
 			 */
@@ -588,7 +586,6 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableAttacks(List<Unit> sAttacks){
 		for(int i= 0; i <=sAttacks.size()-1; i++){
-//			attack.add(createAttack(sAttacks.get(i).getAttackType(),sAttacks.get(i).getLevel(),sAttacks.get(i).getX(),sAttacks.get(i).getY()));
 			/*
 			 * setter
 			 */
@@ -611,7 +608,6 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableTemps(List<Unit> sTemps){
 		for(int i= 0; i <=sTemps.size()-1; i++){
-//			temps.add(createTemp(sTemps.get(i).getX(),sTemps.get(i).getY(),sTemps.get(i).getBonusType()));
 			/*
 			 * setter
 			 */
@@ -630,7 +626,6 @@ public class GameView extends SurfaceView {
 	 */
 	public void setSerializableEnemyAttacks(List<Unit> sEnemyAttacks){
 		for(int i= 0; i <=sEnemyAttacks.size()-1; i++){
-			Log.d("EnemyAttacks", "serializable size [setter] = " + sEnemyAttacks.size());
 			/*
 			 * setter
 			 */
@@ -647,7 +642,6 @@ public class GameView extends SurfaceView {
 										sEnemyAttacks.get(i).getCurrentFrame(),
 										sEnemyAttacks.get(i).getDegree());
 			enemyAttacks.add(ea);
-			//enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
 		}
 		
 	}

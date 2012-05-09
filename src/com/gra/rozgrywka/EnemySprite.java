@@ -324,7 +324,7 @@ public class EnemySprite implements Serializable {
 	    					break;
 	    				case range:
 	    					Random rnd = new Random();
-	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rnd.nextInt(400) + 40, 700, 1 , this.ammoType));
+	    					this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rnd.nextInt(400) + 40, 700, 10 , this.ammoType));
 	    					break;
 	    				case summoner:
 	    					rand = new Random();
@@ -351,7 +351,7 @@ public class EnemySprite implements Serializable {
 	    						this.enemies.add(new EnemySprite(this.enemies, this.gameView,this.summonType,rand.nextInt(400) + 40, this.y,this.attacks));
 	    					}
 	    					else if(this.st == state.shoot){
-	    						this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rand.nextInt(400) + 40, 700, 1 , enemyAttackType.spear));
+	    						this.attacks.add(new EnemyAttack(this.attacks, this.gameView, this.x + this.width/2, this.y + this.height/2, rand.nextInt(400) + 40, 700, 10 , enemyAttackType.spear));
 	    					}
 	    					this.st = state.walk;
 	    					//rand = new Random();

@@ -45,7 +45,7 @@ public class EnemyAttack implements Serializable {
 		this.currentY = y;
 		this.x_destination = x_destination;
 		this.y_destination = y_destination;
-		this.speed = 100 - speed;
+		this.speed = speed;
 		this.ea = enemyType;
 		switch(ea){
 		case spear:
@@ -163,8 +163,8 @@ public class EnemyAttack implements Serializable {
 //	   		this.x += (this.x_destination - this.currentX)/this.speed;
 	   		//this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
 //	   	}
- 	   	this.y += (this.y_destination - this.currentY)/this.speed;
-   		this.x += (this.x_destination - this.currentX)/this.speed;
+ 	   	this.y += this.speed;//(this.y_destination - this.currentY)/this.speed;
+   		this.x += (this.x_destination - this.currentX)/((this.y_destination - this.currentY)/this.speed);
  	    if(this.life < 1){
 		    this.as = attackState.die;
 			this.currentFrame = 0;		
@@ -193,7 +193,7 @@ public class EnemyAttack implements Serializable {
     	this.as = ats;
     }
     public Unit getThisAsUnit(){
- 	   return new Unit(this.ea,this.x,this.y,this.life,this.as,this.currentFrame,this.degree,this.x_destination, this.y_destination, 100 - this.speed);
+ 	   return new Unit(this.ea,this.x,this.y,this.life,this.as,this.currentFrame,this.degree,this.x_destination, this.y_destination, this.speed);
     }
     public void setAll(int life, attackState state, int currentFrame, float degree){
 		this.life = life;
