@@ -121,9 +121,11 @@ public class Sprite {
 			this.bt = backgroundType.attack;
 			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.attacksonlythree2);
 			this.width = bmp.getWidth()/this.attacks;
-			this.height = bmp.getHeight();
+			this.height = bmp.getHeight()/this.gods;
 			this.frames = 1;
 			this.animated = false;
+			this.rec = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+			
     }
       
     public void onDraw(Canvas canvas) {
@@ -132,18 +134,6 @@ public class Sprite {
     	}
     	int srcX = this.sourceX;
     	int srcY = this.sourceY;
-//    	if(bt == backgroundType.zeus){
-//    		srcX = 0;
-//		}
-//		else if(bt == backgroundType.hephaestus){
-//			srcX = this.width;
-//		}
-//		else if(bt == backgroundType.poseidon){
-//			srcX = this.width * 2;
-//		}
-//		else if(bt == backgroundType.background){
-//			srcX = this.width * this.godNumber;
-//		}
 		if(this.animated){
 			srcX = currentframe * this.width;
 		}
@@ -151,8 +141,8 @@ public class Sprite {
 			srcX = this.godNumber * this.width;
 		}
 		else if(this.bt == backgroundType.attack){
-			srcX = this.width * this.godNumber;
-			srcY = this.height * this.attackNumber;
+			srcX = this.width * this.attackNumber;
+			srcY = this.height * this.godNumber;
 		}
 		
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
@@ -197,4 +187,10 @@ public class Sprite {
 	public void setCurrentGod(int godNumber){
 		this.godNumber = godNumber;
 	}
+	public int getGodNumber(){
+		return this.godNumber;
+	}
+	public int getAttackNumber(){
+		return this.attackNumber;
+	}		
 }

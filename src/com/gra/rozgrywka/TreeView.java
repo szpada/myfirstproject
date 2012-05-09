@@ -3,6 +3,9 @@
  */
 package com.gra.rozgrywka;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gra.R;
 
 import android.content.Context;
@@ -48,6 +51,7 @@ import android.view.View;
  *
  */
 public class TreeView extends SurfaceView {
+	private List<Sprite> attacks = new ArrayList<Sprite>();
 	private float h_factor;
 	private float w_factor;
 	private long lastClick;
@@ -63,17 +67,6 @@ public class TreeView extends SurfaceView {
 	private Sprite zeus;
 	private Sprite hephaestus;
 	private Sprite poseidon;
-	
-	/*
-	 * ataki zeusa
-	 */
-	private Sprite shock;
-	private Sprite multi_shock;
-	/*
-	 * ataki hefajstosa
-	 */
-	private Sprite fireball;
-	private Sprite fireball_shot;
 	/*
 	 * player - potrzebny do testowania drzewa rozwoju
 	 * pozniej bedzie przekazywany jako argument w konstruktorze
@@ -127,37 +120,34 @@ public class TreeView extends SurfaceView {
 	
 	public void createSprites(){
 		this.backGround = new Sprite(this,0, 0, backgroundType.background);
-		this.info = new InfoSprite(this,100,300,attackType.charge_defence);
+		this.info = new InfoSprite(this,0,600,0,0);
 		this.zeus = new Sprite(this,300,200,backgroundType.zeus);
 		this.poseidon = new Sprite(this,300,600,backgroundType.hephaestus);
 		this.hephaestus = new Sprite(this,300,400,backgroundType.poseidon);
 		
-		this.shock = new Sprite(this,100,500,0,0);
-		this.fireball_shot = new Sprite(this,100,400,1,0);
+		Sprite shock = new Sprite(this,50,50,0,0);
+		Sprite multi_shock = new Sprite(this,50,200,1,0);
 		
-		this.fireball = new Sprite(this,100,500,0,1);
-		this.fireball_shot = new Sprite(this,100,400,1,1);
+		Sprite fireball = new Sprite(this,50,50,0,1);
+		Sprite fireball_shot = new Sprite(this,50,200,1,1);
+		
+		attacks.add(shock);
+		attacks.add(multi_shock);
+		attacks.add(fireball);
+		attacks.add(fireball_shot);
 	}
 	public void onDraw(Canvas canvas){
 		
 		this.backGround.onDraw(canvas);
-		
-		//this.info.onDraw(canvas);
 		this.zeus.onDraw(canvas);
 		this.hephaestus.onDraw(canvas);
 		this.poseidon.onDraw(canvas);
-		switch(this.currentGod){
-		case 0:
-			//this.shock.onDraw(canvas);
-			//this.multi_shock.onDraw(canvas);
-			break;
-		case 1:
-			//this.fireball.onDraw(canvas);
-			//this.fireball_shot.onDraw(canvas);
-			break;
-		case 2:
-			break;
+		for(int i = 0; i < attacks.size(); i++){
+			if(attacks.get(i).getGodNumber() == this.currentGod){
+				attacks.get(i).onDraw(canvas);
+			}
 		}
+		this.info.onDraw(canvas);
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -183,6 +173,12 @@ public class TreeView extends SurfaceView {
      		  this.backGround.setCurrentGod(2);
      		  this.currentGod = 1;
     	   }
+     	  for(int i = 0; i <= attacks.size()-1; i++){
+  			if(attacks.get(i).checkCollision((int)x, (int)y)){
+  				info.setCurrentGod(attacks.get(i).getGodNumber());
+  				info.setCurrentAttack(attacks.get(i).getAttackNumber());
+  			}
+     	  }
 		}
 		return true;
 	}
