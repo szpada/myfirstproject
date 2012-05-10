@@ -4,10 +4,11 @@ import com.gra.R;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack};
+enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack, upgrade,tree};
 
 public class Sprite {
        // direction = 0 up, 1 left, 2 down, 3 right,
@@ -23,6 +24,7 @@ public class Sprite {
     private int currentLife;
     private int currentframe = 0;
     private boolean animated;
+    private boolean enabled = false;
     private String function;
     private backgroundType bt = backgroundType.empty;
     private int frames;
@@ -34,6 +36,10 @@ public class Sprite {
     private int attackNumber;
     private int sourceX;
     private int sourceY;
+    private int mana_cost;
+    private int range;
+    private int dmg;
+    private int upgrade;
 
     public Sprite(GameView gameView,int x, int y, Bitmap bmp, String function,int MaxLife) {
     	this.gameView = gameView;
@@ -73,7 +79,7 @@ public class Sprite {
 		this.currentframe = 0;
 		this.bt = bt;
 		switch(bt){
-		case background:
+		case tree:
 			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.treemenu);
 			this.width = bmp.getWidth()/this.gods;
 			this.height = bmp.getHeight();
@@ -97,7 +103,7 @@ public class Sprite {
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
-			this.sourceX = this.width;
+			this.sourceX = this.width * 2;
 			this.sourceY = 0;
 			break;
 		case hephaestus:
@@ -106,12 +112,19 @@ public class Sprite {
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
-			this.sourceX = this.width * 2;
+			this.sourceX = this.width;
 			this.sourceY = 0;
 			break;
+		case background:
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.treebackground);
+			this.width = bmp.getWidth();
+			this.height = bmp.getHeight();
+			this.animated = false;
+			this.sourceX = 0;
+			this.sourceY = 0;
 		}
     }
-	public Sprite(TreeView treeView,int x, int y, int attack_number, int god_number) {
+	public Sprite(TreeView treeView,int x, int y, int attack_number, int god_number, int mana_cost, int dmg, int range) {
 	    	this.treeView = treeView;
 			this.x = x;
 			this.y = y;
@@ -125,9 +138,22 @@ public class Sprite {
 			this.frames = 1;
 			this.animated = false;
 			this.rec = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
-			
+			this.mana_cost = mana_cost;
+			this.dmg = dmg;
+			this.range = range;
     }
-      
+	public Sprite(TreeView treeView,int x, int y, int upgrade) {
+		this.treeView = treeView;
+		this.x = x;
+		this.y = y;
+		this.bt = backgroundType.upgrade;
+		this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.treebuttons);
+		this.width = bmp.getWidth()/7;
+		this.height = bmp.getHeight();
+		this.animated = false;
+		this.rec = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+		this.upgrade = upgrade;
+	}
     public void onDraw(Canvas canvas) {
     	if(this.animated){
     		update();
@@ -144,6 +170,10 @@ public class Sprite {
 			srcX = this.width * this.attackNumber;
 			srcY = this.height * this.godNumber;
 		}
+		else if(this.bt == backgroundType.upgrade){
+			srcX = this.width * (this.upgrade+2);
+			srcY = 0;
+		}
 		
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
 		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
@@ -151,6 +181,11 @@ public class Sprite {
 		canvas.drawBitmap(this.bmp, src, dst, null);
 		if(this.animated){
 			this.currentframe++;
+		}
+		if(this.bt == backgroundType.upgrade){
+			if(this.upgrade + 2 >= 6){
+				this.upgrade = 3;
+			}
 		}
 	}
     
@@ -177,7 +212,7 @@ public class Sprite {
 		this.currentLife = life;
 	}
 	public boolean checkCollision(int x, int y){
-		if(this.rec.contains(x,y)){
+		if(this.rec.contains(x,y) && this.enabled){
 			return true;
 		}
 		else{
@@ -192,5 +227,23 @@ public class Sprite {
 	}
 	public int getAttackNumber(){
 		return this.attackNumber;
-	}		
+	}
+	public int getManaCost(){
+		return this.mana_cost;
+	}
+	public int getRange(){
+		return this.range;
+	}
+	public int getDmg(){
+		return this.dmg;
+	}
+	public void collisionFriendly(boolean state){
+		this.enabled = state;
+	}
+	public void setUpgrade(int upgrade){
+		this.upgrade = upgrade;
+	}
+	public int getUpgrade(){
+		return this.upgrade;
+	}
 }

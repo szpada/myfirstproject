@@ -6,7 +6,7 @@ import android.util.Log;
 
 enum attackType{shock, multi_shock, charge_defence, storm, thunder,
 				fireball,fireball_shot, firewall, meteor, empty1,
-				waterSplash, tornado, water_shield, flood, empty2,
+				tornado,waterSplash , water_shield, flood, empty2,
 				arow, spear, shield, trap, empty3,
 				poison, consumption, corpse_explosion, pit, death_touch};
  

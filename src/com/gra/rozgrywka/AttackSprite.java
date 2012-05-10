@@ -366,7 +366,7 @@ public class AttackSprite implements Serializable {
 			this.rec = new Rect(0,(this.y - this.height/4)+10-lvl, 480, (this.y + this.height/4)-10+lvl);
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = rand.nextInt(lvl*2) + 2;
-			this.slow = 0;
+			this.slow = 60;
 			this.life = (this.lvl+1) * 5;
 			this.cooldown = 500 + lvl * 100;
 			this.staticPosition = true;
@@ -383,7 +383,7 @@ public class AttackSprite implements Serializable {
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = this.lvl * 4 + 3*this.width/4;
 			this.dmg = rand.nextInt(lvl) + 2;
-			this.slow = 30;
+			this.slow = 5;
 			this.life = 45;
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;

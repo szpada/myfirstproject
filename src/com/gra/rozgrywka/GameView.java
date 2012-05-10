@@ -126,7 +126,7 @@ public class GameView extends SurfaceView {
 //    	   enemies.add(createEnemy(enemyType.knight,240,10));  	   
 //           enemies.add(createEnemy(enemyType.dragon,240,10));
 //    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
-           temps.add(createTemp(240,400,bonusType.mana_potion));
+//           temps.add(createTemp(240,400,bonusType.mana_potion));
            
            nextWave(1);	//dodaj pierwsza fale;
            
