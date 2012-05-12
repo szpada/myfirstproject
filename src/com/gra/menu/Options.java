@@ -1,7 +1,7 @@
 package com.gra.menu;
 
-
 import com.gra.R;
+import com.gra.rozgrywka.ChapterView;
 import com.gra.rozgrywka.TreeView;
 
 import android.app.Activity;
@@ -18,6 +18,7 @@ public class Options extends Activity {
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.options);      
-        setContentView(new TreeView(this,100,100));
+        //setContentView(new TreeView(this,100,100));
+        setContentView(new ChapterView(this,100,100));
     }
 }

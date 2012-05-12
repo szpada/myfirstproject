@@ -4,20 +4,20 @@ import android.graphics.Canvas;
  
 /**
  * @author Maciej
- * watek generujacy drzewko rozwoju
+ * watek generujacy levele
  */
 
-public class TreeLoopThread extends Thread {
+public class ChapterLoopThread extends Thread {
        static final long FPS = 10;
-       private TreeView view;
+       private ChapterView view;
        private boolean running = false;
-
-       public TreeLoopThread(TreeView view) {
-             this.view = view;
+       
+       public ChapterLoopThread(ChapterView view) {
+           this.view = view;
        }
 
        public void setRunning(boolean run) {
-             running = run;
+           running = run;
        }
        @Override
        public void run() {

@@ -115,7 +115,6 @@ public class GameView extends SurfaceView {
 
 
 	private void createSprites() {
-    	   this.
     	   /*
     	    * Tworzenie wszystkich bitmap i wrogów
     	    */
@@ -128,7 +127,7 @@ public class GameView extends SurfaceView {
 //    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
 //           temps.add(createTemp(240,400,bonusType.mana_potion));
            
-           nextWave(1);	//dodaj pierwsza fale;
+           this.nextWave(1);	//dodaj pierwsza fale;
            
            switchGod = new Switcher(this.player,this,true,16,624);
            switchAttack = new Switcher(this.player,this,false,333,624);

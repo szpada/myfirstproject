@@ -10,6 +10,10 @@ import android.graphics.Rect;
 enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack, upgrade,tree};
 
 public class TreeButtons {
+	/**
+	 * @author Szpada
+	 * guziki znajdujace sie w treeview - zarowno ataki jak i upgrade
+	 */
 	private TreeView treeView;
     private Bitmap bmp;
     private int x;

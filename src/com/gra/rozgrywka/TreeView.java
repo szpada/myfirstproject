@@ -52,10 +52,10 @@ import android.view.View;
  *
  *
  */
-public class TreeView extends SurfaceView {
-																			//mana cost, dmg, range
+public class TreeView extends SurfaceView {											//pogladowe wartosci atakow
+																					//mana cost, dmg, range
 	private TreeButtons shock = 				new TreeButtons(this,115,525,0,0,	2,1,1);
-	private TreeButtons multi_shock = 			new TreeButtons(this,115,400,1,0,	2,3,3);
+	private TreeButtons multi_shock = 			new TreeButtons(this,115,400,1,0,	4,3,3);
 	private TreeButtons charge_defense = 		new TreeButtons(this,45,270,2,0,	5,1,1);
 	private TreeButtons storm  = 				new TreeButtons(this,185,270,3,0,	8,4,5);
 	private TreeButtons thunder  = 				new TreeButtons(this,115,145,4,0,	6,8,6);
@@ -68,15 +68,10 @@ public class TreeView extends SurfaceView {
 	private TreeButtons tornado = 				new TreeButtons(this,115,530,0,2,	2,2,2);
 	private TreeButtons waterSplash = 			new TreeButtons(this,115,395,1,2,	4,3,4);
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	private List<TreeButtons> attacks = new ArrayList<TreeButtons>();
+	/*
+	 * odkomentowac gdy beda poprawne
+	 */
 //	private float h_factor;
 //	private float w_factor;
 	private long lastClick;
@@ -90,6 +85,7 @@ public class TreeView extends SurfaceView {
 							*	2 - posejdon
 							*/
 	private TreeLoopThread treeLoopThread;
+	
 	private TreeButtons upgrade;
 	private TreeButtons backGround;
 	private TreeButtons currentTree;
@@ -119,6 +115,9 @@ public class TreeView extends SurfaceView {
 	 */
 	public TreeView(Context context,double w_factor, double h_factor) {
 		super(context);
+		/*
+		 * odkomentowac jak wartosci beda poprawnie przesylane
+		 */
 //        this.h_factor = (float)h_factor;
 // 	   	this.w_factor = (float)w_factor;
         treeLoopThread = new TreeLoopThread(this);
@@ -150,6 +149,10 @@ public class TreeView extends SurfaceView {
 	
 	public void createSprites(){
 		/*
+		 * odkomentowac jak beda poprawne wartosci
+		 */
+		//canvas.scale(this.w_factor, this.h_factor);
+		/*
 		 * przycisk upgrade
 		 */
 		this.upgrade = new TreeButtons(this,400,660,0);
@@ -171,39 +174,6 @@ public class TreeView extends SurfaceView {
 		this.zeus = new TreeButtons(this,320,20,backgroundType.zeus);
 		this.poseidon = new TreeButtons(this,320,147,backgroundType.poseidon);
 		this.hephaestus = new TreeButtons(this,320,270,backgroundType.hephaestus);
-		/*
-		 * ataki z poszczegolnych drzew
-		 */
-			/*
-			 * zeus
-			 */
-		TreeButtons shock = 			new TreeButtons(this,70,600,0,0,1,1,1);
-		TreeButtons multi_shock = 		new TreeButtons(this,70,480,1,0,1,2,2);
-		TreeButtons charge_defense = 	new TreeButtons(this,20,320,2,0,4,1,1);
-		TreeButtons storm  = 			new TreeButtons(this,130,320,3,0,8,3,3);
-		TreeButtons thunder  = 			new TreeButtons(this,70,100,4,0,6,8,5);
-			/*
-			 * hefajstos
-			 */
-//		Sprite fireball = 			new Sprite(this,70,100,0,1,3,3,3);
-//		Sprite fireball_shot = 		new Sprite(this,70,250,1,1,4,4,4);
-//		Sprite firewall = 			new Sprite(this,70,100,2,1,3,3,3);
-//		Sprite meteor =				new Sprite(this,70,100,3,1,3,3,3);
-			/*
-			 * posejdon
-			 */
-//		Sprite tornado = 			new Sprite(this,70,100,0,2,3,3,3);
-//		Sprite waterSplash = 		new Sprite(this,70,300,1,2,3,3,3);
-		
-//		shock.collisionFriendly(true);
-//		multi_shock.collisionFriendly(true);
-//		charge_defense.collisionFriendly(true);
-//		storm.collisionFriendly(true);
-//		thunder.collisionFriendly(true);
-//		zeus.collisionFriendly(true);
-//		hephaestus.collisionFriendly(true);
-//		poseidon.collisionFriendly(true);
-//		upgrade.collisionFriendly(true);
 		
 		info.setCurrentGod(shock.getGodNumber());
 		info.setCurrentAttack(shock.getAttackNumber());
@@ -231,11 +201,6 @@ public class TreeView extends SurfaceView {
 			/*
 			 * zeus
 			 */
-//		TreeButtons shock = 				new TreeButtons(this,70,570,0,0,1,1,1);
-//		TreeButtons multi_shock = 			new TreeButtons(this,70,400,1,0,1,2,2);
-//		TreeButtons charge_defense = 		new TreeButtons(this,20,280,2,0,4,1,1);
-//		TreeButtons storm  = 				new TreeButtons(this,130,280,3,0,8,3,3);
-//		TreeButtons thunder  = 				new TreeButtons(this,70,100,4,0,6,8,5);
 		attacks.add(shock);
 		attacks.add(multi_shock);
 		attacks.add(charge_defense);
@@ -246,10 +211,6 @@ public class TreeView extends SurfaceView {
 			/*
 			 * hefajstos
 			 */
-//		TreeButtons fireball = 				new TreeButtons(this,70,100,0,1,3,3,3);
-//		TreeButtons fireball_shot = 		new TreeButtons(this,70,250,1,1,4,4,4);
-//		TreeButtons firewall = 				new TreeButtons(this,70,100,2,1,3,3,3);
-//		TreeButtons meteor =				new TreeButtons(this,70,100,3,1,3,3,3);
 		attacks.add(fireball);
 		attacks.add(fireball_shot);
 		attacks.add(firewall);
@@ -259,8 +220,6 @@ public class TreeView extends SurfaceView {
 			/*
 			 * posejdon
 			 */
-//		TreeButtons tornado = 				new TreeButtons(this,70,100,0,2,3,3,3);
-//		TreeButtons waterSplash = 			new TreeButtons(this,70,300,1,2,3,3,3);
 		attacks.add(tornado);
 		attacks.add(waterSplash);
 			break;
@@ -466,6 +425,9 @@ public class TreeView extends SurfaceView {
 						}
 					}
 				}
+				if(upgrade.getUpgrade() >= this.maxUpgrade){
+					this.upgrade.setUpgrade(4);
+				}
 				break;
 			case 2:
 				/*
@@ -490,6 +452,9 @@ public class TreeView extends SurfaceView {
 							this.upgrade.setUpgrade(base[this.currentGod][this.currentAttack]);
 						}
 					}
+				}
+				if(upgrade.getUpgrade() >= this.maxUpgrade){
+					this.upgrade.setUpgrade(4);
 				}
 				break;
 			}

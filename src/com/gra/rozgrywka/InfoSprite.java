@@ -9,6 +9,12 @@ import android.graphics.Rect;
 
 
 public class InfoSprite {
+	/**
+	 * @author Szpada
+	 * 
+	 * klasa wyswietlajace statystyki ataku - jego
+	 * zasieg, obrazenia i koszt ambrozji.
+	 */
 	private TreeView treeView;
 	private int window_x;
 	private int window_y;
@@ -64,7 +70,7 @@ public class InfoSprite {
 	public void onDraw(Canvas canvas){
 		update();
 		/*
-		 * wyswietlenie animowanego ataku
+		 * wyswietlenie -a-n-i-m-o-w-a-n-e-g-o- (<- przekreslenie :/) ataku
 		 */
         int srcX = this.attack_number * this.animation_width;
         int srcY = this.god_number * this.animation_height;
