@@ -33,6 +33,7 @@ public class ChapterView extends SurfaceView{
 	private Paint paint = new Paint();				 //tez wywalic
 	
 	private int currentChapter = 0;	//zmienna przechowujaca numer rozdzialu w ktorym obecnie sie znajdujemy
+	private LevelStats stats;
 	
 	public ChapterView(Context context,double w_factor, double h_factor) {
 		super(context);
@@ -86,8 +87,16 @@ public class ChapterView extends SurfaceView{
 		for(int i = 0; i<this.levels.size(); i++){
 			this.levels.get(i).onDraw(canvas);
 		}
+		/*
+		 * wyswietlenie statystyk levelu
+		 */
+		this.stats.onDraw(canvas);
 	}
 	public void createLevelChains(){
+		/*
+		 * tworzenie statystyk levelu
+		 */
+		this.stats = new LevelStats(this,0,600,true,true,landscape.tutorial);
 		/*
 		 * tworzenie przyciskow
 		 */
@@ -98,7 +107,7 @@ public class ChapterView extends SurfaceView{
 		 */
 			/*
 			 * rozdzial TUTORIAL
-			 */																			//ID,child ID,parent IDs
+			 */																				//ID,child_ID,parent IDs
 			LevelChain Ltutorial1 = new LevelChain(this,240,140,true,true,landscape.tutorial,	0,	 1,	 -1);
 			LevelChain Ltutorial2 = new LevelChain(this,240,280,false,true,landscape.tutorial,	1,	 2,	  0);
 			LevelChain Ltutorial3 = new LevelChain(this,240,420,false,false,landscape.tutorial,	2,	-1,	  1);
@@ -160,9 +169,10 @@ public class ChapterView extends SurfaceView{
 			}
 			for(int i = 0; i < this.levels.size(); i++){
 				if(this.levels.get(i).checkCollision((int)x, (int)y)){
+					showStats(this.levels.get(i));
 					if(this.levels.get(i).isActive()){
 						this.levels.get(i).setComplited(true);
-						unlockLevels(i);
+						unlockLevels(this.levels.get(i).getId());
 					}
 				}
 			}
@@ -177,7 +187,7 @@ public class ChapterView extends SurfaceView{
 		 * metoda odblokowujaca levele - zaczyna od levelu przekzanego jako argument (jego ID)
 		 *  i sprawdza czy odblokowuje kolejny level.
 		 */
-		int ID = 0;
+		int ID = -1;
 		/*
 		 * sprawdzamy czi ID to nie jest przypadkiem numer na liscie (skraca to czas dzialania)
 		 */
@@ -190,11 +200,12 @@ public class ChapterView extends SurfaceView{
 		else{
 			for(int i = 0; i<levels.size(); i++){
 				if(levels.get(i).getId() == complitedLevelId){
-					ID = levels.get(i).getId(); 
+					ID = i; 
 					break;
 				}
 			}
 		}
+		Log.d("chapter", "ID : " + ID);
 		/*
 		 * sprawdzamy czy wybrany level ma dziecko
 		 */
@@ -208,23 +219,20 @@ public class ChapterView extends SurfaceView{
 		 * jesli ma zrob co masz do roboty <3
 		 */
 		else{
+			int child_ID = -1;
 			/*
 			 * przejscie do dziecka levelu o podanym ID w celu sprawdzenia czy moze zostac odblokowany
 			 */
-			int child_ID = -1;
-			for(int i = 0; i<levels.size(); i++){
-				/*
-				 * sprawdz dla ktorego levelu ID jest rowne ID dziecka naszego levelu
-				 */
-				if(i != ID && levels.get(i).getId() == levels.get(ID).getChild()){
-					child_ID = levels.get(i).getId();
-					break;
+			for(int i = 0; i < levels.size(); i++){
+				if(levels.get(i).getId() == levels.get(ID).getChild()){
+					child_ID = i;
 				}
 			}
 			/*
 			 * jesli znaleziono dziecko
 			 */
 			if(child_ID != -1){
+				//Log.d("chapter", "child_ID : " + child_ID);
 				for(int i=0; i < levels.get(child_ID).getParents().length; i++){
 					Log.d("chapter","sprawdzam rodzicow, rodzic nr : " + i);
 					/*
@@ -249,5 +257,14 @@ public class ChapterView extends SurfaceView{
 				return false;
 			}
 		}
+	}
+	public void showStats(LevelChain lvl){
+		/*
+		 * metoda wysweitlajaca statystyki wybranego levelu
+		 */
+		this.stats.setActive(lvl.isActive());
+		this.stats.setComplited(lvl.isComplited());
+		this.stats.setLand(lvl.getLand());
+		this.stats.setStars(lvl.getStars());
 	}
 }

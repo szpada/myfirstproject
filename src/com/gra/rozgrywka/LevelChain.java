@@ -13,13 +13,14 @@ import android.graphics.Rect;
 	 * @author Szpada
 	 * klasa przedstawiajaca poszczegolne levele i zaleznosci miedzy nimi
 	 * (przechowuje swojego rodzica oraz dzieci przez co mozna latwo okreslic
-	 * ktory level odblokowuje ktory itd)
+	 * ktory level odblokowuje ktory itd). Oprocz tego przechowuje statystyki
+	 * levelu - gwiazdki :C
 	 * 
 	 *...
 	 *
 	 *zamiast jebac sie z tym tak jak w treeView gdzie wszystko jest na sztywno T_T
 	 */
-enum landscape{tutorial, village}	//enum zawierajacy "ikonki" leveli
+enum landscape{tutorial, village, locked}	//enum zawierajacy "ikonki" leveli
 
 public class LevelChain {
 	private ChapterView view;
@@ -44,7 +45,9 @@ public class LevelChain {
 	private int height;
 	private Bitmap bmp;
 	
-	public LevelChain(ChapterView view,int x, int y,boolean complited, boolean active, landscape land,int chapter, int id, int child_id, int...parents_id){
+	private int stars = 1;			//ile gwiazdek dostalismy za ukonczenie tego levelu
+	
+	public LevelChain(ChapterView view,int x, int y,boolean complited, boolean active, landscape land, int id, int child_id, int...parents_id){
 		this.view = view;
 		this.x = x;
 		this.y = y;
@@ -128,5 +131,14 @@ public class LevelChain {
 				break;
 			}
 		}
+	}
+	public void setStars(int stars){
+		this.stars = stars;
+	}
+	public int getStars(){
+		return this.stars;
+	}
+	public landscape getLand(){
+		return this.land;
 	}
 }
