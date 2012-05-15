@@ -52,23 +52,40 @@ import android.view.View;
  *
  *
  */
+
+
+
+
+
+/*
+ * 
+ * 					DO POPRAWY (OPTYMALIZACJA) ZAMIENIC WSZYSTKO NA LISTY I ATAKI PODZIELIC NA POJEDYNCZE BITMAPY
+ * 
+ */
+
+
+
 public class TreeView extends SurfaceView {											//pogladowe wartosci atakow
 																					//mana cost, dmg, range
-	private TreeButtons shock = 				new TreeButtons(this,115,525,0,0,	2,1,1);
-	private TreeButtons multi_shock = 			new TreeButtons(this,115,400,1,0,	4,3,3);
-	private TreeButtons charge_defense = 		new TreeButtons(this,45,270,2,0,	5,1,1);
-	private TreeButtons storm  = 				new TreeButtons(this,185,270,3,0,	8,4,5);
-	private TreeButtons thunder  = 				new TreeButtons(this,115,145,4,0,	6,8,6);
+	private TreeButtons shock;// = 				new TreeButtons(this,115,525,0,0,	2,1,1);
+	private TreeButtons multi_shock;// = 			new TreeButtons(this,115,400,1,0,	4,3,3);
+	private TreeButtons charge_defense;// = 		new TreeButtons(this,45,270,2,0,	5,1,1);
+	private TreeButtons storm;//  = 				new TreeButtons(this,185,270,3,0,	8,4,5);
+	private TreeButtons thunder;//  = 				new TreeButtons(this,115,145,4,0,	6,8,6);
 	
-	private TreeButtons fireball = 				new TreeButtons(this,115,525,0,1,	2,1,1);
-	private TreeButtons fireball_shot = 		new TreeButtons(this,45,400,1,1,	2,3,1);
-	private TreeButtons firewall = 				new TreeButtons(this,185,400,2,1,	1,1,1);
-	private TreeButtons meteor =				new TreeButtons(this,115,270,3,1,	6,8,4);
+	private TreeButtons fireball;// = 				new TreeButtons(this,115,525,0,1,	2,1,1);
+	private TreeButtons fireball_shot;// = 		new TreeButtons(this,45,400,1,1,	2,3,1);
+	private TreeButtons firewall;// = 				new TreeButtons(this,185,400,2,1,	1,1,1);
+	private TreeButtons meteor;// =				new TreeButtons(this,115,270,3,1,	6,8,4);
 	
-	private TreeButtons tornado = 				new TreeButtons(this,115,530,0,2,	2,2,2);
-	private TreeButtons waterSplash = 			new TreeButtons(this,115,395,1,2,	4,3,4);
+	private TreeButtons tornado;// = 				new TreeButtons(this,115,530,0,2,	2,2,2);
+	private TreeButtons waterSplash;// = 			new TreeButtons(this,115,395,1,2,	4,3,4);
 	
 	private List<TreeButtons> attacks = new ArrayList<TreeButtons>();
+	
+	private boolean zeus_first_time = true;
+	private boolean hephaestus_first_time = true;
+	private boolean poseidon_first_time = true;
 	/*
 	 * odkomentowac gdy beda poprawne
 	 */
@@ -146,8 +163,55 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
                }
         }); 
 	}
+	public void createAttackFirstTime(int god){
+		switch(god){
+		case 0:
+			shock = 				new TreeButtons(this,115,525,0,0,	2,1,1);
+			shock.setUpgradeFactors(1, 0, 0);
+			
+			multi_shock = 			new TreeButtons(this,115,400,1,0,	4,3,3);
+			multi_shock.setUpgradeFactors(1, 0, 0);
+			
+			charge_defense = 		new TreeButtons(this,45,270,2,0,	5,1,1);
+			charge_defense.setUpgradeFactors(2, 0, 0);
+			
+			storm  = 				new TreeButtons(this,185,270,3,0,	8,4,5);
+			storm.setUpgradeFactors(3, 0, 0);
+			
+			thunder  = 				new TreeButtons(this,115,145,4,0,	6,8,6);
+			thunder.setUpgradeFactors(3, 2, 0);
+			this.zeus_first_time = false;
+			break;
+		case 1:
+			fireball = 				new TreeButtons(this,115,525,0,1,	2,1,1);
+			fireball.setUpgradeFactors(1, 2, 0);
+			
+			fireball_shot = 		new TreeButtons(this,45,400,1,1,	2,3,1);
+			fireball_shot.setUpgradeFactors(2, 0, 0);
+			
+			firewall = 				new TreeButtons(this,185,400,2,1,	1,1,1);
+			firewall.setUpgradeFactors(1, 0, 0);
+			
+			meteor =				new TreeButtons(this,115,270,3,1,	6,8,4);
+			meteor.setUpgradeFactors(4, 3, 0);
+			this.hephaestus_first_time = false;
+			break;
+		case 2:
+			tornado = 				new TreeButtons(this,115,530,0,2,	2,2,2);
+			tornado.setUpgradeFactors(1, 0, 0);
+			
+			waterSplash = 			new TreeButtons(this,115,395,1,2,	4,3,4);
+			waterSplash.setUpgradeFactors(1, 0, 0);
+			this.poseidon_first_time = false;
+			break;
+		}
+	}
 	
 	public void createSprites(){
+		/*
+		 * wywolanie funkcji tworzacej ataki dla peirwszego drzewa
+		 */
+		createAttackFirstTime(this.currentGod);
 		/*
 		 * odkomentowac jak beda poprawne wartosci
 		 */
@@ -253,6 +317,9 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 		if(System.currentTimeMillis() - lastClick > coolDown) {
 			lastClick = System.currentTimeMillis();
 			if(zeus.checkCollision((int)x, (int)y)){
+				if(this.zeus_first_time){
+					createAttackFirstTime(0);
+				}
 				if(this.currentGod != 0){
 					createAttacks(0);
 				}
@@ -260,6 +327,9 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 				this.currentGod = 0;
 			}
 			else if(hephaestus.checkCollision((int)x, (int)y)){
+				if(this.hephaestus_first_time){
+					createAttackFirstTime(1);
+				}
 				if(this.currentGod != 1){
 					createAttacks(1);
 				}
@@ -267,6 +337,9 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 				this.currentGod = 1;
 			}
 			else if(poseidon.checkCollision((int)x, (int)y)){
+				if(this.poseidon_first_time){
+					createAttackFirstTime(2);
+				}
 				if(this.currentGod != 2){
 					createAttacks(2);
 				}
@@ -287,6 +360,16 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 			if(this.upgrade.checkCollision((int)x,(int)y)){
 				if(!performUpgrade(this.currentGod,this.currentAttack)){
 					//zaswiec punktami
+				}
+				else{
+					for(int i = 0; i <= attacks.size()-1; i++){
+						if(attacks.get(i).getGodNumber() == this.currentGod && attacks.get(i).getAttackNumber() == this.currentAttack){
+							attacks.get(i).setUpgrade(upgrade.getUpgrade());
+							info.setDmg(attacks.get(i).getDmg());
+							info.setManaCost(attacks.get(i).getManaCost());
+							info.setRange(attacks.get(i).getRange());
+						}
+					}
 				}
 			}
 		}

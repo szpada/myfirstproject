@@ -15,8 +15,8 @@ import com.gra.R;
 
 enum size{small, medium, large, enormous};
 enum state{walk,fight,die,summon,shoot};	//summon dla bossa i jednostek ktore sa "tworzone" przez inne. shoot tylko dla bosa
-enum enemyType{knight,dragon, knight_general, balista, catapult, fire_imp, fire_titan};
-enum warriorType{melee, summoner, range, general, boss};
+enum enemyType{knight,dragon, knight_general, balista, catapult, fire_imp, fire_titan, fire_boss};
+enum warriorType{melee, summoner, range, general, boss, chapter_boss};
 
 /**
  * @author Maciej
@@ -122,7 +122,7 @@ public class EnemySprite implements Serializable {
 	        this.attackSpeed = 30;
 	        this.maxSpeed = 3;
 	        this.speed = 3;
-	        this.dmg = 10;
+	        this.dmg = 1;
 	        this.life = 100;
 	        this.maxLife = 100;
 	        this.range = 4;
@@ -243,14 +243,12 @@ public class EnemySprite implements Serializable {
 	        this.summonType = enemyType.fire_imp;
 	        this.next_state = state.shoot;
 	        this.melee_range = 20;
+	        break;
 		}
     }
     
     private void update() {
     	if(System.currentTimeMillis() - this.timer < this.slowTimes){
-//    		if(System.currentTimeMillis() - this.timer < this.slowTimes/4){
-//    			//this.slowed = false;
-//    		}
     		this.speed = 1;
     	}
     	else{
@@ -265,9 +263,7 @@ public class EnemySprite implements Serializable {
 		   }
 	    }
 	    /*
-	     * zmienic to zeby nie wyswietlal pierwszej klatki a puszczal "jalowa animacje" oprocz tego
-	     * powinien zmieniac stan przed wykonaniem ataku
-	     * 
+	     * burdel odpowiadajacy za atak wroga
 	     */
 	    if(this.currentFrame > this.frames-1){
 	    	if(this.recentStateChange && this.st != state.walk && this.st != state.die ){

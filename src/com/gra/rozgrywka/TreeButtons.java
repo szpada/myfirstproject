@@ -36,6 +36,13 @@ public class TreeButtons {
     private int range;
     private int dmg;
     private int upgrade;
+    
+    /*
+	 * jak zmienia sie atak po upgradzie
+	 */
+	private int dmg_upg = 0;
+	private int range_upg = 0;
+	private int mana_upg = 0;
 
     public TreeButtons(TreeView treeView,int x, int y, backgroundType bt) {
     	this.treeView = treeView;
@@ -54,8 +61,8 @@ public class TreeButtons {
 			this.sourceY = 0;
 			break;
 		case zeus:
-			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
-			this.width = bmp.getWidth()/this.gods;
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.zeus);
+			this.width = bmp.getWidth();
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
@@ -63,21 +70,21 @@ public class TreeButtons {
 			this.sourceY = 0;
 			break;
 		case poseidon:
-			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
-			this.width = bmp.getWidth()/this.gods;
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.posejdon);
+			this.width = bmp.getWidth();
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
-			this.sourceX = this.width * 2;
+			this.sourceX = 0;
 			this.sourceY = 0;
 			break;
 		case hephaestus:
-			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.onlythreegods1);
-			this.width = bmp.getWidth()/this.gods;
+			this.bmp = BitmapFactory.decodeResource(treeView.getResources(), R.drawable.hefajstos);
+			this.width = bmp.getWidth();
 			this.height = bmp.getHeight();
 			this.frames = 1;
 			this.animated = false;
-			this.sourceX = this.width;
+			this.sourceX = 0;
 			this.sourceY = 0;
 			break;
 		case background:
@@ -187,13 +194,13 @@ public class TreeButtons {
 		return this.attackNumber;
 	}
 	public int getManaCost(){
-		return this.mana_cost;
+		return this.mana_cost + this.mana_upg * this.upgrade;
 	}
 	public int getRange(){
-		return this.range;
+		return this.range + this.range_upg * this.upgrade;
 	}
 	public int getDmg(){
-		return this.dmg;
+		return this.dmg + this.dmg_upg * this.upgrade;
 	}
 	public void collisionFriendly(boolean state){
 		this.enabled = state;
@@ -203,5 +210,10 @@ public class TreeButtons {
 	}
 	public int getUpgrade(){
 		return this.upgrade;
+	}
+	public void setUpgradeFactors(int dmg, int range, int mana){
+		this.dmg_upg = dmg;
+		this.range_upg = range;
+		this.mana_upg = mana;
 	}
 }

@@ -370,7 +370,7 @@ public class GameView extends SurfaceView {
     	   Random rnd = new Random();
     	   if(attack.get(a_number).checkCollision(enemies.get(enemy).getRect()) == 0){
 	    	   if(rnd.nextInt(player.getLuck() + 1) > 0){
-	    		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,1,
+	    		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,attack.get(a_number).getLvl(),
 	    				   enemies.get(enemy).getX() + enemies.get(enemy).getWidth()/2,
 	    				   enemies.get(enemy).getY() + enemies.get(enemy).getHeight()/2,true));
 	    	   }

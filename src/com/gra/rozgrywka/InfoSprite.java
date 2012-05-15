@@ -92,8 +92,10 @@ public class InfoSprite {
 	        srcX = 0;
 	        srcY = 0;
 	        for(int i = 0; i<this.dmg; i++){
-	        	src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
-	        	dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height);
+	        	src = new Rect(srcX + (i%4) * this.cost_width/4, srcY, srcX + this.cost_width - (3-(i%4)) * this.cost_width/4, srcY + this.cost_height);
+	        	dst = new Rect(this.cost_x + i * this.cost_width/4, this.cost_y, this.cost_x + this.cost_width/4 + i * this.cost_width/4, this.cost_y + this.cost_height);
+	        	//src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
+	        	//dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height);
 	        	canvas.drawBitmap(this.costBitmap, src, dst, null);
 	        }
 	        /*
