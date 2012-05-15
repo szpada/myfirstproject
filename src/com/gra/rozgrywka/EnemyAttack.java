@@ -55,7 +55,7 @@ public class EnemyAttack implements Serializable {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-			this.dmg = 20;
+			this.dmg = 10;
 			this.life = 10;
 			this.as = attackState.fly;
 			if(this.x >= this.x_destination){
@@ -72,7 +72,7 @@ public class EnemyAttack implements Serializable {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-			this.dmg = 40;
+			this.dmg = 20;
 			this.life = 20;
 			this.dmg = 1;
 			this.life = 1;

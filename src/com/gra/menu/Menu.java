@@ -37,7 +37,6 @@ public class Menu extends Activity {
         Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
         
         ResumeGameButton.setOnClickListener(new OnClickListener() {
-        
         	
         	//@Override
 			public void onClick(View v) {

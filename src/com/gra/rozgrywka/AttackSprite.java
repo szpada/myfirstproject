@@ -39,16 +39,16 @@ public class AttackSprite implements Serializable {
 	
 	private static int shock_mana = 5;
 	private static int multi_shock_mana = 30;
-	private static int charge_defence_mana = 20;
-	private static int storm_mana = 20;
-	private static int thunder_mana = 10;
+	private static int charge_defence_mana = 60;
+	private static int storm_mana = 80;
+	private static int thunder_mana = 80;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
 	private static int fireball_shot_mana = 20;
 	private static int meteor_mana = 60;
 	private static int empty1_mana = 20;
-	private static int waterSplash_mana = 20;
-	private static int tornado_mana = 20;
+	private static int waterSplash_mana = 30;
+	private static int tornado_mana = 10;
 	private static int water_level_mana = 20;
 	private static int water_shield = 20;
 	private static int arow_mana = 20;
@@ -149,7 +149,7 @@ public class AttackSprite implements Serializable {
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = 16;
-			this.dmg = rnd.nextInt(this.lvl) + 20;
+			this.dmg = rnd.nextInt(this.lvl) + 20;	//lvl w tym miejscu oznacza lvl thundera * power (<=50 !)
 			this.slow = 0;
 			this.life = 15;
 			this.cooldown = 900 - lvl * 100;
@@ -164,7 +164,6 @@ public class AttackSprite implements Serializable {
 			}
 			//this.rec = new Rect(240 - power, -100, 240 + power, 600);
 			this.rec = new Rect(208, -100, 272, 600);
-			Log.d("thunder shot", "kat = " + this.degree);
 			break;
 		}
 	}
@@ -342,8 +341,8 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.rows;
 			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.width/2;
-			this.dmg = 80 + rand.nextInt(2 * lvl * lvl);
+			this.range = this.width/2 + lvl * 4;
+			this.dmg = 80 + rand.nextInt(4 * lvl * lvl);
 			this.slow = 0;
 			this.life = 15;
 			this.cooldown = 1500;
@@ -443,7 +442,7 @@ public class AttackSprite implements Serializable {
 			this.range = 100;//this.lvl * 4 + 3*this.width/4;
 			this.dmg = 0;
 			this.slow = 0;
-			this.maxLife = 480;
+			this.maxLife = 400 + lvl * 40;
 			this.life = this.maxLife - 1;
 			this.cooldown = 900 - lvl * 100;
 			this.exploding = false;
@@ -481,7 +480,7 @@ public class AttackSprite implements Serializable {
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = this.lvl * 4 + 3*this.width/4;
-			this.dmg = rand.nextInt(lvl + 2) + 8;
+			this.dmg = 1;//rand.nextInt(lvl + 2) + 8;
 			this.slow = 0;
 			this.life = 10;
 			this.cooldown = 50;
@@ -637,6 +636,11 @@ public class AttackSprite implements Serializable {
 			   this.y = this.y + rnd.nextInt(11) - 5;
 		   }
 	   }
+	   if(this.attp == attackType.tornado){
+		   Random rnd = new Random();
+		   this.x = this.x + rnd.nextInt(11) - 5;
+		   this.y = this.y + rnd.nextInt(11) - 5;
+	   }
 	   if(this.currentFrame > this.frames){
 		   currentFrame = 0;
 	   }
@@ -644,10 +648,10 @@ public class AttackSprite implements Serializable {
 		   if(this.attp == attackType.multi_shock){
 			   int distance = 50;
 			   Random rand = new Random();
-			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y + rand.nextInt(distance),true));
-			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y - rand.nextInt(distance),true));
-			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x - rand.nextInt(distance), y + rand.nextInt(distance),true));
-			   attack.add(new AttackSprite(attack,gameView,attackType.shock,1,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
+			   attack.add(new AttackSprite(attack,gameView,attackType.shock,this.lvl,x + rand.nextInt(distance), y + rand.nextInt(distance),true));
+			   attack.add(new AttackSprite(attack,gameView,attackType.shock,this.lvl,x - rand.nextInt(distance), y - rand.nextInt(distance),true));
+			   attack.add(new AttackSprite(attack,gameView,attackType.shock,this.lvl,x - rand.nextInt(distance), y + rand.nextInt(distance),true));
+			   attack.add(new AttackSprite(attack,gameView,attackType.shock,this.lvl,x + rand.nextInt(distance), y - rand.nextInt(distance),true));
 		   }
 		   if(this.attp == attackType.thunder){
 			   attack.add(new AttackSprite(attack,this.gameView,otherAttacks.thunder_shot,this.lvl * this.power,this.x, this.y,false));
