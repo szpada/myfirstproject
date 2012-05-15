@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.lang.reflect.Array;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +17,7 @@ import android.util.Log;
 
 public class SaveService {
 
-	private static final String SAVE_FILENAME = "TheSaveFile.ser";
+	private static final String SAVE_FILENAME = "SaveFile.ser";
 
 	private SavedState saveData;
 
@@ -42,11 +43,9 @@ public class SaveService {
 	}
 
 	
-	public boolean exists() {
-		Log.d("SAVER", context.fileList().toString());
+	public String[] existing() {
+		return context.fileList();
 		
-		
-		return true;
 	}
 	
 	
@@ -54,6 +53,21 @@ public class SaveService {
 	public  void save(SavedState object){
 		try {
 			fOut = context.openFileOutput(SAVE_FILENAME, Activity.MODE_PRIVATE);
+			osw = new ObjectOutputStream(fOut);
+			osw.writeObject(object);
+			osw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public  void saveNum(SavedState object, int num1, int num2){
+		try {
+			String name = "SaveN" + Integer.toString(num1) + "L" + Integer.toString(num2)+".ser";
+			fOut = context.openFileOutput(name, Activity.MODE_PRIVATE);
 			osw = new ObjectOutputStream(fOut);
 			osw.writeObject(object);
 			osw.close();
@@ -83,5 +97,24 @@ public class SaveService {
 
 			return saveData;
 	}
+	
+	
+	public SavedState readNumState(int num1, int num2){
+		try {
+			String name = "SaveN" + Integer.toString(num1) + "L" + Integer.toString(num2)+".ser";
+			fin = context.openFileInput(name);
+			sin = new ObjectInputStream(fin);
+			saveData = (SavedState) sin.readObject();
+			sin.close();
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return saveData;
+}
 }
 

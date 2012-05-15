@@ -32,7 +32,7 @@ public class Menu extends Activity {
         
         
         saver = new SaveService(Menu.this);
-        boolean sss = saver.exists();
+       
         
         Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
         

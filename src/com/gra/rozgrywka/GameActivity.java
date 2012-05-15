@@ -61,8 +61,6 @@ public class GameActivity extends Activity {
         Log.d("GameActivity", "jestem w GameActivity.onCreate");
         
         saver = new SaveService(GameActivity.this);
-        
-        boolean x = saver.exists();
 
         
         Level lvl = new Level(difficulty.tutorial);
