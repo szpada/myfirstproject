@@ -102,8 +102,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 2;
 	        this.speed = 2;
 	        this.dmg = 10;
-	        this.life = 500;
-	        this.maxLife = 500;
+	        this.life = 250;
+	        this.maxLife = 250;
 	        this.range = 20;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -123,8 +123,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 3;
 	        this.speed = 3;
 	        this.dmg = 1;
-	        this.life = 100;
-	        this.maxLife = 100;
+	        this.life = 10;
+	        this.maxLife = 10;
 	        this.range = 4;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -144,8 +144,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 2;
 	        this.speed = 2;
 	        this.dmg = 0;
-	        this.life = 100;
-	        this.maxLife = 100;
+	        this.life = 20;
+	        this.maxLife = 20;
 	        this.range = rnd.nextInt(100) + 300;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -165,8 +165,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 3;
 	        this.speed = 3;
 	        this.dmg = 0;
-	        this.life = 500;
-	        this.maxLife = 500;
+	        this.life = 100;
+	        this.maxLife = 100;
 	        this.range = 300;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -187,8 +187,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 3;
 	        this.speed = 3;
 	        this.dmg = 0;
-	        this.life = 500;
-	        this.maxLife = 500;
+	        this.life = 200;
+	        this.maxLife = 200;
 	        this.range = 500;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -209,8 +209,8 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 3;
 	        this.speed = 3;
 	        this.dmg = 10;
-	        this.life = 100;
-	        this.maxLife = 100;
+	        this.life = 10;
+	        this.maxLife = 10;
 	        this.range = 4;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
@@ -417,7 +417,7 @@ public class EnemySprite implements Serializable {
 			/*
 			 * wersja ze zwerzajacym sie paskiem zycia do srodka
 			 */
-			if(this.maxLife > this.life){
+			if(this.maxLife > this.life && this.life >= 0){
 				canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
 			}
 			if(this.slowed){

@@ -93,7 +93,7 @@ public class AttackSprite implements Serializable {
 	private boolean staticPosition; //czy ma latac po ekranie jak pojebane czy nie
 	private boolean exploding; //ataki ktore dzialaja tylko podczas nacisniecia
 								//false oznacza ze do konca istnienia sprite-a bedzie on zadawal obrazenia
-	
+	private int movement_const; //zmienna dla ataku fireball_shot
 	/*
 	 * konstruktor atakow niestandardowych
 	 */
@@ -289,15 +289,24 @@ public class AttackSprite implements Serializable {
 			//this.y_Destination = y;
 			this.x = 240;
 			this.y = 620;
+			
 			this.speed = 10;
+			float dividing = 0.1f;
+			if(this.y - y != 0){
+				dividing = this.y - y;
+			}
 			if(this.x >= x){
 				this.x_distance = (this.x - x)/((this.y - y)/this.speed);
-				this.degree = - (float)Math.toDegrees(Math.atan((float)(this.x - x)/((float)(this.y - y))));
+				this.degree = - (float)Math.toDegrees(Math.atan((float)(this.x - x)/((dividing))));//this.y - y))));
 			}
 			else{
 				this.x_distance = -(x - this.x)/((this.y - y)/this.speed);
-				this.degree = (float)Math.toDegrees(Math.atan((float)(x - this.x)/((float)(this.y - y))));
+				this.degree = (float)Math.toDegrees(Math.atan((float)(x - this.x)/((dividing))));//this.y - y))));
 			}
+			/*
+			 * stala ktora przechowuje w sobie poczatkowe (currentx - x)/(currenty - y)
+			 */
+			this.movement_const = (x - this.x)/((y - this.y)/this.speed);
 			this.manaCost = fireball_shot_mana;
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.fireballshot);
 			this.columns = 1;
@@ -659,8 +668,10 @@ public class AttackSprite implements Serializable {
 		   attack.remove(this);
 	   }
 	   if(this.attp == attackType.fireball_shot){
-		   this.y += -this.speed;
-		   this.x += -this.x_distance;
+		   this.y -= this.speed;//(this.y_destination - this.currentY)/this.speed;
+	   	   this.x -= this.movement_const;
+//		   this.y += -this.speed;
+//		   this.x += -this.x_distance;
 		   this.rec = new Rect(this.x-this.width/2,this.y - this.height/2,this.x + this.width/2,this.y + this.height/2);
 	   }
 	   life--;

@@ -65,7 +65,7 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
+   private Player player = new Player("pies",0,0,base,200,200,2,500,500, 0, 0);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
          super(context);
@@ -240,7 +240,7 @@ public class GameView extends SurfaceView {
            }
            if(System.currentTimeMillis() - lastClick > coolDown) {
         	   lastClick = System.currentTimeMillis();
-        	   if(!(switchGod.collision((int)(x),(int)(y))) && !(switchAttack.collision((int)(x),(int)(y)))){
+        	   if(!(switchGod.collision((int)(x),(int)(y))) && !(switchAttack.collision((int)(x),(int)(y))) && y < 600){
         		   for(int i = temps.size() - 1; i >= 0; i--){
         			   if(temps.get(i).collision(Math.round(x), Math.round(y))){
         				   noBonus = false;
@@ -355,11 +355,19 @@ public class GameView extends SurfaceView {
        }
        /*
         * zwiekszanie czasowe many(ambrozji) oraz aktualizacja jej poziomu
+        * 
+        * Jesli gracz zdobyl z achievementow lifeReplenishment to rownie tutaj jest aktywowany
         */
        public void updateMana(){
     	   ambrosia.updateStats(player.getCurrentMana());
     	   if(System.currentTimeMillis() - this.manaTime > 1000){
         	   player.addMana();
+        	   /*
+        	    * dodawanie zycia (life replenishment)
+        	    */
+        	   if(player.getLifeReplenishment()){
+        		   player.addLife(1);
+        	   }
         	   manaTime = System.currentTimeMillis();
            }
        }

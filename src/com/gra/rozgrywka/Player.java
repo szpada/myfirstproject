@@ -31,6 +31,9 @@ public class Player
 	private int olympLife;
 	private int olympMaxLife;
 	private int luck = 1;
+	private int kills;
+	
+	private boolean lifeReplenishment = false;
 	
 	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife, int currentGod, int currentAttack){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
@@ -159,5 +162,26 @@ public class Player
 
 	public void setCurrentMana(int currentMana) {
 		this.currentMana = currentMana;
+	}
+	public void addMaxLife(int life){
+		this.olympMaxLife += life;
+	}
+	public void addMaxMana(int mana){
+		this.maxMana += mana;
+	}
+	public void addManaSpeed(int speed){
+		this.manaSpeed += speed;
+	}
+	public void setLifeReplenishment(boolean state){
+		this.lifeReplenishment = state;
+	}
+	public boolean getLifeReplenishment(){
+		return this.lifeReplenishment;
+	}
+	public int getKills(){
+		return this.kills;
+	}
+	public void addUpgPoints(int points){
+		this.points += points;
 	}
 }
