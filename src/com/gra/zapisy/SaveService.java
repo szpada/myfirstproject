@@ -1,4 +1,4 @@
-package com.gra.rozgrywka;
+package com.gra.zapisy;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

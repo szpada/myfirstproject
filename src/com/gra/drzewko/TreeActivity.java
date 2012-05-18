@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gra.rozgrywka;
+package com.gra.drzewko;
 
 import android.app.Activity;
 

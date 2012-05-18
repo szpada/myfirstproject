@@ -1,4 +1,5 @@
-package com.gra.menu;
+package com.gra.achievementy;
+
 
 import com.gra.R;
 import com.gra.achievementy.AchievementView;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Options extends Activity {
+public class AchievementActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {

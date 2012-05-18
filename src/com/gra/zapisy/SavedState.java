@@ -1,8 +1,13 @@
-package com.gra.rozgrywka;
+package com.gra.zapisy;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gra.rozgrywka.Level;
+import com.gra.rozgrywka.Player;
+import com.gra.rozgrywka.Unit;
+import com.gra.rozgrywka.Wave;
 
 /**
  * @author Maciej

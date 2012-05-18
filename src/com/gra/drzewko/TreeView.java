@@ -1,12 +1,14 @@
 /**
  * 
  */
-package com.gra.rozgrywka;
+package com.gra.drzewko;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gra.R;
+import com.gra.rozgrywka.InfoSprite;
+import com.gra.rozgrywka.Player;
 
 import android.content.Context;
 import android.graphics.Bitmap;

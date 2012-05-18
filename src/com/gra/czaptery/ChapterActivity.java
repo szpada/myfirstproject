@@ -1,4 +1,5 @@
-package com.gra.menu;
+package com.gra.czaptery;
+
 
 import com.gra.R;
 import com.gra.achievementy.AchievementView;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Options extends Activity {
+public class ChapterActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,6 @@ public class Options extends Activity {
         //setContentView(R.layout.options);      
         //setContentView(new TreeView(this,100,100));
         //setContentView(new ChapterView(this,100,100));
-        setContentView(new AchievementView(this, 100, 100, player));
+        setContentView(new ChapterView(this, 100, 100));
     }
 }

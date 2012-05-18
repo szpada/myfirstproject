@@ -2,7 +2,7 @@ package com.gra.menu;
 
 import com.gra.R;
 import com.gra.rozgrywka.GameActivity;
-import com.gra.rozgrywka.SaveService;
+import com.gra.zapisy.SaveService;
 
 import android.app.Activity;
 import android.content.Intent;

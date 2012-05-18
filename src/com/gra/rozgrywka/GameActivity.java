@@ -5,6 +5,9 @@ package com.gra.rozgrywka;
 
 import java.io.FileNotFoundException;
 
+import com.gra.zapisy.SaveService;
+import com.gra.zapisy.SavedState;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

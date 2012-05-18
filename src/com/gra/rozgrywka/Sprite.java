@@ -1,6 +1,9 @@
 package com.gra.rozgrywka;
 
+
+
 import com.gra.R;
+import com.gra.drzewko.TreeButtons;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +11,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack, upgrade,tree};
 //enum backgroundType{empty, background, zeus, hephaestus, poseidon,attack, upgrade,tree};
 
 public class Sprite {

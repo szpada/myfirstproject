@@ -1,4 +1,4 @@
-package com.gra.rozgrywka;
+package com.gra.czaptery;
 
 import java.util.ArrayList;
 import java.util.List;

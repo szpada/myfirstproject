@@ -24,8 +24,12 @@
             android:screenOrientation="portrait">
             
         </activity>
-        <activity android:name="com.gra.rozgrywka.TreeActivity"
+        <activity android:name="com.gra.drzewko.TreeActivity"
             android:screenOrientation="portrait"></activity>
+            
+            <activity android:name="com.gra.czaptery.ChapterActivity"
+            android:screenOrientation="portrait"></activity>
+            
         <activity android:name="com.gra.rozgrywka.MenuActivity"
             android:screenOrientation="portrait"></activity>
             
@@ -38,9 +42,8 @@
 		       <activity android:name="com.gra.menu.Options"
 		       android:screenOrientation="portrait">
 		</activity>
-		       <activity android:name="com.gra.menu.Credits"
-		       android:screenOrientation="portrait">
-		</activity>
+		       
+		       
     </application>
 
 </manifest>
