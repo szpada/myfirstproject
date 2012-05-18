@@ -45,7 +45,7 @@
              <activity android:name="com.gra.menu.StartGame"
              android:screenOrientation="portrait">
 		</activity>
-		       <activity android:name="com.gra.menu.Help"
+		       <activity android:name=".aaasmietnik.Help"
 		       android:screenOrientation="portrait">
 		</activity>
 		       <activity android:name="com.gra.menu.Options"
