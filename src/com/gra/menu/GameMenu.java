@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Menu extends Activity {
+public class GameMenu extends Activity {
 	
 	private SaveService saver;
 	
@@ -28,10 +28,10 @@ public class Menu extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
-        setContentView(R.layout.main);
+        setContentView(R.layout.gamemenu);
         
         
-        saver = new SaveService(Menu.this);
+        saver = new SaveService(GameMenu.this);
        
         
         Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
@@ -40,7 +40,7 @@ public class Menu extends Activity {
         	
         	//@Override
 			public void onClick(View v) {
-        		Intent ResumeGameIntent = new Intent(Menu.this,GameActivity.class);
+        		Intent ResumeGameIntent = new Intent(GameMenu.this,GameActivity.class);
         		ResumeGameIntent.putExtra("RESUMING", true);
         		startActivity(ResumeGameIntent);
         	}
@@ -51,7 +51,7 @@ public class Menu extends Activity {
         	
         	//@Override
 			public void onClick(View v) {
-        		Intent StartGameIntent = new Intent(Menu.this,GameActivity.class);
+        		Intent StartGameIntent = new Intent(GameMenu.this,GameActivity.class);
         		StartGameIntent.putExtra("RESUMING", false);
         		startActivity(StartGameIntent);
         	}
@@ -62,7 +62,7 @@ public class Menu extends Activity {
         	
         	//@Override
 			public void onClick(View v) {
-        		Intent OptionsIntent = new Intent(Menu.this,Options.class);
+        		Intent OptionsIntent = new Intent(GameMenu.this,Options.class);
         		startActivity(OptionsIntent);
         	}
         });
