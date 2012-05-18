@@ -9,16 +9,16 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 <TableLayout
 android:id="@+id/widget28"
 android:layout_width="295px"
-android:layout_height="300px"
+android:layout_height="250px"
 android:orientation="vertical"
 android:layout_centerVertical="true"
 android:layout_centerHorizontal="true"
 >
 <Button
-android:id="@+id/ResumeGame"
+android:id="@+id/Play"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:background="@drawable/resume_button"
+android:background="@drawable/play_button"
 >
 </Button>
 <TextView
@@ -28,20 +28,7 @@ android:layout_height="wrap_content"
 
 >
 </TextView>
-<Button
-android:id="@+id/StartGame"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:background="@drawable/startgame_button" 
->
-</Button>
-<TextView
-android:id="@+id/widget35"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
 
->
-</TextView>
 <Button
 android:id="@+id/Options"
 android:layout_width="wrap_content"
@@ -53,7 +40,6 @@ android:background="@drawable/options_button"
 android:id="@+id/widget38"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-
 >
 </TextView>
 

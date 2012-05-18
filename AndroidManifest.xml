@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="com.gra.menu.GameMenu"
+            android:screenOrientation="portrait">
+            
+        </activity>
+        
         <activity android:name="com.gra.rozgrywka.GameActivity"
             android:screenOrientation="portrait">
             
@@ -27,7 +33,10 @@
         <activity android:name="com.gra.drzewko.TreeActivity"
             android:screenOrientation="portrait"></activity>
             
-            <activity android:name="com.gra.czaptery.ChapterActivity"
+            <activity android:name="com.gra.czaptery.ChaptersActivity"
+            android:screenOrientation="portrait"></activity>
+            
+            <activity android:name="com.gra.achievementy.AchievementsActivity"
             android:screenOrientation="portrait"></activity>
             
         <activity android:name="com.gra.rozgrywka.MenuActivity"

@@ -1,6 +1,9 @@
 package com.gra.menu;
 
 import com.gra.R;
+import com.gra.achievementy.AchievementsActivity;
+import com.gra.czaptery.ChaptersActivity;
+import com.gra.drzewko.TreeActivity;
 import com.gra.rozgrywka.GameActivity;
 import com.gra.zapisy.SaveService;
 
@@ -46,35 +49,50 @@ public class GameMenu extends Activity {
         	}
         });
         
-        Button StartGameButton = (Button)findViewById(R.id.StartGame);
-        StartGameButton.setOnClickListener(new OnClickListener() {
-        	
-        	//@Override
-			public void onClick(View v) {
-        		Intent StartGameIntent = new Intent(GameMenu.this,GameActivity.class);
-        		StartGameIntent.putExtra("RESUMING", false);
-        		startActivity(StartGameIntent);
-        	}
-        });
         
-        Button OptionsButton = (Button)findViewById(R.id.Options);
-        OptionsButton.setOnClickListener(new OnClickListener() {
-        	
-        	//@Override
-			public void onClick(View v) {
-        		Intent OptionsIntent = new Intent(GameMenu.this,Options.class);
-        		startActivity(OptionsIntent);
-        	}
-        });
         
-//        Button CreditsButton = (Button)findViewById(R.id.Credits);
-//        CreditsButton.setOnClickListener(new OnClickListener() {
+        
+//        Button StartGameButton = (Button)findViewById(R.id.StartGame);
+//        StartGameButton.setOnClickListener(new OnClickListener() {
 //        	
-//        	@Override
+//        	//@Override
 //			public void onClick(View v) {
-//        		Intent CreditsIntent= new Intent(Menu.this,Credits.class);
-//        		startActivity(CreditsIntent);
+//        		Intent StartGameIntent = new Intent(GameMenu.this,GameActivity.class);
+//        		StartGameIntent.putExtra("RESUMING", false);
+//        		startActivity(StartGameIntent);
 //        	}
 //        });
+        
+        Button ChaptersButton = (Button)findViewById(R.id.StartGame);
+        ChaptersButton.setOnClickListener(new OnClickListener() {
+        	
+        	//@Override
+			public void onClick(View v) {
+        		Intent ChaptersIntent = new Intent(GameMenu.this,ChaptersActivity.class);
+        		startActivity(ChaptersIntent);
+        	}
+        });
+        
+        Button TreeButton = (Button)findViewById(R.id.Tree);
+        TreeButton.setOnClickListener(new OnClickListener() {
+        	
+        	//@Override
+			public void onClick(View v) {
+        		Intent TreeIntent = new Intent(GameMenu.this, TreeActivity.class);
+        		startActivity(TreeIntent);
+        	}
+        });
+        
+        Button AchievementsButton = (Button)findViewById(R.id.Achievements);
+        AchievementsButton.setOnClickListener(new OnClickListener() {
+        	
+        	//@Override
+			public void onClick(View v) {
+        		Intent AchievementsIntent = new Intent(GameMenu.this,AchievementsActivity.class);
+        		startActivity(AchievementsIntent);
+        	}
+        });
+        
+
     }
 }

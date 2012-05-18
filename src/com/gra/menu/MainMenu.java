@@ -34,28 +34,19 @@ public class MainMenu extends Activity {
         saver = new SaveService(MainMenu.this);
        
         
-        Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
+        Button PlayGameButton = (Button)findViewById(R.id.Play);
         
-        ResumeGameButton.setOnClickListener(new OnClickListener() {
+        PlayGameButton.setOnClickListener(new OnClickListener() {
         	
         	//@Override
 			public void onClick(View v) {
-        		Intent ResumeGameIntent = new Intent(MainMenu.this,GameActivity.class);
-        		ResumeGameIntent.putExtra("RESUMING", true);
-        		startActivity(ResumeGameIntent);
+        		Intent PlayGameIntent = new Intent(MainMenu.this,GameMenu.class);
+        		
+        		startActivity(PlayGameIntent);
         	}
         });
         
-        Button StartGameButton = (Button)findViewById(R.id.StartGame);
-        StartGameButton.setOnClickListener(new OnClickListener() {
-        	
-        	//@Override
-			public void onClick(View v) {
-        		Intent StartGameIntent = new Intent(MainMenu.this,GameActivity.class);
-        		StartGameIntent.putExtra("RESUMING", false);
-        		startActivity(StartGameIntent);
-        	}
-        });
+        
         
         Button OptionsButton = (Button)findViewById(R.id.Options);
         OptionsButton.setOnClickListener(new OnClickListener() {
