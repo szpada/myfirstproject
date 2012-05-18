@@ -18,7 +18,7 @@ public class Options extends Activity {
 //    	requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 //                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 //        int base[][] = {
 //        		{1,1,1,1,1},	//ELEKTRYCZNE
 //        		{1,1,1,1,0},	//OGNIEN
@@ -30,6 +30,6 @@ public class Options extends Activity {
 //        //setContentView(R.layout.options);      
 //        //setContentView(new TreeView(this,100,100));
 //        //setContentView(new ChapterView(this,100,100));
-//        setContentView(new AchievementView(this, 100, 100, player));
+        setContentView(R.layout.options);
     }
 }
