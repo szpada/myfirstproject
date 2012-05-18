@@ -27,7 +27,7 @@ public class AchievementsActivity extends Activity {
         		{0,0,0,0,0},	//FIZYCZNE
         		{0,0,0,0,0}		//SMIERC
         };
-        Player player = new Player("pies", 1, 1, base, 200, 200, 2, 500, 500, 0 , 0);
+        Player player = new Player("piesek", 1, 1, base, 200, 200, 2, 500, 500, 0 , 0);
         //setContentView(R.layout.options);      
         //setContentView(new TreeView(this,100,100));
         //setContentView(new ChapterView(this,100,100));
