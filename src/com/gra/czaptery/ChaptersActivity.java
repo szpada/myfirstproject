@@ -36,4 +36,7 @@ public class ChaptersActivity extends Activity {
         finish();
     }
     
+    
+    
+    
 }

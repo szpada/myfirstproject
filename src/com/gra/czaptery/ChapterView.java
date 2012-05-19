@@ -3,10 +3,12 @@ package com.gra.czaptery;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gra.rozgrywka.GameActivity;
 import com.gra.rozgrywka.Level;
 import com.gra.rozgrywka.Level.difficulty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -196,10 +198,30 @@ public class ChapterView extends SurfaceView{
 						 * tzn chyba musi wrocic do chapterActivity przelaczyc si na gameActivity i costam
 						 * ale to Ty ogarniesz bo sie znasz :*
 						 */
-						this.level = levels.get(i).getLevel();	//wybrany przez nas level, dostep przez getLevel()
 						
+						
+						
+						
+						this.level = levels.get(i).getLevel();	//wybrany przez nas level, dostep przez getLevel()
 						this.levels.get(i).setComplited(true);
 						unlockLevels(this.levels.get(i).getId());
+						
+						
+						Context context = getContext();
+						Intent GameIntent = new Intent(context, GameActivity.class);
+						Log.d("ChapterView","stworzony gameact intent");
+						GameIntent.putExtra("LEVEL", this.level);
+						Log.d("ChapterView","wlozony lewel");
+						Intent ChaptersIntent = new Intent(context, ChaptersActivity.class);
+						
+						context.stopService(ChaptersIntent);
+						Log.d("ChapterView","zabity chaptersact");
+						
+						context.startActivity(GameIntent);
+						Log.d("ChapterView","wystartowal gameact");
+						
+						
+						
 					}
 				}
 			}

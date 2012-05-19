@@ -25,6 +25,7 @@ public class GameActivity extends Activity {
 	private GameView gview;
 	private GameLoopThread gthread;
 	private Player gplayer;
+	private Level glevel;
 	private SaveService saver;
 	
 	private boolean resuming = false;
@@ -45,6 +46,12 @@ public class GameActivity extends Activity {
 		if(extras !=null) {
 			Log.d("GameActivity","byly extrasy");
 			resuming = extras.getBoolean("RESUMING");
+			if (!resuming) {
+				Log.d("GameActivity","nie bylo resuma, wczytuje level");
+				glevel = (Level) extras.get("LEVEL");
+				
+			}
+			
 			Log.d("GameActivity",Boolean.toString(resuming));
 		}
 		
