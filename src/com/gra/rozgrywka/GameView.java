@@ -391,7 +391,7 @@ public class GameView extends SurfaceView {
 		   player.dmgToOlymp((int)(dmg * (1 - attack.get(a_number).getAbsorbRate())));
        }
        public void nextWave(int size){
-    	   if(size == 0 && this.current_wave < this.level.waveSize()-1){
+    	   if(size == 0 && this.current_wave < this.level.waveSize()){
     		   Log.d("waves", "enemy size = " + size);
     		   Log.d("waves", "wave  size = " + this.level.waveSize());
     		   List<Unit> units = new ArrayList<Unit>();

@@ -3,6 +3,8 @@ package com.gra.czaptery;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gra.rozgrywka.Level;
+import com.gra.rozgrywka.Level.difficulty;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -35,6 +37,8 @@ public class ChapterView extends SurfaceView{
 	
 	private int currentChapter = 0;	//zmienna przechowujaca numer rozdzialu w ktorym obecnie sie znajdujemy
 	private LevelStats stats;
+	
+	private Level level; 	//level wybrany przez gracza
 	
 	public ChapterView(Context context,double w_factor, double h_factor) {
 		super(context);
@@ -112,6 +116,10 @@ public class ChapterView extends SurfaceView{
 			LevelChain Ltutorial1 = new LevelChain(this,240,140,true,true,landscape.tutorial,	0,	 1,	 -1);
 			LevelChain Ltutorial2 = new LevelChain(this,240,280,false,true,landscape.tutorial,	1,	 2,	  0);
 			LevelChain Ltutorial3 = new LevelChain(this,240,420,false,false,landscape.tutorial,	2,	-1,	  1);
+			
+			Ltutorial1.setLevel(new Level(difficulty.tutorial1));
+			Ltutorial2.setLevel(new Level(difficulty.tutorial2));
+			Ltutorial3.setLevel(new Level(difficulty.tutorial3));
 			/*
 			 * rozdzial NUMER I
 			 */
@@ -124,6 +132,16 @@ public class ChapterView extends SurfaceView{
 			LevelChain LI6 = new LevelChain(this,320,420,false,false,landscape.village,5,6,4);
 			
 			LevelChain LI7 = new LevelChain(this,240,560,false,false,landscape.village,6,-1,5,2);
+			
+			LI1.setLevel(new Level(difficulty.c1l1));
+			LI2.setLevel(new Level(difficulty.c1l2));
+			LI3.setLevel(new Level(difficulty.c1l6));
+			
+			LI4.setLevel(new Level(difficulty.c1l3));
+			LI5.setLevel(new Level(difficulty.c1l4));
+			LI6.setLevel(new Level(difficulty.c1l5));
+			
+			LI7.setLevel(new Level(difficulty.c1l7));
 		/*
 		 * tworzenie rozdzialow
 		 */
@@ -172,6 +190,14 @@ public class ChapterView extends SurfaceView{
 				if(this.levels.get(i).checkCollision((int)x, (int)y)){
 					showStats(this.levels.get(i));
 					if(this.levels.get(i).isActive()){
+						/*
+						 * TUTAJ MA SIE ODPALIC GAMEVIEW Z WYBRANYM PLAYEREM I LEVELEM 
+						 * 
+						 * tzn chyba musi wrocic do chapterActivity przelaczyc si na gameActivity i costam
+						 * ale to Ty ogarniesz bo sie znasz :*
+						 */
+						this.level = levels.get(i).getLevel();	//wybrany przez nas level, dostep przez getLevel()
+						
 						this.levels.get(i).setComplited(true);
 						unlockLevels(this.levels.get(i).getId());
 					}
@@ -267,5 +293,8 @@ public class ChapterView extends SurfaceView{
 		this.stats.setComplited(lvl.isComplited());
 		this.stats.setLand(lvl.getLand());
 		this.stats.setStars(lvl.getStars());
+	}
+	public Level getLevel(){
+		return this.level;
 	}
 }

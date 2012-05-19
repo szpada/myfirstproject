@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-enum difficulty{tutorial, basic};
 enum army{knight_squad};
 
 public class Wave implements Serializable{

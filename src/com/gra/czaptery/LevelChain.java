@@ -1,6 +1,7 @@
 package com.gra.czaptery;
 
 import com.gra.R;
+import com.gra.rozgrywka.Level;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,7 +46,9 @@ public class LevelChain {
 	private int height;
 	private Bitmap bmp;
 	
-	private int stars = 1;			//ile gwiazdek dostalismy za ukonczenie tego levelu
+	private int stars = 1;		//ile gwiazdek dostalismy za ukonczenie tego levelu
+	
+	private Level level;		//level ktory reprezentuje dany obiekt
 	
 	public LevelChain(ChapterView view,int x, int y,boolean complited, boolean active, landscape land, int id, int child_id, int...parents_id){
 		this.view = view;
@@ -140,5 +143,11 @@ public class LevelChain {
 	}
 	public landscape getLand(){
 		return this.land;
+	}
+	public void setLevel(Level level){
+		this.level = level;
+	}
+	public Level getLevel(){
+		return this.level;
 	}
 }

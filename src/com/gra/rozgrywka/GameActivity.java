@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gra.rozgrywka.Level.difficulty;
 import com.gra.zapisy.SaveService;
 import com.gra.zapisy.SavedState;
 
@@ -62,7 +63,7 @@ public class GameActivity extends Activity {
         saver = new SaveService(GameActivity.this);
 
         
-        Level lvl = new Level(difficulty.tutorial);
+        Level lvl = new Level(difficulty.tutorial1);
         
         
         gview = new GameView(this, w_factor, h_factor, lvl);
@@ -178,10 +179,7 @@ public class GameActivity extends Activity {
 		p.setWaves(gview.getWaves());
 		p.setCurrent_wave(gview.getCurrent_wave());
 		saver.save(p);
-		
 	}
-	
 
-	
 }
 
