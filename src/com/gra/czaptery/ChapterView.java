@@ -170,68 +170,74 @@ public class ChapterView extends SurfaceView{
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		int coolDown = 300;
-		float x = event.getX();
-		float y = event.getY();
+		int eventaction = event.getAction();
+		
+		if (eventaction == MotionEvent.ACTION_UP) {
+			int coolDown = 300;
+			float x = event.getX();
+			float y = event.getY();
+			Log.d("ChapterView", "byl klik: " + Float.toString(x) + "  "
+					+ Float.toString(y));
 			/*
-		 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
-		 */
-		//x = x / this.w_factor;
-		//y = y / this.h_factor;
-		if(System.currentTimeMillis() - lastClick > coolDown) {
-			lastClick = System.currentTimeMillis();
-			for(int i = 0; i < this.switchers.size(); i++){
-				if(this.switchers.get(i).checkCollision((int)x, (int)y)){
-					this.currentChapter += this.switchers.get(i).getDirection();
-					if(this.currentChapter < 0){
-						this.currentChapter = this.chapters.size()-1;
+			 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
+			 */
+			//x = x / this.w_factor;
+			//y = y / this.h_factor;
+			if (System.currentTimeMillis() - lastClick > coolDown) {
+				lastClick = System.currentTimeMillis();
+				for (int i = 0; i < this.switchers.size(); i++) {
+					if (this.switchers.get(i).checkCollision((int) x, (int) y)) {
+						this.currentChapter += this.switchers.get(i)
+								.getDirection();
+						if (this.currentChapter < 0) {
+							this.currentChapter = this.chapters.size() - 1;
+						} else if (this.currentChapter > this.chapters.size() - 1) {
+							this.currentChapter = 0;
+						}
+						setCurrentChapter(this.currentChapter);
 					}
-					else if(this.currentChapter > this.chapters.size()-1){
-						this.currentChapter = 0;
-					}
-					setCurrentChapter(this.currentChapter);
 				}
-			}
-			for(int i = 0; i < this.levels.size(); i++){
-				if(this.levels.get(i).checkCollision((int)x, (int)y)){
-					showStats(this.levels.get(i));
-					if(this.levels.get(i).isActive()){
-						/*
-						 * TUTAJ MA SIE ODPALIC GAMEVIEW Z WYBRANYM PLAYEREM I LEVELEM 
-						 * 
-						 * tzn chyba musi wrocic do chapterActivity przelaczyc si na gameActivity i costam
-						 * ale to Ty ogarniesz bo sie znasz :*
-						 */
-						
-						
-						
-						
-						this.level = levels.get(i).getLevel();	//wybrany przez nas level, dostep przez getLevel()
-						this.levels.get(i).setComplited(true);
-						unlockLevels(this.levels.get(i).getId());
-						
-						
-						Context context = getContext();
-						Intent GameIntent = new Intent(context, GameActivity.class);
-						Log.d("ChapterView","stworzony gameact intent");
-						GameIntent.putExtra("LEVEL", this.level);
-						Log.d("ChapterView","wlozony lewel");
-						Intent ChaptersIntent = new Intent(context, ChaptersActivity.class);
-						
-						context.stopService(ChaptersIntent);
-						Log.d("ChapterView","zabity chaptersact");
-						
-						context.startActivity(GameIntent);
-						Log.d("ChapterView","wystartowal gameact");
-						
-						
-						
+				for (int i = 0; i < this.levels.size(); i++) {
+					if (this.levels.get(i).checkCollision((int) x, (int) y)) {
+						showStats(this.levels.get(i));
+						if (this.levels.get(i).isActive()) {
+							/*
+							 * TUTAJ MA ODPALA GAMEVIEW Z WYBRANYM PLAYEREM I LEVELEM 
+							 * 
+							 * 
+							 */
+							Log.d("ChapterView",
+									"iteracja: " + Integer.toString(i));
+							this.level = levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
+							this.levels.get(i).setComplited(true);
+							//						unlockLevels(this.levels.get(i).getId());
+
+							Context context = getContext();
+							Intent GameIntent = new Intent(context,
+									GameActivity.class);
+							Log.d("ChapterView", "stworzony gameact intent");
+							GameIntent.putExtra("LEVEL", this.level);
+							Log.d("ChapterView", "wlozony lewel");
+							Intent ChaptersIntent = new Intent(context,
+									ChaptersActivity.class);
+
+							context.startActivity(GameIntent);
+							Log.d("ChapterView", "wystartowal gameact");
+
+							context.stopService(ChaptersIntent);
+							Log.d("ChapterView", "zabity chaptersact");
+							break;
+
+						}
 					}
 				}
 			}
 		}
 		return true;
 	}
+	
+	
+	
 	public void setCurrentChapter(int chapter){
 		levels = this.chapters.get(chapter).getLevels();
 	}
