@@ -115,9 +115,9 @@ public class ChapterView extends SurfaceView{
 			/*
 			 * rozdzial TUTORIAL
 			 */																				//ID,child_ID,parent IDs
-			LevelChain Ltutorial1 = new LevelChain(this,240,140,true,true,landscape.tutorial,	0,	 1,	 -1);
-			LevelChain Ltutorial2 = new LevelChain(this,240,280,false,true,landscape.tutorial,	1,	 2,	  0);
-			LevelChain Ltutorial3 = new LevelChain(this,240,420,false,false,landscape.tutorial,	2,	-1,	  1);
+			LevelChain Ltutorial1 = new LevelChain(this,0,240,140,true,true,landscape.tutorial,	0,	 1,	 -1);
+			LevelChain Ltutorial2 = new LevelChain(this,0,240,280,false,true,landscape.tutorial,	1,	 2,	  0);
+			LevelChain Ltutorial3 = new LevelChain(this,0,240,420,false,false,landscape.tutorial,	2,	-1,	  1);
 			
 			Ltutorial1.setLevel(new Level(difficulty.tutorial1));
 			Ltutorial2.setLevel(new Level(difficulty.tutorial2));
@@ -125,15 +125,15 @@ public class ChapterView extends SurfaceView{
 			/*
 			 * rozdzial NUMER I
 			 */
-			LevelChain LI1 = new LevelChain(this,100,140,true,true,landscape.village,0,1,-1);
-			LevelChain LI2 = new LevelChain(this,100,280,false,true,landscape.village,1,2,0);
-			LevelChain LI3 = new LevelChain(this,100,420,false,false,landscape.village,2,6,1);
+			LevelChain LI1 = new LevelChain(this,1,100,140,true,true,landscape.village,0,1,-1);
+			LevelChain LI2 = new LevelChain(this,1,100,280,false,true,landscape.village,1,2,0);
+			LevelChain LI3 = new LevelChain(this,1,100,420,false,false,landscape.village,2,6,1);
 			
-			LevelChain LI4 = new LevelChain(this,320,140,true,true,landscape.village,3,4,-1);
-			LevelChain LI5 = new LevelChain(this,320,280,false,true,landscape.village,4,5,3);
-			LevelChain LI6 = new LevelChain(this,320,420,false,false,landscape.village,5,6,4);
+			LevelChain LI4 = new LevelChain(this,1,320,140,true,true,landscape.village,3,4,-1);
+			LevelChain LI5 = new LevelChain(this,1,320,280,false,true,landscape.village,4,5,3);
+			LevelChain LI6 = new LevelChain(this,1,320,420,false,false,landscape.village,5,6,4);
 			
-			LevelChain LI7 = new LevelChain(this,240,560,false,false,landscape.village,6,-1,5,2);
+			LevelChain LI7 = new LevelChain(this,1,240,560,false,false,landscape.village,6,-1,5,2);
 			
 			LI1.setLevel(new Level(difficulty.c1l1));
 			LI2.setLevel(new Level(difficulty.c1l2));

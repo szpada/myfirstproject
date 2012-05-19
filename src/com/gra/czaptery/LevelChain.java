@@ -50,7 +50,7 @@ public class LevelChain {
 	
 	private Level level;		//level ktory reprezentuje dany obiekt
 	
-	public LevelChain(ChapterView view,int x, int y,boolean complited, boolean active, landscape land, int id, int child_id, int...parents_id){
+	public LevelChain(ChapterView view,int chapter, int x, int y,boolean complited, boolean active, landscape land, int id, int child_id, int...parents_id){
 		this.view = view;
 		this.x = x;
 		this.y = y;
@@ -59,6 +59,7 @@ public class LevelChain {
 		this.child_id = child_id;
 		this.complited = complited;
 		this.active = active;
+		this.chapter = chapter;
 		parents = new int[parents_id.length];
 		for(int i:parents){
 			parents[i] = parents_id[i];

@@ -1,6 +1,11 @@
 package com.gra.rozgrywka;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gra.czaptery.LevelHolder;
+import com.gra.czaptery.LevelUnit;
 
 import android.util.Log;
 
@@ -34,6 +39,8 @@ public class Player
 	private int kills;
 	
 	private boolean lifeReplenishment = false;
+	
+	private List<LevelUnit> levels = new ArrayList<LevelUnit>();
 	
 	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife, int currentGod, int currentAttack){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
@@ -183,5 +190,19 @@ public class Player
 	}
 	public void addUpgPoints(int points){
 		this.points += points;
+	}
+	public List<LevelUnit> getLevels(){
+		return this.levels;
+	}
+	public void updateLevels(List<LevelHolder> chapters){
+		for(int i = 0; i < chapters.size(); i++){
+			for(int j = 0; j < chapters.get(i).getLevels().size(); j++){
+				this.levels.add(new LevelUnit(chapters.get(i).getLevels().get(j).getChapter(),
+						chapters.get(i).getLevels().get(j).getId(),
+						chapters.get(i).getLevels().get(j).getStars(),
+						chapters.get(i).getLevels().get(j).isActive()
+						));
+			}
+		}
 	}
 }
