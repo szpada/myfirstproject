@@ -1,16 +1,13 @@
 package com.gra.achievementy;
 
 
-import com.gra.R;
-import com.gra.achievementy.AchievementView;
-import com.gra.czaptery.ChapterView;
-import com.gra.drzewko.TreeView;
-import com.gra.rozgrywka.Player;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.gra.rozgrywka.Player;
 
 public class AchievementsActivity extends Activity {
     /** Called when the activity is first created. */
@@ -33,4 +30,12 @@ public class AchievementsActivity extends Activity {
         //setContentView(new ChapterView(this,100,100));
         setContentView(new AchievementView(this, 100, 100, player));
     }
+    
+    protected void onStop() 
+    {
+        super.onStop();
+        Log.d("AchievementsActivity", "MYonStop is called");
+        finish();
+    }
+    
 }

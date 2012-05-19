@@ -16,6 +16,10 @@ import com.gra.rozgrywka.Wave;
 public class SavedState 
 	implements Serializable
 	{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7649660183221174871L;
 	private List<Unit> enemies = new ArrayList<Unit>();
 	private List<Unit> attack = new ArrayList<Unit>();
 	private List<Unit> temps = new ArrayList<Unit>();

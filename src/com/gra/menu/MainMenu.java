@@ -1,21 +1,19 @@
 package com.gra.menu;
 
-import com.gra.R;
-import com.gra.rozgrywka.GameActivity;
-import com.gra.zapisy.SaveService;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.gra.R;
 
 public class MainMenu extends Activity {
 	
-	private SaveService saver;
+//	private SaveService saver;
 	
 	
 	
@@ -31,7 +29,7 @@ public class MainMenu extends Activity {
         setContentView(R.layout.mainmenu);
         
         
-        saver = new SaveService(MainMenu.this);
+//        saver = new SaveService(MainMenu.this);
        
         
         Button PlayGameButton = (Button)findViewById(R.id.Play);

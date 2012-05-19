@@ -3,20 +3,16 @@
  */
 package com.gra.rozgrywka;
 
-import java.io.FileNotFoundException;
-
-import com.gra.zapisy.SaveService;
-import com.gra.zapisy.SavedState;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.gra.zapisy.SaveService;
+import com.gra.zapisy.SavedState;
 
 /**
  * @author Maciej
@@ -61,7 +57,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         //mPrefs = this.getPreferences(MODE_PRIVATE); 
-        Log.d("GameActivity", "jestem w GameActivity.onCreate");
+        Log.d("GameActivity", "!jestem w GameActivity.onCreate");
         
         saver = new SaveService(GameActivity.this);
 
@@ -72,14 +68,16 @@ public class GameActivity extends Activity {
         gview = new GameView(this, w_factor, h_factor, lvl);
         
         Log.d("GameActivity", "new gameview");
-        gthread = gview.getGameLoopThread();
-        Log.d("GameActivity", "get thread");
+//        gthread = gview.getGameLoopThread();
+//        Log.d("GameActivity", "get thread");
         
 //        tymczasowo to usuwamy zeby unitsy sie nie ladowaly podwojnie
 //        if (resuming) { //only if the game is beeing resumed.
 //        	readLastSavedState();
 //        }
-        Log.d("GameActivity", "read last saved state");
+        
+//        Log.d("GameActivity", "read last saved state");
+        
         
 //        if (savedInstanceState != null) {
 //        	Log.d("GameActivity", "jestem w GameActivity.niepustySIS");
@@ -122,7 +120,7 @@ public class GameActivity extends Activity {
     
     protected void onResume() {
         super.onResume();
-        Log.d("GameActivity", "jestem w GameActivity.onResume()");
+        Log.d("GameActivity", "!jestem w GameActivity.onResume()");
         
         if (resuming) { //only if the game is beeing resumed.
         	readLastSavedState();
