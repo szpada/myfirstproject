@@ -3,10 +3,6 @@ package com.gra.czaptery;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gra.rozgrywka.GameActivity;
-import com.gra.rozgrywka.Level;
-import com.gra.rozgrywka.Level.difficulty;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -17,6 +13,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.gra.rozgrywka.GameActivity;
+import com.gra.rozgrywka.Level;
+import com.gra.rozgrywka.Level.difficulty;
+import com.gra.rozgrywka.Player;
 
 	/**
 	 * @author Szpada
@@ -40,15 +41,18 @@ public class ChapterView extends SurfaceView{
 	private int currentChapter = 0;	//zmienna przechowujaca numer rozdzialu w ktorym obecnie sie znajdujemy
 	private LevelStats stats;
 	
+	
+	private Player player;	//player decycuje o tym ktore levele sa dostepne do przejscia
 	private Level level; 	//level wybrany przez gracza
 	
-	public ChapterView(Context context,double w_factor, double h_factor) {
+	public ChapterView(Context context,double w_factor, double h_factor, Player pplayer) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
 //        this.h_factor = (float)h_factor;
 // 	   	this.w_factor = (float)w_factor;
+		this.player = pplayer;
         chapterLoopThread = new ChapterLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override

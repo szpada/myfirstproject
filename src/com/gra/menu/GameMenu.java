@@ -6,6 +6,7 @@ import com.gra.czaptery.ChaptersActivity;
 import com.gra.drzewko.TreeActivity;
 import com.gra.rozgrywka.GameActivity;
 import com.gra.zapisy.SaveService;
+import com.gra.zapisy.SavedState;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +20,7 @@ import android.widget.Button;
 public class GameMenu extends Activity {
 	
 	private SaveService saver;
-	
+	private SavedState ss = null;
 	
 	
     /** Called when the activity is first created. */
@@ -35,7 +36,8 @@ public class GameMenu extends Activity {
         
         
         saver = new SaveService(GameMenu.this);
-       
+        ss = saver.readLastState();
+        
         
         Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
         
@@ -69,6 +71,9 @@ public class GameMenu extends Activity {
         	//@Override
 			public void onClick(View v) {
         		Intent ChaptersIntent = new Intent(GameMenu.this,ChaptersActivity.class);
+        		if (ss!=null) {
+        			ChaptersIntent.putExtra("PLAYER", ss.getPlayer());
+        		}
         		startActivity(ChaptersIntent);
         	}
         });

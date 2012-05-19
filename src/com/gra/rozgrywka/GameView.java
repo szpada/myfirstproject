@@ -99,7 +99,7 @@ public class GameView extends SurfaceView {
 					} catch (IllegalThreadStateException e) {
 						Log.d("GameView", "bylo thread exception");
 						e.printStackTrace();
-						throw e;
+//						throw e; // wykomentowane nie wiem czemu
 					}
                        
                 }
