@@ -194,13 +194,28 @@ public class TreeButtons {
 		return this.attackNumber;
 	}
 	public int getManaCost(){
-		return this.mana_cost + this.mana_upg * this.upgrade;
+		if(this.upgrade == 1 || this.upgrade == 0){
+			return this.mana_cost;
+		}
+		else{
+			return this.mana_cost + this.mana_upg * this.upgrade-1;
+		}
 	}
 	public int getRange(){
-		return this.range + this.range_upg * this.upgrade;
+		if(this.upgrade == 1 || this.upgrade == 0){
+			return this.range;
+		}
+		else{
+			return this.range + this.range_upg * this.upgrade-1;
+		}
 	}
 	public int getDmg(){
-		return this.dmg + this.dmg_upg * this.upgrade;
+		if(this.upgrade == 1 || this.upgrade == 0){
+			return this.dmg;
+		}
+		else{
+			return this.dmg + this.dmg_upg * this.upgrade-1;
+		}
 	}
 	public void collisionFriendly(boolean state){
 		this.enabled = state;

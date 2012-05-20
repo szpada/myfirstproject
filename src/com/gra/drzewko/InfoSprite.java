@@ -1,7 +1,6 @@
-package com.gra.rozgrywka;
+package com.gra.drzewko;
 
 import com.gra.R;
-import com.gra.drzewko.TreeView;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

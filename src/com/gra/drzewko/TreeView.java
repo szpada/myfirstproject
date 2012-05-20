@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.gra.rozgrywka.InfoSprite;
 import com.gra.rozgrywka.Player;
 
 /**
@@ -123,7 +122,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
     		{-2,-2,-2,-2,-2},	//FIZYCZNE
     		{-2,-2,-2,-2,-2}		//SMIERC
     };
-	private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
+	//private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
 	/**
 	 * @param context
 	 */
