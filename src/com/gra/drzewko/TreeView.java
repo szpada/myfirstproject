@@ -126,13 +126,20 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	/**
 	 * @param context
 	 */
+	
+	
+	/*
+	 * odkomentowac jak bedzie wszystko dzialac - przekazywac tablice atakow a nie calego playera!
+	 */
+	//public TreeView(Context context,double w_factor, double h_factor, int[][] base) {
 	public TreeView(Context context,double w_factor, double h_factor) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-//        this.h_factor = (float)h_factor;
+//      this.h_factor = (float)h_factor;
 // 	   	this.w_factor = (float)w_factor;
+//		this.base = base;
         treeLoopThread = new TreeLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
@@ -540,5 +547,8 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 			}
 			return true;
 		}
+	}
+	public int[][] getArray(){
+		return this.base;
 	}
 }
