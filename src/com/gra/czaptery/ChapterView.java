@@ -171,7 +171,6 @@ public class ChapterView extends SurfaceView{
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		int eventaction = event.getAction();
-		
 		if (eventaction == MotionEvent.ACTION_UP) {
 			int coolDown = 300;
 			float x = event.getX();
@@ -207,8 +206,8 @@ public class ChapterView extends SurfaceView{
 							 * 
 							 */
 							Log.d("ChapterView",
-									"iteracja: " + Integer.toString(i));
-							this.level = levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
+									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
+							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
 							this.levels.get(i).setComplited(true);
 							//						unlockLevels(this.levels.get(i).getId());
 

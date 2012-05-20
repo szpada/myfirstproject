@@ -22,6 +22,7 @@ public class Level implements Serializable{
 		case tutorial1:
 			// FALA #1
 			waves.add(new Wave(enemyType.knight));
+			break;
 		case tutorial2:
 			// FALA #1
 			waves.add(new Wave(enemyType.knight,enemyType.knight));
