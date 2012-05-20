@@ -5,6 +5,7 @@ package com.gra.drzewko;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,15 +28,18 @@ public class TreeActivity extends Activity {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
     super.onCreate(savedInstanceState);
-//    int base[][] = {
-//    		{1,1,1,1,1},	//ELEKTRYCZNE
-//    		{1,1,1,1,0},	//OGNIEN
-//    		{1,1,0,0,0},	//WODA
-//    		{0,0,0,0,0},	//FIZYCZNE
-//    		{0,0,0,0,0}		//SMIERC
-//    };
+
    Log.d("TreeAct","ustawiam view...");
-    setContentView(new TreeView(this, 100, 100));
+   
+   DisplayMetrics displaymetrics = new DisplayMetrics(); 
+   getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
+   int height = displaymetrics.heightPixels; 
+   int width = displaymetrics.widthPixels;
+   double h_factor = height/800.0;
+   double w_factor = width/480.0;
+   
+   
+    setContentView(new TreeView(this, w_factor, h_factor));
     Log.d("TreeAct","view ustawiony");
     
 	}

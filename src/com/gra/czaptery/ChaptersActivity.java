@@ -5,6 +5,7 @@ import com.gra.rozgrywka.Player;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,7 +24,15 @@ public class ChaptersActivity extends Activity {
 		if(extras !=null) {
 			gplayer = (Player) extras.get("PLAYER");
 		}
-        setContentView(new ChapterView(this, 100, 100, gplayer));
+		
+		DisplayMetrics displaymetrics = new DisplayMetrics(); 
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
+        int height = displaymetrics.heightPixels; 
+        int width = displaymetrics.widthPixels;
+        double h_factor = height/800.0;
+        double w_factor = width/480.0;
+		
+        setContentView(new ChapterView(this, h_factor, w_factor, gplayer));
     }
     
     protected void onStop() 
