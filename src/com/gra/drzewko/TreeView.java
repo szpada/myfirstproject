@@ -161,8 +161,9 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	}
 	public void createAttackFirstTime(int god){
 		switch(god){
-		case 0:
+		case 0:														//mana dmg range
 			shock = 				new TreeButtons(this,115,525,0,0,	2,1,1);
+								//dmg range mana
 			shock.setUpgradeFactors(1, 0, 0);
 			
 			multi_shock = 			new TreeButtons(this,115,400,1,0,	4,3,3);
@@ -188,7 +189,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 			firewall = 				new TreeButtons(this,185,400,2,1,	1,1,1);
 			firewall.setUpgradeFactors(1, 0, 0);
 			
-			meteor =				new TreeButtons(this,115,270,3,1,	6,8,4);
+			meteor =				new TreeButtons(this,115,270,3,1,	1,2,4);
 			meteor.setUpgradeFactors(4, 3, 0);
 			this.hephaestus_first_time = false;
 			break;

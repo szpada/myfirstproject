@@ -103,8 +103,11 @@ public class InfoSprite {
         	 */
 	        srcY = this.cost_height;
 	        for(int i = 0; i<this.range; i++){
-	        	src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
-	        	dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y + this.cost_height, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height*2);
+	        	src = new Rect(srcX + (i%4) * this.cost_width/4, srcY, srcX + this.cost_width - (3-(i%4)) * this.cost_width/4, srcY + this.cost_height);
+	        	dst = new Rect(this.cost_x + i * this.cost_width/4, this.cost_y + this.cost_height, this.cost_x + this.cost_width/4 + i * this.cost_width/4, this.cost_y + this.cost_height * 2);
+//	        	
+//	        	src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
+//	        	dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y + this.cost_height, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height*2);
 	        	canvas.drawBitmap(this.costBitmap, src, dst, null);
 	        }
 	        /*
@@ -112,8 +115,11 @@ public class InfoSprite {
         	 */
 	        srcY = this.cost_height * 2;
 	        for(int i = 0; i<this.mana_cost; i++){
-	        	src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
-	        	dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y + this.cost_height*2, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height*3);
+	        	src = new Rect(srcX + (i%4) * this.cost_width/4, srcY, srcX + this.cost_width - (3-(i%4)) * this.cost_width/4, srcY + this.cost_height);
+	        	dst = new Rect(this.cost_x + i * this.cost_width/4, this.cost_y + this.cost_height * 2, this.cost_x + this.cost_width/4 + i * this.cost_width/4, this.cost_y + this.cost_height*3);
+	        	
+//	        	src = new Rect(srcX + (i%2) * this.cost_width/2, srcY, srcX + this.cost_width - ((1+i)%2) * this.cost_width/2, srcY + this.cost_height);
+//	        	dst = new Rect(this.cost_x + i * this.cost_width/2, this.cost_y + this.cost_height*2, this.cost_x + this.cost_width/2 + i * this.cost_width/2, this.cost_y + this.cost_height*3);
 	        	canvas.drawBitmap(this.costBitmap, src, dst, null);
 	        }
 	}
