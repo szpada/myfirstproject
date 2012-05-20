@@ -70,7 +70,7 @@ public class GameActivity extends Activity {
         saver = new SaveService(GameActivity.this);
 
         
-        Level lvl = new Level(difficulty.tutorial1);
+        Level lvl = new Level(difficulty.tutorial3);
         
         
         gview = new GameView(this, w_factor, h_factor, lvl);

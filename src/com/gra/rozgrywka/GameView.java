@@ -31,7 +31,8 @@ import android.view.SurfaceView;
  * glowny widok - plansza gry i wszystko co sie na niej dzieje
  */
 public class GameView extends SurfaceView {
-	
+	private long start_time; //czas rozpoczecia levelu, po przejsciu levelu sprawdzamy ile czasu zajelo graczowi jego przejscie
+	private int stars = 0; 		//gwiazdki za ukonczenie levelu
 	private float w_factor;
 	private float h_factor;
 	private long lastClick;
@@ -53,6 +54,8 @@ public class GameView extends SurfaceView {
     private Sprite background;
     private Sprite ambrosia;
 
+    private GameFinished finished_screen = null;	//ekran konca gry (po przejsciu lub zdechnieciu)
+    
     private int lastGod;
     private int lastAttack;
     private int base[][] = {
@@ -65,7 +68,7 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,200,200,2,500,500, 0, 0);
+   private Player player = new Player("pies",0,0,base,200,200,2,10,10, 0, 0);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
          super(context);
@@ -115,9 +118,10 @@ public class GameView extends SurfaceView {
 
 
 	private void createSprites() {
-    	   /*
-    	    * Tworzenie wszystkich bitmap i wrogów
-    	    */
+		this.start_time = System.currentTimeMillis();	//poczatek rozgrywki
+	   /*
+	    * Tworzenie wszystkich bitmap i wrogów
+	    */
 //    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
 //    	   enemies.add(createEnemy(enemyType.balista,10,10));
 //    	   enemies.add(createEnemy(enemyType.catapult,200,10));
@@ -126,18 +130,18 @@ public class GameView extends SurfaceView {
 //           enemies.add(createEnemy(enemyType.dragon,240,10));
 //    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
 //           temps.add(createTemp(240,400,bonusType.mana_potion));
-           
-           this.nextWave(1);	//dodaj pierwsza fale;
-           
-           switchGod = new Switcher(this.player,this,true,16,624);
-           switchAttack = new Switcher(this.player,this,false,333,624);
-           Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel3);
-           panel = new Sprite(this,-1,600,bmp,"panel",0);
-           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-           background = new Sprite(this,-1,-1,bmp,"background",0);
-           bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
-           ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
-           
+       
+       this.nextWave(1);	//dodaj pierwsza fale;
+       
+       switchGod = new Switcher(this.player,this,true,16,624);
+       switchAttack = new Switcher(this.player,this,false,333,624);
+       Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.panel3);
+       panel = new Sprite(this,-1,600,bmp,"panel",0);
+       bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+       background = new Sprite(this,-1,-1,bmp,"background",0);
+       bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
+       ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
+       
 //           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
 //           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.catapult_stone));
        }
@@ -217,6 +221,12 @@ public class GameView extends SurfaceView {
            executeDamage();
            updateMana();
            /*
+            * screen zakonczenia levelu
+            */
+           if(finished_screen != null){
+        	   finished_screen.onDraw(canvas);
+           }
+           /*
             * Obecne zycie i mana
             * (do usuniecia gdy nie gra bedzie gotowa)
             */
@@ -239,60 +249,67 @@ public class GameView extends SurfaceView {
     		   coolDown = 300;
            }
            if(System.currentTimeMillis() - lastClick > coolDown) {
-        	   lastClick = System.currentTimeMillis();
-        	   if(!(switchGod.collision((int)(x),(int)(y))) && !(switchAttack.collision((int)(x),(int)(y))) && y < 600){
-        		   for(int i = temps.size() - 1; i >= 0; i--){
-        			   if(temps.get(i).collision(Math.round(x), Math.round(y))){
-        				   noBonus = false;
-        				   switch(temps.get(i).getBonusType()){
-        				   case mana_potion:
-        					   player.addMana(temps.get(i).getAmount());
-        					   break;
-        				   case repair:
-        					   player.addLife(temps.get(i).getAmount());
-        					   break;
-        				   }
-        			   }
-        		   }
-        		   if(noBonus){
-	        		   synchronized (getHolder()) {
-	        			   if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder && player.getAttackType() == attackType.thunder && System.currentTimeMillis() - lastClick < attack.get(attack.size()-1).getCoolDown() * 4){
-	        				   if(attack.get(attack.size()-1).getPower() < 50){
-	        					   if(player.manaForAttack(1)){
-	        						   attack.get(attack.size()-1).setPower(attack.get(attack.size()-1).getPower() + 1);
-	        					   }
+        	   if(this.finished_screen == null){
+	        	   lastClick = System.currentTimeMillis();
+	        	   if(!(switchGod.collision((int)(x),(int)(y))) && !(switchAttack.collision((int)(x),(int)(y))) && y < 600){
+	        		   for(int i = temps.size() - 1; i >= 0; i--){
+	        			   if(temps.get(i).collision(Math.round(x), Math.round(y))){
+	        				   noBonus = false;
+	        				   switch(temps.get(i).getBonusType()){
+	        				   case mana_potion:
+	        					   player.addMana(temps.get(i).getAmount());
+	        					   break;
+	        				   case repair:
+	        					   player.addLife(temps.get(i).getAmount());
+	        					   break;
 	        				   }
 	        			   }
-	        			   else{
-		        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
-		        			   if(player.manaForAttack(temp.getManaCost())){
-		        				   attack.add(temp);
-			        			   this.lastAttack = player.getCurrentAttack();
-			        			   this.lastGod = player.getCurrentGod();
-			        			   for(int i = enemyAttacks.size()-1; i >= 0; i--){
-			        				   if((attack.get(attack.size()-1).getExploding())){
-			        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect());
-										   if(power > 0){
-											   enemyAttacks.get(i).attackedWithDmg(power);
-										   }
-			        				   }
-			        			   }
-			        			   for(int i = enemies.size()-1; i >= 0; i--){
-			        				   if((attack.get(attack.size()-1).getExploding())){
-			        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
-										   if(power > 0){
-											   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
-											   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
-											   temps.add(createTemp(240,400,bonusType.mana_potion));
-											   temps.add(createTemp(140,200,bonusType.repair));
-										   }
-			        				   }
+	        		   }
+	        		   if(noBonus){
+		        		   synchronized (getHolder()) {
+		        			   if(attack.size() > 0 && attack.get(attack.size()-1).getAttackType() == attackType.thunder && player.getAttackType() == attackType.thunder && System.currentTimeMillis() - lastClick < attack.get(attack.size()-1).getCoolDown() * 4){
+		        				   if(attack.get(attack.size()-1).getPower() < 50){
+		        					   if(player.manaForAttack(1)){
+		        						   attack.get(attack.size()-1).setPower(attack.get(attack.size()-1).getPower() + 1);
+		        					   }
+		        				   }
+		        			   }
+		        			   else{
+			        			   AttackSprite temp = createAttack(player.getAttackType(),player.getAttackLevel(),Math.round(x), Math.round(y));
+			        			   if(player.manaForAttack(temp.getManaCost())){
+			        				   attack.add(temp);
+				        			   this.lastAttack = player.getCurrentAttack();
+				        			   this.lastGod = player.getCurrentGod();
+				        			   for(int i = enemyAttacks.size()-1; i >= 0; i--){
+				        				   if((attack.get(attack.size()-1).getExploding())){
+				        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect());
+											   if(power > 0){
+												   enemyAttacks.get(i).attackedWithDmg(power);
+											   }
+				        				   }
+				        			   }
+				        			   for(int i = enemies.size()-1; i >= 0; i--){
+				        				   if((attack.get(attack.size()-1).getExploding())){
+				        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
+											   if(power > 0){
+												   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
+												   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
+												   temps.add(createTemp(240,400,bonusType.mana_potion));
+												   temps.add(createTemp(140,200,bonusType.repair));
+											   }
+				        				   }
+				        			   }
 			        			   }
 		        			   }
-	        			   }
+		        		   }
 	        		   }
-        		   }
-        	   }
+	        	   }
+           		}
+           }
+           else{
+        	   /*
+        	    * gra zakonczona - na klikniecie gdziekolwiek ma wrocic do chapterView
+        	    */
            }
            return true;     
        }
@@ -391,20 +408,37 @@ public class GameView extends SurfaceView {
 		   player.dmgToOlymp((int)(dmg * (1 - attack.get(a_number).getAbsorbRate())));
        }
        public void nextWave(int size){
-    	   if(size == 0 && this.current_wave < this.level.waveSize()){
-    		   Log.d("waves", "enemy size = " + size);
-    		   Log.d("waves", "wave  size = " + this.level.waveSize());
-    		   List<Unit> units = new ArrayList<Unit>();
-    		   if(this.waves.size() > 0){
-    			   units = waves.get(this.current_wave).getUnits();
-    			   Log.d("waves", "unitsy zaladowane");
-    			   for(int j = units.size()-1; j >= 0; j--){
-    				   Log.d("waves", "petla for przejazd nr : " + j);
-    				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
-    			   }
-    			   this.current_wave++;
-    			   Log.d("waves", "wyszedlem z fora");
-    		   }
+    	   /*
+    	    * jesli gracz zyje
+    	    */
+    	   if(this.player.getOlympLife() > 0){
+	    	   /*
+	    	    * jesli wszyscy wrogowie zabici i sa kolejne fale to dodaj nowa fale
+	    	    */
+	    	   if(size == 0 && this.current_wave < this.level.waveSize()){
+	    		   Log.d("waves", "enemy size = " + size);
+	    		   Log.d("waves", "wave  size = " + this.level.waveSize());
+	    		   List<Unit> units = new ArrayList<Unit>();
+	    		   if(this.waves.size() > 0){
+	    			   units = waves.get(this.current_wave).getUnits();
+	    			   Log.d("waves", "unitsy zaladowane");
+	    			   for(int j = units.size()-1; j >= 0; j--){
+	    				   Log.d("waves", "petla for przejazd nr : " + j);
+	    				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
+	    			   }
+	    			   this.current_wave++;
+	    			   Log.d("waves", "wyszedlem z fora");
+	    		   }
+	    	   }
+	    	   /*
+	    	    * jesli wszyscy wrogowie sa zabici, nie ma kolejnych fali oraz ekran konca gry nie zostal stworzony to wyswietl ekran koncowy
+	    	    */
+	    	   else if(size == 0 && this.current_wave >= this.level.waveSize() && this.finished_screen == null){
+	    		   gameFinished(true);
+	    	   }
+    	   }
+    	   else if(this.finished_screen == null){
+    		   gameFinished(false);
     	   }
        }
 
@@ -651,5 +685,37 @@ public class GameView extends SurfaceView {
 			enemyAttacks.add(ea);
 		}
 		
+	}
+	public void gameFinished(boolean game_won){
+		if(game_won){
+			/*
+			 * gra wygrana, oblicz gwiazdki, wyswietl odpowiedni komunikat
+			 */
+			long currentTime = System.currentTimeMillis();
+			/*
+			 * punkty otrzymywane na podstawie : czasu i lajfa ktory nam zostal.
+			 * Wzor : gwiazdki = 1 								<za ukonczenie levelu zawsze ma minimum jedna gwiazdke>
+			 * 					 + 
+			 * 		current_life / max_life 					<0 - 1>
+			 * 					 +
+			 * 		level.time_goal/(currentTime - start_time)	<0 - x i jesli x > 1 to x = 1>
+			 * 						
+			 */
+			long time_stars =  this.level.getTimeGoal()/(currentTime - this.start_time);
+			long life_stars = this.player.getOlympLife()/this.player.getOlimpMaxLife();
+			
+			if(time_stars >= 1){
+				time_stars = 1;
+			}
+			this.stars = 1 + (int)(time_stars + life_stars);
+			Log.d("finished screen", "time_stars :" + time_stars + "life_stars" + life_stars);
+			this.finished_screen = new GameFinished(this,true,0,0,stars);
+		}
+		else{
+			/*
+			 * gra przegrana, wyswietl odpowiedni komunikat
+			 */
+			this.finished_screen = new GameFinished(this,false,0,0,0);
+		}
 	}
 }

@@ -205,4 +205,7 @@ public class Player
 			}
 		}
 	}
+	public int getOlimpMaxLife(){
+		return this.olympMaxLife;
+	}
 }
