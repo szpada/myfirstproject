@@ -707,8 +707,9 @@ public class GameView extends SurfaceView {
 			if(time_stars >= 1){
 				time_stars = 1;
 			}
+			Log.d("finished screen", "time_stars :" + (float)time_stars + "life_stars" + (float)life_stars);
 			this.stars = 1 + (int)(time_stars + life_stars);
-			Log.d("finished screen", "time_stars :" + time_stars + "life_stars" + life_stars);
+			
 			this.finished_screen = new GameFinished(this,true,0,0,stars);
 		}
 		else{
