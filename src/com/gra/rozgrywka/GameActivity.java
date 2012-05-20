@@ -43,6 +43,7 @@ public class GameActivity extends Activity {
 		
 //		boolean resuming = false;
 		Bundle extras = getIntent().getExtras();
+		glevel = new Level(difficulty.tutorial3);
 		if(extras !=null) {
 			Log.d("GameActivity","byly extrasy");
 			resuming = extras.getBoolean("RESUMING");
@@ -70,10 +71,10 @@ public class GameActivity extends Activity {
         saver = new SaveService(GameActivity.this);
 
         
-        Level lvl = new Level(difficulty.tutorial3);
         
         
-        gview = new GameView(this, w_factor, h_factor, lvl);
+        
+        gview = new GameView(this, w_factor, h_factor, glevel);
         
         Log.d("GameActivity", "new gameview");
 //        gthread = gview.getGameLoopThread();
