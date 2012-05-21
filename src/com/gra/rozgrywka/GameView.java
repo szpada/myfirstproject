@@ -711,6 +711,14 @@ public class GameView extends SurfaceView {
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
 			this.finished_screen = new GameFinished(this,true,0,0,stars);
+			
+			/*
+			 * TODO:
+			 * zapis postepu gry i przejscie do nastepnego levelu (po kilku w gwiazdki?)
+			 */
+			
+			
+			
 		}
 		else{
 			/*
