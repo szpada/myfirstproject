@@ -29,6 +29,9 @@ public class ChapterSwitcher {
 		else if(direction > 0){
 			this.bmp = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.chapterdirectionright);
 		}
+		else{
+			this.bmp = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.play);
+		}
 		this.width = this.bmp.getWidth();
 		this.height = this.bmp.getHeight();
 	}

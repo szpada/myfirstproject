@@ -10,8 +10,8 @@ import android.graphics.Rect;
 	/**
 	 * @author Szpada
 	 * 
-	 * klasa przedstawiajaca statystyke danego levelu - czas przejscia, 
-	 * zabici wrogowie, znalezione secrety itd. Przy nowym levelu bedzie wyswietlal puste dane
+	 * klasa przedstawiajaca statystyke danego levelu - TYLKO GWIAZDKI.
+	 *  Przy nowym levelu bedzie wyswietlal puste dane
 	 */
 
 public class LevelStats {
@@ -51,10 +51,10 @@ public class LevelStats {
 			this.land = land;
 			this.complited = complited;
 			this.active = active;
-			this.stats = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.treeinfo);
+			this.stats = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.chapterinfo);
 			this.stats_width = stats.getWidth();
 			this.stats_height = stats.getHeight();
-			this.stars_bmp = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.bad1);
+			this.stars_bmp = BitmapFactory.decodeResource(this.view.getResources(), R.drawable.star);
 			this.stars_width = stars_bmp.getWidth();
 			this.stars_height = stars_bmp.getHeight();
 			if(active){
@@ -79,7 +79,7 @@ public class LevelStats {
 		public void onDraw(Canvas canvas){
 			int srcX = 0;
 			int srcY = 0;
-			int iconX = 16;
+			int iconX = 10;
 			int iconY = 16;
 			/*
 			 * wyswietlenie ikony levelu
@@ -93,12 +93,13 @@ public class LevelStats {
 			src = new Rect(srcX, srcY, srcX + this.stats_width, srcY + this.stats_height);
 			dst = new Rect(this.x, this.y, this.x + this.stats_width, this.y + this.stats_height);
 			canvas.drawBitmap(this.stats, src, dst, null);
-			iconX = 64;
-			iconY = 32;
+			iconX = 96;
+			iconY = 30;
 			for(int i = 0; i < this.stars; i++){
 				src = new Rect(srcX, srcY, srcX + this.stars_width, srcY + this.stars_height);
-				dst = new Rect(this.x + iconX + i * 32, this.y + iconY, this.x + iconX + this.stars_width + i * 32, this.y + iconY + this.stars_height);
+				dst = new Rect(this.x + iconX + i * this.stars_width, this.y + iconY, this.x + iconX + this.stars_width + i * this.stars_width, this.y + iconY + this.stars_height);
 				canvas.drawBitmap(this.stars_bmp, src, dst, null);
+				iconX +=2;
 			}
 		}
 		public boolean checkCollision(int x, int y){

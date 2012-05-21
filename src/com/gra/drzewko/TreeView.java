@@ -85,8 +85,8 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	/*
 	 * odkomentowac gdy beda poprawne
 	 */
-//	private float h_factor;
-//	private float w_factor;
+	private float h_factor;
+	private float w_factor;
 	private long lastClick;
 	private int points = 10;
 	private int currentAttack = 0;
@@ -131,15 +131,16 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	/*
 	 * odkomentowac jak bedzie wszystko dzialac - przekazywac tablice atakow a nie calego playera!
 	 */
-	//public TreeView(Context context,double w_factor, double h_factor, int[][] base) {
+	//public TreeView(Context context,double w_factor, double h_factor, int[][] base, int upgrade_points) {
 	public TreeView(Context context,double w_factor, double h_factor) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-//      this.h_factor = (float)h_factor;
-// 	   	this.w_factor = (float)w_factor;
 //		this.base = base;
+//		this.points = upgrade_points;
+		this.h_factor = (float)h_factor;
+ 	   	this.w_factor = (float)w_factor;
         treeLoopThread = new TreeLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
@@ -294,6 +295,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 		}
 	}
 	public void onDraw(Canvas canvas){
+		canvas.scale(this.w_factor, this.h_factor);
 		this.zeus.onDraw(canvas);
 		this.poseidon.onDraw(canvas);
 		this.hephaestus.onDraw(canvas);
@@ -316,8 +318,8 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 			/*
 		 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
 		 */
-		//x = x / this.w_factor;
-		//y = y / this.h_factor;
+		x = x / this.w_factor;
+		y = y / this.h_factor;
 		if(System.currentTimeMillis() - lastClick > coolDown) {
 			lastClick = System.currentTimeMillis();
 			if(zeus.checkCollision((int)x, (int)y)){

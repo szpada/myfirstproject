@@ -186,7 +186,7 @@ public class GameView extends SurfaceView {
         		   else{
 	        		   player.dmgToOlymp(enemies.get(i).getDmg());
         		   }
-//        		   enemies.get(i).dmgReady(false);
+        		   enemies.get(i).dmgReady(false);
         	   }
         	   enemies.get(i).onDraw(canvas);
            }

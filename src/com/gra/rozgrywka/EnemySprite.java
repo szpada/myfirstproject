@@ -162,8 +162,8 @@ public class EnemySprite implements Serializable {
 			this.width = 64;
 		   	this.height = 64;
 	        this.attackSpeed = 15;
-	        this.maxSpeed = 3;
-	        this.speed = 3;
+	        this.maxSpeed = 2;
+	        this.speed = 2;
 	        this.dmg = 0;
 	        this.life = 100;
 	        this.maxLife = 100;
@@ -184,8 +184,8 @@ public class EnemySprite implements Serializable {
 			this.width = 64;
 		   	this.height = 64;
 	        this.attackSpeed = 20;
-	        this.maxSpeed = 3;
-	        this.speed = 3;
+	        this.maxSpeed = 1;
+	        this.speed = 1;
 	        this.dmg = 0;
 	        this.life = 200;
 	        this.maxLife = 200;

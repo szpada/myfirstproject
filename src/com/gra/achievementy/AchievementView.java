@@ -21,13 +21,16 @@ public class AchievementView extends SurfaceView{
 	
 	private Player player;
 	
+	private float h_factor;
+	private float w_factor;
+	
 	public AchievementView(Context context,double w_factor, double h_factor, Player player) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-	//    this.h_factor = (float)h_factor;
-	//	   	this.w_factor = (float)w_factor;
+	    this.h_factor = (float)h_factor;
+		this.w_factor = (float)w_factor;
 		this.player = player;
 		thread = new AchievementLoopThread(this);
 	    getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -55,6 +58,7 @@ public class AchievementView extends SurfaceView{
 	    }); 
 	}
 	public void onDraw(Canvas canvas){
+		canvas.scale(this.w_factor, this.h_factor);
 		canvas.drawRect(0, 0, 480, 800, this.paint);
 		for(int i = 0; i < this.achievements.size(); i++){
 			achievements.get(i).onDraw(canvas);
@@ -68,7 +72,7 @@ public class AchievementView extends SurfaceView{
 		AchievementInfo locked = new AchievementInfo(this, 0, 500, false, acvType.perfectionist);
 		
 		blood_bath.setText("Kill 100 units");
-		yeah.setText("Complite tutorial with max stars");
+		yeah.setText("Get all stars from tutorial");
 		
 		this.achievements.add(blood_bath);
 		this.achievements.add(yeah);

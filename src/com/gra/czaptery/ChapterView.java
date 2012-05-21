@@ -45,14 +45,17 @@ public class ChapterView extends SurfaceView{
 	private Player player;	//player decycuje o tym ktore levele sa dostepne do przejscia
 	private Level level; 	//level wybrany przez gracza
 	
-	public ChapterView(Context context,double w_factor, double h_factor, Player pplayer) {
+	private float h_factor;
+	private float w_factor;
+	
+	public ChapterView(Context context,double w_factor, double h_factor, Player player) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-//        this.h_factor = (float)h_factor;
-// 	   	this.w_factor = (float)w_factor;
-		this.player = pplayer;
+        this.h_factor = (float)h_factor;
+ 	   	this.w_factor = (float)w_factor;
+		this.player = player;
         chapterLoopThread = new ChapterLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
@@ -79,6 +82,7 @@ public class ChapterView extends SurfaceView{
         }); 
 	}
 	public void onDraw(Canvas canvas){
+		canvas.scale(this.w_factor, this.h_factor);
 		/*
 		 * wywalic jak bedzie gotowe tlo
 		 */
@@ -107,12 +111,13 @@ public class ChapterView extends SurfaceView{
 		/*
 		 * tworzenie statystyk levelu
 		 */
-		this.stats = new LevelStats(this,0,600,true,true,landscape.tutorial);
+		this.stats = new LevelStats(this,0,655,true,true,landscape.tutorial);
 		/*
 		 * tworzenie przyciskow
 		 */
 		ChapterSwitcher left = new ChapterSwitcher(this,100,10,-1);	//przycisk zmiany rozdzialu (kierunek lewo)
 		ChapterSwitcher right = new ChapterSwitcher(this,320,10,1);	//przycisk zmiany rozdzialu (kierunek prawo)
+		ChapterSwitcher play = new ChapterSwitcher(this, 380, 660, 0);
 		/*
 		 * tworzenie leveli
 		 */
@@ -139,7 +144,7 @@ public class ChapterView extends SurfaceView{
 			
 			LevelChain LI7 = new LevelChain(this,1,240,560,false,false,landscape.village,6,-1,5,2);
 			
-			LI1.setLevel(new Level(difficulty.c1l1));
+			LI1.setLevel(new Level(difficulty.c1l1));	LI1.setStars(3);
 			LI2.setLevel(new Level(difficulty.c1l2));
 			LI3.setLevel(new Level(difficulty.c1l6));
 			
@@ -163,6 +168,7 @@ public class ChapterView extends SurfaceView{
 		 */
 		this.switchers.add(left);
 		this.switchers.add(right);
+		this.switchers.add(play);
 		/*
 		 * stworzenie listy leveli
 		 */
@@ -180,20 +186,24 @@ public class ChapterView extends SurfaceView{
 			/*
 			 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
 			 */
-			//x = x / this.w_factor;
-			//y = y / this.h_factor;
+			x = x / this.w_factor;
+			y = y / this.h_factor;
 			if (System.currentTimeMillis() - lastClick > coolDown) {
 				lastClick = System.currentTimeMillis();
 				for (int i = 0; i < this.switchers.size(); i++) {
 					if (this.switchers.get(i).checkCollision((int) x, (int) y)) {
-						this.currentChapter += this.switchers.get(i)
-								.getDirection();
-						if (this.currentChapter < 0) {
-							this.currentChapter = this.chapters.size() - 1;
-						} else if (this.currentChapter > this.chapters.size() - 1) {
-							this.currentChapter = 0;
+						if(this.switchers.get(i).getDirection() ==0){
+							play(this.level);
 						}
-						setCurrentChapter(this.currentChapter);
+						else{
+							this.currentChapter += this.switchers.get(i).getDirection();
+							if (this.currentChapter < 0) {
+								this.currentChapter = this.chapters.size() - 1;
+							} else if (this.currentChapter > this.chapters.size() - 1) {
+								this.currentChapter = 0;
+							}
+							setCurrentChapter(this.currentChapter);
+						}
 					}
 				}
 				for (int i = 0; i < this.levels.size(); i++) {
@@ -209,23 +219,23 @@ public class ChapterView extends SurfaceView{
 									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
 							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
 							this.levels.get(i).setComplited(true);
-							//						unlockLevels(this.levels.get(i).getId());
+													unlockLevels(this.levels.get(i).getId());
 
-							Context context = getContext();
-							Intent GameIntent = new Intent(context,
-									GameActivity.class);
-							Log.d("ChapterView", "stworzony gameact intent");
-							GameIntent.putExtra("LEVEL", this.level);
-							Log.d("ChapterView", "wlozony lewel");
-							Intent ChaptersIntent = new Intent(context,
-									ChaptersActivity.class);
-
-							context.startActivity(GameIntent);
-							Log.d("ChapterView", "wystartowal gameact");
-
-							context.stopService(ChaptersIntent);
-							Log.d("ChapterView", "zabity chaptersact");
-							break;
+//							Context context = getContext();
+//							Intent GameIntent = new Intent(context,
+//									GameActivity.class);
+//							Log.d("ChapterView", "stworzony gameact intent");
+//							GameIntent.putExtra("LEVEL", this.level);
+//							Log.d("ChapterView", "wlozony lewel");
+//							Intent ChaptersIntent = new Intent(context,
+//									ChaptersActivity.class);
+//
+//							context.startActivity(GameIntent);
+//							Log.d("ChapterView", "wystartowal gameact");
+//
+//							context.stopService(ChaptersIntent);
+//							Log.d("ChapterView", "zabity chaptersact");
+//							break;
 
 						}
 					}
@@ -327,5 +337,21 @@ public class ChapterView extends SurfaceView{
 	}
 	public Level getLevel(){
 		return this.level;
+	}
+	public void play(Level level){
+		Context context = getContext();
+		Intent GameIntent = new Intent(context,
+				GameActivity.class);
+		Log.d("ChapterView", "stworzony gameact intent");
+		GameIntent.putExtra("LEVEL", level);
+		Log.d("ChapterView", "wlozony lewel");
+		Intent ChaptersIntent = new Intent(context,
+				ChaptersActivity.class);
+
+		context.startActivity(GameIntent);
+		Log.d("ChapterView", "wystartowal gameact");
+
+		context.stopService(ChaptersIntent);
+		Log.d("ChapterView", "zabity chaptersact");
 	}
 }
