@@ -47,6 +47,7 @@ public class ChapterView extends SurfaceView{
 	
 	private float h_factor;
 	private float w_factor;
+	private int coolDown = 200;
 	
 	public ChapterView(Context context,double w_factor, double h_factor, Player player) {
 		super(context);
@@ -176,9 +177,9 @@ public class ChapterView extends SurfaceView{
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		int eventaction = event.getAction();
-		if (eventaction == MotionEvent.ACTION_UP) {
-			int coolDown = 300;
+		
+		if (event.getAction() == MotionEvent.ACTION_UP && System.currentTimeMillis() - lastClick > coolDown) {
+			
 			float x = event.getX();
 			float y = event.getY();
 			Log.d("ChapterView", "byl klik: " + Float.toString(x) + "  "
@@ -188,7 +189,7 @@ public class ChapterView extends SurfaceView{
 			 */
 			x = x / this.w_factor;
 			y = y / this.h_factor;
-			if (System.currentTimeMillis() - lastClick > coolDown) {
+			
 				lastClick = System.currentTimeMillis();
 				for (int i = 0; i < this.switchers.size(); i++) {
 					if (this.switchers.get(i).checkCollision((int) x, (int) y)) {
@@ -240,7 +241,7 @@ public class ChapterView extends SurfaceView{
 						}
 					}
 				}
-			}
+			
 		}
 		return true;
 	}

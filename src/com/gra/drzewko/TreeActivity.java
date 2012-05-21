@@ -48,7 +48,7 @@ public class TreeActivity extends Activity {
 	protected void onStop() 
     {
         super.onStop();
-        Log.d("TreeAct", "MYonStop is called");
+        Log.d("TreeAct", "My onStop is called");
         finish();
     }
 	

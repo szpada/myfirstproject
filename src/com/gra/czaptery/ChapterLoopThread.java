@@ -8,7 +8,7 @@ import android.graphics.Canvas;
  */
 
 public class ChapterLoopThread extends Thread {
-       static final long FPS = 10;
+       static final long FPS = 5;
        private ChapterView view;
        private boolean running = false;
        
@@ -32,7 +32,11 @@ public class ChapterLoopThread extends Thread {
                            synchronized (view.getHolder()) {
                                   view.onDraw(c);
                            }
-                    } finally {
+                    }
+                    catch (Exception e) {
+                    	e.printStackTrace();
+                    }
+                    finally {
                            if (c != null) {
                                   view.getHolder().unlockCanvasAndPost(c);
                            }
@@ -43,7 +47,9 @@ public class ChapterLoopThread extends Thread {
                                   sleep(sleepTime);
                            else
                                   sleep(10);
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    	e.printStackTrace();
+                    }
              }
        }
 }

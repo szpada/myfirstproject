@@ -8,7 +8,7 @@ import android.graphics.Canvas;
  */
 
 public class AchievementLoopThread extends Thread {
-       static final long FPS = 10;
+       static final long FPS = 5;
        private AchievementView view;
        private boolean running = false;
        
@@ -32,7 +32,11 @@ public class AchievementLoopThread extends Thread {
                            synchronized (view.getHolder()) {
                                   view.onDraw(c);
                            }
-                    } finally {
+                    }
+                    catch (Exception e) {
+                    	e.printStackTrace();
+                    }
+                    finally {
                            if (c != null) {
                                   view.getHolder().unlockCanvasAndPost(c);
                            }

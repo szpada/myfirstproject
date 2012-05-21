@@ -8,7 +8,7 @@ import android.graphics.Canvas;
  */
 
 public class TreeLoopThread extends Thread {
-       static final long FPS = 10;
+       static final long FPS = 5;
        private TreeView view;
        private boolean running = false;
 
@@ -32,7 +32,11 @@ public class TreeLoopThread extends Thread {
                            synchronized (view.getHolder()) {
                                   view.onDraw(c);
                            }
-                    } finally {
+                    }
+                    catch (Exception e) {
+                    	e.printStackTrace();
+                    }
+                    finally {
                            if (c != null) {
                                   view.getHolder().unlockCanvasAndPost(c);
                            }
@@ -43,7 +47,9 @@ public class TreeLoopThread extends Thread {
                                   sleep(sleepTime);
                            else
                                   sleep(10);
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    	e.printStackTrace();
+                    }
              }
        }
 }

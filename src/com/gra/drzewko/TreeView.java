@@ -88,6 +88,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	private float h_factor;
 	private float w_factor;
 	private long lastClick;
+	private int coolDown = 200;
 	private int points = 10;
 	private int currentAttack = 0;
 	private int currentGod = 0;
@@ -312,72 +313,76 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		int coolDown = 300;
-		float x = event.getX();
-		float y = event.getY();
-			/*
-		 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
-		 */
-		x = x / this.w_factor;
-		y = y / this.h_factor;
-		if(System.currentTimeMillis() - lastClick > coolDown) {
-			lastClick = System.currentTimeMillis();
-			if(zeus.checkCollision((int)x, (int)y)){
-				if(this.zeus_first_time){
-					createAttackFirstTime(0);
+		
+		
+		
+		if (event.getAction() == MotionEvent.ACTION_UP && System.currentTimeMillis() - lastClick > coolDown) {
+			float x = event.getX();
+			float y = event.getY();
+				/*
+			 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
+			 */
+			x = x / this.w_factor;
+			y = y / this.h_factor;
+			
+			
+				lastClick = System.currentTimeMillis();
+				if (zeus.checkCollision((int) x, (int) y)) {
+					if (this.zeus_first_time) {
+						createAttackFirstTime(0);
+					}
+					if (this.currentGod != 0) {
+						createAttacks(0);
+					}
+					this.currentTree.setCurrentGod(0);
+					this.currentGod = 0;
+				} else if (hephaestus.checkCollision((int) x, (int) y)) {
+					if (this.hephaestus_first_time) {
+						createAttackFirstTime(1);
+					}
+					if (this.currentGod != 1) {
+						createAttacks(1);
+					}
+					this.currentTree.setCurrentGod(2);
+					this.currentGod = 1;
+				} else if (poseidon.checkCollision((int) x, (int) y)) {
+					if (this.poseidon_first_time) {
+						createAttackFirstTime(2);
+					}
+					if (this.currentGod != 2) {
+						createAttacks(2);
+					}
+					this.currentTree.setCurrentGod(1);
+					this.currentGod = 2;
 				}
-				if(this.currentGod != 0){
-					createAttacks(0);
+				for (int i = 0; i <= attacks.size() - 1; i++) {
+					if (attacks.get(i).checkCollision((int) x, (int) y)) {
+						this.currentAttack = attacks.get(i).getAttackNumber();
+						this.upgrade
+								.setUpgrade(base[this.currentGod][this.currentAttack]);
+						info.setCurrentGod(attacks.get(i).getGodNumber());
+						info.setCurrentAttack(attacks.get(i).getAttackNumber());
+						info.setDmg(attacks.get(i).getDmg());
+						info.setManaCost(attacks.get(i).getManaCost());
+						info.setRange(attacks.get(i).getRange());
+					}
 				}
-				this.currentTree.setCurrentGod(0);
-				this.currentGod = 0;
-			}
-			else if(hephaestus.checkCollision((int)x, (int)y)){
-				if(this.hephaestus_first_time){
-					createAttackFirstTime(1);
-				}
-				if(this.currentGod != 1){
-					createAttacks(1);
-				}
-				this.currentTree.setCurrentGod(2);
-				this.currentGod = 1;
-			}
-			else if(poseidon.checkCollision((int)x, (int)y)){
-				if(this.poseidon_first_time){
-					createAttackFirstTime(2);
-				}
-				if(this.currentGod != 2){
-					createAttacks(2);
-				}
-				this.currentTree.setCurrentGod(1);
-				this.currentGod = 2;
-			}
-			for(int i = 0; i <= attacks.size()-1; i++){
-				if(attacks.get(i).checkCollision((int)x, (int)y)){
-					this.currentAttack = attacks.get(i).getAttackNumber();
-					this.upgrade.setUpgrade(base[this.currentGod][this.currentAttack]);
-					info.setCurrentGod(attacks.get(i).getGodNumber());
-					info.setCurrentAttack(attacks.get(i).getAttackNumber());
-					info.setDmg(attacks.get(i).getDmg());
-					info.setManaCost(attacks.get(i).getManaCost());
-					info.setRange(attacks.get(i).getRange());
-				}
-			}
-			if(this.upgrade.checkCollision((int)x,(int)y)){
-				if(!performUpgrade(this.currentGod,this.currentAttack)){
-					//zaswiec punktami
-				}
-				else{
-					for(int i = 0; i <= attacks.size()-1; i++){
-						if(attacks.get(i).getGodNumber() == this.currentGod && attacks.get(i).getAttackNumber() == this.currentAttack){
-							attacks.get(i).setUpgrade(upgrade.getUpgrade());
-							info.setDmg(attacks.get(i).getDmg());
-							info.setManaCost(attacks.get(i).getManaCost());
-							info.setRange(attacks.get(i).getRange());
+				if (this.upgrade.checkCollision((int) x, (int) y)) {
+					if (!performUpgrade(this.currentGod, this.currentAttack)) {
+						//zaswiec punktami
+					} else {
+						for (int i = 0; i <= attacks.size() - 1; i++) {
+							if (attacks.get(i).getGodNumber() == this.currentGod
+									&& attacks.get(i).getAttackNumber() == this.currentAttack) {
+								attacks.get(i).setUpgrade(upgrade.getUpgrade());
+								info.setDmg(attacks.get(i).getDmg());
+								info.setManaCost(attacks.get(i).getManaCost());
+								info.setRange(attacks.get(i).getRange());
+							}
 						}
 					}
 				}
-			}
+			
 		}
 		return true;
 	}
