@@ -123,7 +123,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
     		{-2,-2,-2,-2,-2},	//FIZYCZNE
     		{-2,-2,-2,-2,-2}		//SMIERC
     };
-	//private Player player = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
+	private Player player;// = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
 	/**
 	 * @param context
 	 */
@@ -132,14 +132,14 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	/*
 	 * odkomentowac jak bedzie wszystko dzialac - przekazywac tablice atakow a nie calego playera!
 	 */
-	//public TreeView(Context context,double w_factor, double h_factor, int[][] base, int upgrade_points) {
+//	public TreeView(Context context,double w_factor, double h_factor, Player player) {
 	public TreeView(Context context,double w_factor, double h_factor) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-//		this.base = base;
-//		this.points = upgrade_points;
+//		this.player = player;
+//		this.base = player.getArray();
 		this.h_factor = (float)h_factor;
  	   	this.w_factor = (float)w_factor;
         treeLoopThread = new TreeLoopThread(this);
@@ -557,5 +557,8 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	}
 	public int[][] getArray(){
 		return this.base;
+	}
+	public void setArray(int[][] base){
+		this.base = base;
 	}
 }

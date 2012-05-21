@@ -208,4 +208,10 @@ public class Player
 	public int getOlimpMaxLife(){
 		return this.olympMaxLife;
 	}
+	public void setArray(int[][] base){
+		this.godsAttacks = base;
+	}
+	public int[][] getArray(){
+		return this.godsAttacks;
+	}
 }
