@@ -86,10 +86,11 @@ public class LevelChain {
 		Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
 		Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 		canvas.drawBitmap(this.bmp, src, dst, null);
-		if(this.complited){
+		if(this.active && !this.complited){
 			Paint paint = new Paint();
+			paint.setTextSize(20.0f);
 			paint.setColor(Color.GREEN);
-			canvas.drawRect(dst, paint);
+			canvas.drawText("NEW", this.x, this.y, paint);
 		}
 	}
 	public int getId(){
