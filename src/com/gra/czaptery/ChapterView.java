@@ -117,7 +117,7 @@ public class ChapterView extends SurfaceView{
 		 */
 		ChapterSwitcher left = new ChapterSwitcher(this,100,10,-1);	//przycisk zmiany rozdzialu (kierunek lewo)
 		ChapterSwitcher right = new ChapterSwitcher(this,320,10,1);	//przycisk zmiany rozdzialu (kierunek prawo)
-		ChapterSwitcher play = new ChapterSwitcher(this, 380, 660, 0);
+		ChapterSwitcher play = new ChapterSwitcher(this, 380, 690, 0);
 		/*
 		 * tworzenie leveli
 		 */

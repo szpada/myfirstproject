@@ -79,8 +79,8 @@ public class LevelStats {
 		public void onDraw(Canvas canvas){
 			int srcX = 0;
 			int srcY = 0;
-			int iconX = 10;
-			int iconY = 16;
+			int iconX = 4;
+			int iconY = 30;
 			/*
 			 * wyswietlenie ikony levelu
 			 */
@@ -93,7 +93,7 @@ public class LevelStats {
 			src = new Rect(srcX, srcY, srcX + this.stats_width, srcY + this.stats_height);
 			dst = new Rect(this.x, this.y, this.x + this.stats_width, this.y + this.stats_height);
 			canvas.drawBitmap(this.stats, src, dst, null);
-			iconX = 96;
+			iconX = 98;
 			iconY = 30;
 			for(int i = 0; i < this.stars; i++){
 				src = new Rect(srcX, srcY, srcX + this.stars_width, srcY + this.stars_height);
