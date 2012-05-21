@@ -17,7 +17,7 @@ public class SaveService {
 
 	private static final String SAVE_FILENAME = "SaveFile.ser";
 
-	private SavedState saveData;
+	private SavedState saveData = null;
 
 	private static SaveService saveService;
 	private Activity context;

@@ -42,7 +42,7 @@
         <activity android:name="com.gra.rozgrywka.MenuActivity"
             android:screenOrientation="portrait"></activity>
             
-             <activity android:name="com.gra.menu.StartGame"
+             <activity android:name=".aaasmietnik.StartGame"
              android:screenOrientation="portrait">
 		</activity>
 		       <activity android:name=".aaasmietnik.Help"

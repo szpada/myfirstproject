@@ -23,31 +23,8 @@ import com.gra.rozgrywka.Player;
  *	I jego gowna
  *
  *
- *
-//	 * @param context
-//	 * @param attrs
-//	 */
-//	public TreeView(Context context, AttributeSet attrs) {
-//		super(context, attrs);
-//		// TODO Auto-generated constructor stub
-//	}
-//
-//	/**
-//	 * @param context
-//	 * @param attrs
-//	 * @param defStyle
-//	 */
-//	public TreeView(Context context, AttributeSet attrs, int defStyle) {
-//		super(context, attrs, defStyle);
-//		// TODO Auto-generated constructor stub
-//	}
-/**
- *
- *
- *
- *
- *
  */
+
 
 
 
@@ -132,14 +109,14 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	/*
 	 * odkomentowac jak bedzie wszystko dzialac - przekazywac tablice atakow a nie calego playera!
 	 */
-//	public TreeView(Context context,double w_factor, double h_factor, Player player) {
-	public TreeView(Context context,double w_factor, double h_factor) {
+	public TreeView(Context context,double w_factor, double h_factor, Player player) {
+//	public TreeView(Context context,double w_factor, double h_factor) {
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
-//		this.player = player;
-//		this.base = player.getArray();
+		this.player = player;
+		this.base = player.getArray();
 		this.h_factor = (float)h_factor;
  	   	this.w_factor = (float)w_factor;
         treeLoopThread = new TreeLoopThread(this);

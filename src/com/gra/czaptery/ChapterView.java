@@ -182,11 +182,9 @@ public class ChapterView extends SurfaceView{
 			
 			float x = event.getX();
 			float y = event.getY();
-			Log.d("ChapterView", "byl klik: " + Float.toString(x) + "  "
-					+ Float.toString(y));
-			/*
-			 * odkomentowac jak juz beda przekazywane wlasciwe wartosci w konstruktorze
-			 */
+//			Log.d("ChapterView", "byl klik: " + Float.toString(x) + "  "
+//					+ Float.toString(y));
+			
 			x = x / this.w_factor;
 			y = y / this.h_factor;
 			
@@ -222,21 +220,7 @@ public class ChapterView extends SurfaceView{
 							this.levels.get(i).setComplited(true);
 													unlockLevels(this.levels.get(i).getId());
 
-//							Context context = getContext();
-//							Intent GameIntent = new Intent(context,
-//									GameActivity.class);
-//							Log.d("ChapterView", "stworzony gameact intent");
-//							GameIntent.putExtra("LEVEL", this.level);
-//							Log.d("ChapterView", "wlozony lewel");
-//							Intent ChaptersIntent = new Intent(context,
-//									ChaptersActivity.class);
-//
-//							context.startActivity(GameIntent);
-//							Log.d("ChapterView", "wystartowal gameact");
-//
-//							context.stopService(ChaptersIntent);
-//							Log.d("ChapterView", "zabity chaptersact");
-//							break;
+
 
 						}
 					}

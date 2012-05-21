@@ -84,6 +84,7 @@ public class GameMenu extends Activity {
         	//@Override
 			public void onClick(View v) {
         		Intent TreeIntent = new Intent(GameMenu.this, TreeActivity.class);
+        		
         		startActivity(TreeIntent);
         	}
         });

@@ -2,10 +2,14 @@ package com.gra.rozgrywka;
 
 import java.util.ArrayList;
 import com.gra.R;
+import com.gra.czaptery.ChaptersActivity;
+import com.gra.drzewko.TreeActivity;
+
 import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -687,6 +691,10 @@ public class GameView extends SurfaceView {
 		
 	}
 	public void gameFinished(boolean game_won){
+		/*
+		 * TODO:
+		 * zatrzymaj thread gry
+		 */
 		if(game_won){
 			/*
 			 * gra wygrana, oblicz gwiazdki, wyswietl odpowiedni komunikat
@@ -714,9 +722,11 @@ public class GameView extends SurfaceView {
 			
 			/*
 			 * TODO:
-			 * zapis postepu gry i przejscie do nastepnego levelu (po kilku w gwiazdki?)
+			 * zapis postepu gry i przejscie do nastepnego levelu 
+			 * ORAZ update playera - jego dostepne upgrady, dostepne lewele i gwiazdki na lewelach
 			 */
 			
+			openChapters();
 			
 			
 		}
@@ -725,6 +735,57 @@ public class GameView extends SurfaceView {
 			 * gra przegrana, wyswietl odpowiedni komunikat
 			 */
 			this.finished_screen = new GameFinished(this,false,0,0,0);
+			
+			/*
+			 * TODO:
+			 * zapis postepu gry i przejscie do nastepnego levelu
+			 */
+			openChapters();
 		}
 	}
-}
+	
+	
+	public void openTree() {
+		Context context = getContext();
+		Intent GameIntent = new Intent(context,
+				GameActivity.class);
+		Log.d(TAG, "stworzony gameact intent");
+		//TreeIntent.putExtra("LEVEL", level);
+		Log.d(TAG, "wlozony lewel");
+		Intent TreeIntent = new Intent(context,
+				TreeActivity.class);
+
+		context.startActivity(TreeIntent);
+		Log.d(TAG, "wystartowal treeact");
+
+		context.stopService(GameIntent);
+		Log.d(TAG, "zabity gamesact");
+	}
+	
+	public void openChapters() {
+		Context context = getContext();
+		Intent GameIntent = new Intent(context,
+				GameActivity.class);
+		Log.d(TAG, "stworzony gameact intent");
+		Intent ChaptersIntent = new Intent(context,
+				ChaptersActivity.class);
+		ChaptersIntent.putExtra("PLAYER", player);
+		Log.d(TAG, "wlozony player");
+		
+		
+		context.startActivity(ChaptersIntent);
+		Log.d(TAG, "wystartowal chaptersact");
+
+		context.stopService(GameIntent);
+		Log.d(TAG, "zabity gamesact");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+} //eof

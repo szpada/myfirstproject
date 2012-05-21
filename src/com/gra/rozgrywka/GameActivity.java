@@ -77,27 +77,7 @@ public class GameActivity extends Activity {
         gview = new GameView(this, w_factor, h_factor, glevel);
         
         Log.d("GameActivity", "new gameview");
-//        gthread = gview.getGameLoopThread();
-//        Log.d("GameActivity", "get thread");
-        
-//        tymczasowo to usuwamy zeby unitsy sie nie ladowaly podwojnie
-//        if (resuming) { //only if the game is beeing resumed.
-//        	readLastSavedState();
-//        }
-        
-//        Log.d("GameActivity", "read last saved state");
-        
-        
-//        if (savedInstanceState != null) {
-//        	Log.d("GameActivity", "jestem w GameActivity.niepustySIS");
-//        	gplayer = gview.getPlayer();
-//        	int god = savedInstanceState.getInt("GOD");
-//        	int attack = savedInstanceState.getInt("ATTACK");
-//	    	gplayer.setCurrentAttack(attack);
-//	    	gplayer.setCurrentGod(god);
-//        	gview.setPlayer(gplayer);
-//        	
-//        }
+
         
         setContentView(gview);
         
@@ -108,14 +88,7 @@ public class GameActivity extends Activity {
     	  // This bundle will be passed to onCreate if the process is
     	  // killed and restarted.
     	super.onSaveInstanceState(savedInstanceState);
-//    	  if (savedInstanceState != null) {
-//	    	  savedInstanceState.putInt("GOD", gview.getPlayer().getCurrentGod());
-//	    	  savedInstanceState.putInt("ATTACK", gview.getPlayer().getCurrentAttack());
-//	    	  Log.d("GameActivity", "jestem w GameActivity.onSaveIS");
-//	    	  
-//    	  }
-	    	  
-    	  
+
     	}
     
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -187,6 +160,7 @@ public class GameActivity extends Activity {
 		p.setWaves(gview.getWaves());
 		p.setCurrent_wave(gview.getCurrent_wave());
 		saver.save(p);
+		Log.d("GameAct", "state zapisany");
 	}
 
 }
