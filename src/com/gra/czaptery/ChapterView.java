@@ -217,11 +217,8 @@ public class ChapterView extends SurfaceView{
 							Log.d("ChapterView",
 									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
 							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
-							this.levels.get(i).setComplited(true);
-													unlockLevels(this.levels.get(i).getId());
-
-
-
+							//this.levels.get(i).setComplited(true);
+							//unlockLevels(this.levels.get(i).getId());
 						}
 					}
 				}

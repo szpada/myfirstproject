@@ -102,4 +102,13 @@ public class Sprite {
 	public void updateStats(int life){
 		this.currentLife = life;
 	}
+	public boolean checkCollision(int x, int y){
+		Rect rect = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
+		if(rect.contains(x, y)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

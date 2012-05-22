@@ -66,7 +66,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	private float w_factor;
 	private long lastClick;
 	private int coolDown = 200;
-	private int points = 10;
+	private int points;
 	private int currentAttack = 0;
 	private int currentGod = 0;
 	private int maxUpgrade = 3;
@@ -117,6 +117,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 		 */
 		this.player = player;
 		this.base = player.getArray();
+		this.points = player.getUpgPoints();
 		this.h_factor = (float)h_factor;
  	   	this.w_factor = (float)w_factor;
         treeLoopThread = new TreeLoopThread(this);

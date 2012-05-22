@@ -71,11 +71,14 @@ public class GameActivity extends Activity {
         saver = new SaveService(GameActivity.this);
 
         
-        
-        
+        /**
+         * @author Szpada
+         * 
+         * meczarnia z gownami ktorych nie rozumiem
+         */
         
         gview = new GameView(this, w_factor, h_factor, glevel);
-        
+
         Log.d("GameActivity", "new gameview");
 
         
@@ -124,10 +127,7 @@ public class GameActivity extends Activity {
         	gview.setPlayer(p.getPlayer());
         	gview.setSerializableTemps(p.getTemps());
         	gview.setWaves(p.getWaves());
-        	gview.setCurrent_wave(p.getCurrent_wave());
-        	
-        	
-        	
+        	gview.setCurrent_wave(p.getCurrent_wave());	
         }
 		
 	}

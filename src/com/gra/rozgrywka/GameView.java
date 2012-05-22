@@ -21,16 +21,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-/*			
- * 									OPTYMALIZACJA (tylko jesli bedzie cielo)
- * 			________________________________________________________________________________
- *			|DODAC 3 LISTY DLA ENEMYSPRITE (gora-lewo / gora-prawo / dol-lewo / dol-prawo) 	|
- *			|I SPRAWDZAC TYLKO TE LISTY W KTORYCH ZNAJDUJE SIE ATAK							|
- * 			|																				|
- * 			|																				|
- * 			|_______________________________________________________________________________|
- */
-
 /**
  * @author Maciej
  * glowny widok - plansza gry i wszystko co sie na niej dzieje
@@ -83,7 +73,7 @@ public class GameView extends SurfaceView {
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
  	   	 this.level = level;
- 	   	 
+ 	   	 //this.base = player.getArray();
  	   	 this.waves = this.level.getWave();
  	   	  	   	
          gameLoopThread = new GameLoopThread(this);
@@ -313,13 +303,29 @@ public class GameView extends SurfaceView {
 	        		   }
 	        	   }
            		}
+        	   else if(event.getAction() == MotionEvent.ACTION_UP){
+            	   lastClick = System.currentTimeMillis();
+            	   /*
+            	    * kliknieto rozdzial
+            	    */
+            	   if(finished_screen.checkCollision((int)x, (int)y) < 0){
+            		   openChapters();
+            	   }
+            	   /*
+            	    * kliknieto drzewo
+            	    */
+            	   else if(finished_screen.checkCollision((int)x, (int)y) > 0){
+            		   openTree();
+            	   }
+            	   /*
+            	    * kliknieto replay
+            	    */
+            	   else{
+            		   //replay();
+            	   }
+               } 
            }
-           else{
-        	   /*
-        	    * gra zakonczona - na klikniecie gdziekolwiek ma wrocic do chapterView
-        	    */
-           }
-           return true;     
+           return true;      
        }
        /*
         * zadawanie dmg przez wszystkie ataki znajdujace sie w danej chwili na mapie
@@ -697,16 +703,12 @@ public class GameView extends SurfaceView {
 	public void gameFinished(boolean game_won){
 		
 		//vv.vibrate(100);
-		try {
-			vv.vibrate(100);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		 * TODO:
-		 * zatrzymaj thread gry
-		 */
+//		try {
+//			vv.vibrate(100);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		if(game_won){
 			/*
 			 * gra wygrana, oblicz gwiazdki, wyswietl odpowiedni komunikat
@@ -731,14 +733,13 @@ public class GameView extends SurfaceView {
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
 			this.finished_screen = new GameFinished(this,true,0,0,stars);
-			
+			this.player.addUpgPoints(this.level.getUpgradePoints());
 			/*
 			 * TODO:
 			 * zapis postepu gry i przejscie do nastepnego levelu 
 			 * ORAZ update playera - jego dostepne upgrady, dostepne lewele i gwiazdki na lewelach
 			 */
-			
-			openChapters();
+			//openChapters();
 			
 			
 		}
@@ -752,7 +753,7 @@ public class GameView extends SurfaceView {
 			 * TODO:
 			 * zapis postepu gry i przejscie do nastepnego levelu
 			 */
-			openChapters();
+			//openChapters();
 		}
 	}
 	

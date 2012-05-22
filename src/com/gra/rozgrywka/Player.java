@@ -214,4 +214,7 @@ public class Player
 	public int[][] getArray(){
 		return this.godsAttacks;
 	}
+	public int getUpgPoints(){
+		return this.upgradePoints;
+	}
 }

@@ -12,7 +12,8 @@ public class Level implements Serializable{
 	private List<Wave> waves = new ArrayList<Wave>();
 	
 	private long time_goal;	//szacowany czas rozegrania levelu
-	
+	private int upgrade_point = 1;
+	private boolean completed;
 	public Level(difficulty dif){
 		switch(dif){
 		/*
@@ -42,6 +43,7 @@ public class Level implements Serializable{
 			waves.add(new Wave(enemyType.knight,enemyType.knight,enemyType.catapult,enemyType.knight,
 					enemyType.knight));
 			this.time_goal = 50000;
+			this.upgrade_point = 1;
 			break;
 									/*
 									 *  CHAPTER 1
@@ -83,6 +85,7 @@ public class Level implements Serializable{
 			waves.add(new Wave(enemyType.catapult,enemyType.catapult,enemyType.catapult,enemyType.catapult,
 					enemyType.catapult,enemyType.catapult,enemyType.catapult));
 			this.time_goal = 80000;
+			this.upgrade_point = 1;
 			break;
 		}
 	}
@@ -94,5 +97,14 @@ public class Level implements Serializable{
 	}
 	public long getTimeGoal(){
 		return this.time_goal;
+	}
+	public int getUpgradePoints(){
+		return this.upgrade_point;
+	}
+	public boolean getCompleted(){
+		return this.completed;
+	}
+	public void setCompleted(boolean state){
+		this.completed = state;
 	}
 }
