@@ -32,7 +32,7 @@ public class ChaptersActivity extends Activity {
         double h_factor = height/800.0;
         double w_factor = width/480.0;
 		
-        setContentView(new ChapterView(this, h_factor, w_factor, gplayer));
+        setContentView(new ChapterView(this, w_factor, h_factor, gplayer));
     }
     
     protected void onStop() 

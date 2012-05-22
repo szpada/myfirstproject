@@ -696,7 +696,7 @@ public class GameView extends SurfaceView {
 	}
 	public void gameFinished(boolean game_won){
 		
-		vv.vibrate(100);
+		//vv.vibrate(100);
 		/*
 		 * TODO:
 		 * zatrzymaj thread gry
