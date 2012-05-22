@@ -697,6 +697,12 @@ public class GameView extends SurfaceView {
 	public void gameFinished(boolean game_won){
 		
 		//vv.vibrate(100);
+		try {
+			vv.vibrate(100);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*
 		 * TODO:
 		 * zatrzymaj thread gry
