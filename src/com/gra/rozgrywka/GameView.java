@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -43,6 +44,7 @@ public class GameView extends SurfaceView {
     private long manaTime = 0;
     
     private GameLoopThread gameLoopThread;
+    private Vibrator vv;
     
     private List<EnemySprite> enemies = new ArrayList<EnemySprite>();
     private List<AttackSprite> attack = new ArrayList<AttackSprite>();
@@ -75,7 +77,9 @@ public class GameView extends SurfaceView {
    private Player player = new Player("pies",0,0,base,200,200,2,10,10, 0, 0);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
+	   
          super(context);
+         Vibrator vv = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
  	   	 this.level = level;
@@ -691,6 +695,8 @@ public class GameView extends SurfaceView {
 		
 	}
 	public void gameFinished(boolean game_won){
+		
+		vv.vibrate(100);
 		/*
 		 * TODO:
 		 * zatrzymaj thread gry
