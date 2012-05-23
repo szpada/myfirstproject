@@ -637,8 +637,9 @@ public class EnemySprite implements Serializable {
 			canvas.drawBitmap(this.bmp, src, dst, null);
 			
 			if(this.life > this.maxLife){
-				canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
 				paint.setColor(Color.WHITE);
+				canvas.drawRect(getX(),getY() - 10,getX() + getWidth(), getY() - 5, paint);
+				//canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
 			}
 			/*
 			 * wersja ze zwerzajacym sie paskiem zycia do srodka

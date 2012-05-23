@@ -40,6 +40,7 @@ public class BossSprite extends EnemySprite{
 	public void onDraw(Canvas canvas) {
 		if(super.getSt() == state.die){
     		int slowFrame = super.getCurrentFrame() / 10;
+    		Log.d("BOSS", "DIE frame :" + slowFrame);
 			int srcX = super.getWidth() * slowFrame;
 			int srcY = super.getSt().ordinal() * super.getHeight();
 			Rect src = new Rect(srcX, srcY, srcX + super.getWidth(), srcY + super.getHeight());
@@ -48,6 +49,7 @@ public class BossSprite extends EnemySprite{
 			if(slowFrame >= super.getFrames()){
 				super.getEnemies().remove(this);
 			}
+			super.setCurrentFrame(super.getCurrentFrame() + 1);
     	}
     	else{
 	    	Paint paint = new Paint();
@@ -63,7 +65,8 @@ public class BossSprite extends EnemySprite{
 			 */
 			if(super.getLife() > super.getMaxLife()){
 				paint.setColor(Color.WHITE);
-				canvas.drawRect(super.getX() + super.getWidth()/2 - (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth()), super.getY() - 10, super.getX() + super.getWidth()/2 + (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth()), super.getY()- 5, paint);
+				canvas.drawRect(super.getX(),super.getY() - 10,super.getX() + super.getWidth(), super.getY() - 5, paint);
+				//canvas.drawRect(super.getX() + super.getWidth()/2 - (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth()), super.getY() - 10, super.getX() + super.getWidth()/2 + (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth())/2, super.getY()- 5, paint);
 			}
 			if(super.getMaxLife() > super.getLife() && super.getLife() >= 0){
 				/*
@@ -138,7 +141,6 @@ public class BossSprite extends EnemySprite{
 		    		super.setRecentStateChange(false);
 		    		super.setCurrentFrame(0);
 		    	}
-		    	
 		    }
 	    }
 	    else{
