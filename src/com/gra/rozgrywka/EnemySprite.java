@@ -257,10 +257,11 @@ public class EnemySprite implements Serializable {
 	        this.maxLife = 500;
 	        this.range = 400;
 	        for(int i=0; i<5; i++){
-	        	this.res[i] = 0;
+	        	this.res[i] = 5;
 	        	this.immute[i] = false;
 	        	this.absorbs[i] = false;
 	        }
+	        this.absorbs[1] = true;
 	        this.frames = 4;
 	        this.wt = warriorType.chapter_boss;
 	        this.summonType = enemyType.fire_imp;
@@ -636,14 +637,19 @@ public class EnemySprite implements Serializable {
 			/*
 			 * Pasek zycia
 			 */
-			if((double)this.life/(double)this.maxLife > 0.66 ){
-				paint.setColor(Color.GREEN);
-			}
-			else if((double)this.life/(double)this.maxLife > 0.33 ){
-				paint.setColor(Color.YELLOW);
+			if(this.life > this.maxLife){
+				paint.setColor(Color.WHITE);
 			}
 			else{
-				paint.setColor(Color.RED);
+				if((double)this.life/(double)this.maxLife > 0.66 ){
+					paint.setColor(Color.GREEN);
+				}
+				else if((double)this.life/(double)this.maxLife > 0.33 ){
+					paint.setColor(Color.YELLOW);
+				}
+				else{
+					paint.setColor(Color.RED);
+				}
 			}
 			/*
 			 * wersja ze zwerzajacym sie paskiem zycia do srodka
