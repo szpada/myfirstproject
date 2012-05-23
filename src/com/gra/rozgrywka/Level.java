@@ -24,7 +24,7 @@ public class Level implements Serializable{
 									 */
 		case tutorial1:
 			// FALA #1
-			waves.add(new Wave(enemyType.knight));
+			waves.add(new Wave(enemyType.knight,enemyType.fire_boss));
 			this.time_goal = 10000;
 			break;
 		case tutorial2:

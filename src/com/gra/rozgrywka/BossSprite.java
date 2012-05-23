@@ -5,6 +5,7 @@ import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+
 /**
  * @author Szpada
  * 
@@ -12,8 +13,10 @@ import android.graphics.Rect;
  * chodzi na boki oraz teleportuje sie. Glwna jego bronia bedzie atakowanie z dystansu oraz 
  * wskrzeszanie jednostek. Dodatkowo moze sobie odnawiac zycie.
  */
+
 public class BossSprite extends EnemySprite{
 
+	
 	public BossSprite(List<EnemySprite> enemies, GameView gameView,
 			enemyType tp, int x, int y, List<EnemyAttack> ea) {
 		super(enemies, gameView, tp, x, y, ea);
@@ -25,7 +28,30 @@ public class BossSprite extends EnemySprite{
 		// TODO Auto-generated method stub
 		super.onDraw(canvas);
 	}
-
+	
+//	@Override
+//	public void update(){
+////		if(System.currentTimeMillis() - super.getTimer() < super.getSlowTimes()){
+////    		super.setSpeed(1);
+////    	}
+////    	else{
+////    		super.setSlowed(false);
+////    		super.setSpeed(super.getMaxSpeed());
+////    	}
+//	    if(super.getLife() < 1){
+//		    this.setSt(state.die);
+//		    if(!super.isRecentStateChange()){
+//		    	super.setCurrentFrame(0);
+//			    super.setRecentStateChange(true);
+//		   }
+//	    }
+//	    /*
+//	     * burdel odpowiadajacy za atak wroga
+//	     */
+//	    //super.onDraw(canvas);
+//	    
+//	}
+	
 	@Override
 	public int getX() {
 		// TODO Auto-generated method stub

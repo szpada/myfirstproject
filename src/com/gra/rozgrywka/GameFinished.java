@@ -38,6 +38,9 @@ public class GameFinished {
 	private int replay_width;
 	private int replay_height;
 	
+	private int buttonY;	//gdzie maja znajdowac sie guziki
+	private int buttonX;
+	
 	private boolean completed; //PATRZ DOBRZE NAPISALEM! :/
 	
 	private int stars;
@@ -102,6 +105,8 @@ public class GameFinished {
 		 */
 		starX = 100;
 		starY = 150;
+		this.buttonY = starY;
+		this.buttonX = starX;
 		src = new Rect(srcX, srcY, srcX + this.replay_width, srcY + this.replay_height);
 		dst = new Rect(this.x + starX, this.y + starY, this.x + starX + this.replay_width, this.y + starY + this.replay_height);
 		canvas.drawBitmap(this.replay, src, dst, null);
@@ -121,8 +126,8 @@ public class GameFinished {
 		canvas.drawBitmap(this.go_chapter, src, dst, null);
 	}
 	public int checkCollision(int x, int y){
-		int starX = 100;
-		int starY = 450;
+		int starX = this.buttonX;
+		int starY = this.buttonY;
 		Rect dst = new Rect(this.x + starX, this.y + starY, this.x + starX + this.chapter_width, this.y + starY + this.chapter_height);
 		if(dst.contains(x,y)){
 			return 0;

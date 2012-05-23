@@ -244,10 +244,241 @@ public class EnemySprite implements Serializable {
 	        this.next_state = state.shoot;
 	        this.melee_range = 20;
 	        break;
+	    case fire_boss:
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.chapterbossfire);
+			this.sz = size.small;
+			this.width = 128;
+  		   	this.height = 128;
+	        this.attackSpeed = 20;
+	        this.maxSpeed = 2;
+	        this.speed = 2;
+	        this.dmg = 10;
+	        this.life = 500;
+	        this.maxLife = 500;
+	        this.range = 400;
+	        for(int i=0; i<5; i++){
+	        	this.res[i] = 0;
+	        	this.immute[i] = false;
+	        	this.absorbs[i] = false;
+	        }
+	        this.frames = 4;
+	        this.wt = warriorType.chapter_boss;
+	        this.summonType = enemyType.fire_imp;
+	        this.next_state = state.shoot;
+	        this.melee_range = 20;
+	        break;
 		}
     }
     
-    private void update() {
+    public GameView getGameView() {
+		return gameView;
+	}
+
+	public void setGameView(GameView gameView) {
+		this.gameView = gameView;
+	}
+
+	public Bitmap getBmp() {
+		return bmp;
+	}
+
+	public void setBmp(Bitmap bmp) {
+		this.bmp = bmp;
+	}
+
+	public size getSz() {
+		return sz;
+	}
+
+	public void setSz(size sz) {
+		this.sz = sz;
+	}
+
+	public warriorType getWt() {
+		return wt;
+	}
+
+	public void setWt(warriorType wt) {
+		this.wt = wt;
+	}
+
+	public List<EnemySprite> getEnemies() {
+		return enemies;
+	}
+
+	public void setEnemies(List<EnemySprite> enemies) {
+		this.enemies = enemies;
+	}
+
+	public List<EnemyAttack> getAttacks() {
+		return attacks;
+	}
+
+	public void setAttacks(List<EnemyAttack> attacks) {
+		this.attacks = attacks;
+	}
+
+	public static int getOlympY() {
+		return olympY;
+	}
+
+	public static void setOlympY(int olympY) {
+		EnemySprite.olympY = olympY;
+	}
+
+	public int getFrames() {
+		return frames;
+	}
+
+	public void setFrames(int frames) {
+		this.frames = frames;
+	}
+
+	public enemyType getThisType() {
+		return thisType;
+	}
+
+	public void setThisType(enemyType thisType) {
+		this.thisType = thisType;
+	}
+
+	public enemyType getSummonType() {
+		return summonType;
+	}
+
+	public void setSummonType(enemyType summonType) {
+		this.summonType = summonType;
+	}
+
+	public state getNext_state() {
+		return next_state;
+	}
+
+	public void setNext_state(state next_state) {
+		this.next_state = next_state;
+	}
+
+	public int getMelee_range() {
+		return melee_range;
+	}
+
+	public void setMelee_range(int melee_range) {
+		this.melee_range = melee_range;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public int getAttackIncrement() {
+		return attackIncrement;
+	}
+
+	public void setAttackIncrement(int attackIncrement) {
+		this.attackIncrement = attackIncrement;
+	}
+
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+
+	public void setCurrentFrame(int currentFrame) {
+		this.currentFrame = currentFrame;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(int maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	public int getSlowTimes() {
+		return slowTimes;
+	}
+
+	public void setSlowTimes(int slowTimes) {
+		this.slowTimes = slowTimes;
+	}
+
+	public long getTimer() {
+		return timer;
+	}
+
+	public void setTimer(long timer) {
+		this.timer = timer;
+	}
+
+	public boolean isSlowed() {
+		return slowed;
+	}
+
+	public void setSlowed(boolean slowed) {
+		this.slowed = slowed;
+	}
+
+	public boolean isRecentStateChange() {
+		return recentStateChange;
+	}
+
+	public void setRecentStateChange(boolean recentStateChange) {
+		this.recentStateChange = recentStateChange;
+	}
+
+	public boolean[] getImmute() {
+		return immute;
+	}
+
+	public void setImmute(boolean[] immute) {
+		this.immute = immute;
+	}
+
+	public boolean[] getAbsorbs() {
+		return absorbs;
+	}
+
+	public void setAbsorbs(boolean[] absorbs) {
+		this.absorbs = absorbs;
+	}
+
+	public int[] getRes() {
+		return res;
+	}
+
+	public void setRes(int[] res) {
+		this.res = res;
+	}
+
+	public void setAmmoType(enemyAttackType ammoType) {
+		this.ammoType = ammoType;
+	}
+
+	public void setAmmoSpeed(int ammoSpeed) {
+		this.ammoSpeed = ammoSpeed;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public void setDmgReady(boolean dmgReady) {
+		this.dmgReady = dmgReady;
+	}
+
+	public void update() {
     	if(System.currentTimeMillis() - this.timer < this.slowTimes){
     		this.speed = 1;
     	}

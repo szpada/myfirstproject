@@ -64,7 +64,7 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,200,200,2,10,10, 0, 0);
+   private Player player = new Player("pies",0,0,base,200,200,2,100,100, 0, 0);
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
 	   
@@ -374,7 +374,7 @@ public class GameView extends SurfaceView {
 									   }
 								   }
 								   if(enemies.get(i).getLife() < 1){
-									   temps.add(createTemp(enemies.get(i).getLife() * -5,400,bonusType.mana_potion));
+									   //temps.add(createTemp(enemies.get(i).getLife() * -5,400,bonusType.mana_potion));
 									   //enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -5,10));
 								   }
 							   }
@@ -438,7 +438,12 @@ public class GameView extends SurfaceView {
 	    			   Log.d("waves", "unitsy zaladowane");
 	    			   for(int j = units.size()-1; j >= 0; j--){
 	    				   Log.d("waves", "petla for przejazd nr : " + j);
-	    				   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
+	    				   if(units.get(j).getEnemyType() == enemyType.fire_boss ){
+	    					   enemies.add(new BossSprite(enemies, this,units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY(),enemyAttacks));
+	    				   }
+	    				   else{
+	    					   enemies.add(createEnemy(units.get(j).getEnemyType(),units.get(j).getX(),units.get(j).getY()));
+	    				   }
 	    			   }
 	    			   this.current_wave++;
 	    			   Log.d("waves", "wyszedlem z fora");
