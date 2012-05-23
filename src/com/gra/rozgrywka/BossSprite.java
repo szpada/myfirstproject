@@ -57,14 +57,18 @@ public class BossSprite extends EnemySprite{
 			Rect src = new Rect(srcX, srcY, srcX + super.getWidth(), srcY + super.getHeight());
 			Rect dst = new Rect(super.getX(), super.getY(), super.getX() + super.getWidth(), super.getY() + super.getHeight());
 			canvas.drawBitmap(super.getBmp(), src, dst, null);
-			/*
-			 * Pasek zycia
-			 */
 			
+			/*
+			 * wersja ze zwerzajacym sie paskiem zycia do srodka
+			 */
 			if(super.getLife() > super.getMaxLife()){
 				paint.setColor(Color.WHITE);
+				canvas.drawRect(super.getX() + super.getWidth()/2 - (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth()), super.getY() - 10, super.getX() + super.getWidth()/2 + (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth()), super.getY()- 5, paint);
 			}
-			else{
+			if(super.getMaxLife() > super.getLife() && super.getLife() >= 0){
+				/*
+				 * Pasek zycia
+				 */
 				if((double)super.getLife()/(double)super.getMaxLife() > 0.66 ){
 					paint.setColor(Color.GREEN);
 				}
@@ -74,11 +78,6 @@ public class BossSprite extends EnemySprite{
 				else{
 					paint.setColor(Color.RED);
 				}
-			}
-			/*
-			 * wersja ze zwerzajacym sie paskiem zycia do srodka
-			 */
-			if(super.getMaxLife() > super.getLife() && super.getLife() >= 0){
 				canvas.drawRect(super.getX() + super.getWidth()/2 - (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth())/2, super.getY() - 10, super.getX() + super.getWidth()/2 + (int)((double)super.getLife()/(double)super.getMaxLife() * (double)super.getWidth())/2, super.getY()- 5, paint);
 			}
     	}

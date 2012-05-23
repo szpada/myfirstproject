@@ -217,6 +217,7 @@ public class EnemySprite implements Serializable {
 	        	this.immute[i] = false;
 	        	this.absorbs[i] = false;
 	        }
+	        this.absorbs[1] = true;
 	        this.frames = 3;
 	        this.wt = warriorType.melee;
 	        this.st = state.summon;
@@ -634,13 +635,18 @@ public class EnemySprite implements Serializable {
 			Rect src = new Rect(srcX, srcY, srcX + this.width, srcY + this.height);
 			Rect dst = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 			canvas.drawBitmap(this.bmp, src, dst, null);
-			/*
-			 * Pasek zycia
-			 */
+			
 			if(this.life > this.maxLife){
+				canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
 				paint.setColor(Color.WHITE);
 			}
-			else{
+			/*
+			 * wersja ze zwerzajacym sie paskiem zycia do srodka
+			 */
+			if(this.maxLife > this.life && this.life >= 0){
+				/*
+				 * Pasek zycia
+				 */
 				if((double)this.life/(double)this.maxLife > 0.66 ){
 					paint.setColor(Color.GREEN);
 				}
@@ -650,11 +656,6 @@ public class EnemySprite implements Serializable {
 				else{
 					paint.setColor(Color.RED);
 				}
-			}
-			/*
-			 * wersja ze zwerzajacym sie paskiem zycia do srodka
-			 */
-			if(this.maxLife > this.life && this.life >= 0){
 				canvas.drawRect(this.x + this.width/2 - (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 10, this.x + this.width/2 + (int)((double)this.life/(double)this.maxLife * (double)this.width)/2, this.y - 5, paint);
 			}
 			if(this.slowed){
