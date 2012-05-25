@@ -5,12 +5,14 @@ package com.gra.rozgrywka;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gra.R;
 import com.gra.rozgrywka.Level.difficulty;
 import com.gra.zapisy.SaveService;
 import com.gra.zapisy.SavedState;

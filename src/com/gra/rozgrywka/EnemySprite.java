@@ -157,17 +157,17 @@ public class EnemySprite implements Serializable {
 	        this.summonType = enemyType.knight;
 			break;
 	    case balista:
-	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapult);
+	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.balista);
 			this.sz = size.small;
 			this.width = 64;
 		   	this.height = 64;
-	        this.attackSpeed = 15;
+	        this.attackSpeed = 40;
 	        this.maxSpeed = 2;
 	        this.speed = 2;
 	        this.dmg = 0;
 	        this.life = 100;
 	        this.maxLife = 100;
-	        this.range = 300;
+	        this.range = 450;
 	        for(int i=0; i<5; i++){
 	        	this.res[i] = 0;
 	        	this.immute[i] = false;
@@ -176,7 +176,7 @@ public class EnemySprite implements Serializable {
 	        this.frames = 4;
 	        this.wt = warriorType.range;
 	        this.ammoType = enemyAttackType.spear;
-	        this.ammoSpeed = 2;
+	        this.ammoSpeed = 6;
 			break;
 	    case catapult:
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapult);
@@ -250,19 +250,19 @@ public class EnemySprite implements Serializable {
 			this.sz = size.small;
 			this.width = 128;
   		   	this.height = 128;
-	        this.attackSpeed = 20;
+	        this.attackSpeed = 50;
 	        this.maxSpeed = 2;
 	        this.speed = 2;
 	        this.dmg = 10;
-	        this.life = 500;
-	        this.maxLife = 500;
-	        this.range = 400;
+	        this.life = 200;//2000
+	        this.maxLife = 200;//2000
+	        this.range = 20;
 	        for(int i=0; i<5; i++){
-	        	this.res[i] = 5;
+	        	this.res[i] = 0;//5
 	        	this.immute[i] = false;
 	        	this.absorbs[i] = false;
 	        }
-	        this.absorbs[1] = true;
+	        //this.absorbs[1] = true;
 	        this.frames = 4;
 	        this.wt = warriorType.chapter_boss;
 	        this.summonType = enemyType.fire_imp;
@@ -782,5 +782,8 @@ public class EnemySprite implements Serializable {
 		this.st = st;
 		this.range = range;
 		this.currentFrame = currentFrame;
+	}
+	public int getSize(){
+		return (this.width + this.height)/2;
 	}
 }

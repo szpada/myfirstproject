@@ -49,8 +49,8 @@ public class EnemyAttack implements Serializable {
 		this.ea = enemyType;
 		switch(ea){
 		case spear:
-			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), com.gra.R.drawable.catapultammo);
-			this.columns = 3;
+			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), com.gra.R.drawable.arrow);
+			this.columns = 4;
 			this.rows = 2;
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
@@ -199,4 +199,7 @@ public class EnemyAttack implements Serializable {
 		this.currentFrame = currentFrame;
 		this.degree = degree;
     }
+    public int getSize(){
+		return (this.width + this.height)/2;
+	}
 }

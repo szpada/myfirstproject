@@ -8,6 +8,7 @@ import com.gra.drzewko.TreeActivity;
 import java.util.List;
 import java.util.Random;
 
+import android.R.raw;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -64,7 +67,12 @@ public class GameView extends SurfaceView {
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,200,200,2,100,100, 0, 0);
+   private Player player = new Player("pies",0,0,base,500,500,2,100,100, 0, 0);
+   
+   /*	
+    * ===========SOUND========= 
+    */
+   private SoundPool sounds;
    
    public GameView(Context context, double w_factor, double h_factor, Level level) {
 	   
@@ -76,6 +84,9 @@ public class GameView extends SurfaceView {
  	   	 //this.base = player.getArray();
  	   	 this.waves = this.level.getWave();
  	   	  	   	
+ 	   	 
+ 	   	sounds = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+ 	   	 
          gameLoopThread = new GameLoopThread(this);
          getHolder().addCallback(new SurfaceHolder.Callback() {
                 //@Override
@@ -116,6 +127,7 @@ public class GameView extends SurfaceView {
 
 
 	private void createSprites() {
+		sounds.play(R.raw.intro, 1.0f, 1.0f, 0, 0, 1.5f);
 		this.start_time = System.currentTimeMillis();	//poczatek rozgrywki
 	   /*
 	    * Tworzenie wszystkich bitmap i wrogów
@@ -280,7 +292,7 @@ public class GameView extends SurfaceView {
 				        			   this.lastGod = player.getCurrentGod();
 				        			   for(int i = enemyAttacks.size()-1; i >= 0; i--){
 				        				   if((attack.get(attack.size()-1).getExploding())){
-				        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect());
+				        					   int power = attack.get(attack.size()-1).checkCollision(enemyAttacks.get(i).getRect(), enemyAttacks.get(i).getSize()/3);
 											   if(power > 0){
 												   enemyAttacks.get(i).attackedWithDmg(power);
 											   }
@@ -288,7 +300,7 @@ public class GameView extends SurfaceView {
 				        			   }
 				        			   for(int i = enemies.size()-1; i >= 0; i--){
 				        				   if((attack.get(attack.size()-1).getExploding())){
-				        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect());
+				        					   int power = attack.get(attack.size()-1).checkCollision(enemies.get(i).getRect(), enemies.get(i).getSize()/3);
 											   if(power > 0){
 												   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
 												   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
@@ -342,7 +354,7 @@ public class GameView extends SurfaceView {
     					   if(!(attack.get(j).getExploding())){
     						   int power = 0;
     						   if(!(enemyAttacks.get(i).getAttackState() == attackState.die)){
-	    						   power = attack.get(j).checkCollision(enemyAttacks.get(i).getRect()); 
+	    						   power = attack.get(j).checkCollision(enemyAttacks.get(i).getRect(), enemyAttacks.get(i).getSize()/3); 
     						   }
 							   if(power > 0){
 								   enemyAttacks.get(i).attackedWithDmg(power);//(power + attack.get(j).getDmg(), player.getCurrentGod());
@@ -362,7 +374,7 @@ public class GameView extends SurfaceView {
     					   if(!(attack.get(j).getExploding())){
     						   int power = 0;
     						   if(!(enemies.get(i).getSt() == state.die)){
-	    						   power = attack.get(j).checkCollision(enemies.get(i).getRect()); 
+	    						   power = attack.get(j).checkCollision(enemies.get(i).getRect(), enemies.get(i).getSize()/3); 
     						   }
 							   if(power > 0){
 								   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());//(power + attack.get(j).getDmg(), player.getCurrentGod());
@@ -407,7 +419,7 @@ public class GameView extends SurfaceView {
 		    * atakujemy wroga nowym atakiem
 		    */
     	   Random rnd = new Random();
-    	   if(attack.get(a_number).checkCollision(enemies.get(enemy).getRect()) == 0){
+    	   if(attack.get(a_number).checkCollision(enemies.get(enemy).getRect(), enemies.get(enemy).getSize()/3) == 0){
 	    	   if(rnd.nextInt(player.getLuck() + 1) > 0){
 	    		   attack.add(new AttackSprite(attack,this,otherAttacks.chargeShieldAttack,attack.get(a_number).getLvl(),
 	    				   enemies.get(enemy).getX() + enemies.get(enemy).getWidth()/2,

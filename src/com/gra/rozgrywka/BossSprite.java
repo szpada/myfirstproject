@@ -31,7 +31,7 @@ public class BossSprite extends EnemySprite{
 	
 	public BossSprite(List<EnemySprite> enemies, GameView gameView,
 			enemyType tp, int x, int y, List<EnemyAttack> ea) {
-		super(enemies, gameView, tp, 240, 300, ea);
+		super(enemies, gameView, tp, 176, 240, ea);
 		super.setCurrentFrame(super.getFrames() -1);
 		// TODO Auto-generated constructor stub
 	}
@@ -40,7 +40,6 @@ public class BossSprite extends EnemySprite{
 	public void onDraw(Canvas canvas) {
 		if(super.getSt() == state.die){
     		int slowFrame = super.getCurrentFrame() / 10;
-    		Log.d("BOSS", "DIE frame :" + slowFrame);
 			int srcX = super.getWidth() * slowFrame;
 			int srcY = super.getSt().ordinal() * super.getHeight();
 			Rect src = new Rect(srcX, srcY, srcX + super.getWidth(), srcY + super.getHeight());
@@ -153,7 +152,7 @@ public class BossSprite extends EnemySprite{
 		    }
 	    }
 	    this.timer++;
-	    if(this.move_timer < 0 && this.timer >= 100 - super.getAttackSpeed()){
+	    if(this.move_timer < 0 && this.timer >= 100 - super.getAttackSpeed()){//bylo 100
 	    	this.moveReady = true;
 	    	this.timer = 0;
 	    }
@@ -171,11 +170,21 @@ public class BossSprite extends EnemySprite{
 	    if(teleported){
 	    	if(super.getCurrentFrame() == super.getFrames()-1){
 		    	Random rnd = new Random();
-		    	super.setX(rnd.nextInt(224) + 128);
-		    	super.setY(rnd.nextInt(400));
+		    	int teleportX = rnd.nextInt(224) + 128;
+		    	int teleportY = rnd.nextInt(400);// + 128;
+		    	if((teleportX > super.getX() + 64 || teleportX < super.getX() - 64) || (teleportY > super.getY() + 64 || teleportY < super.getY() - 64)){
+		    		super.setX(teleportX);
+			    	super.setY(teleportY);
+		    	}
+		    	else{
+		    		super.setX(480 - super.getX());
+			    	super.setY(400 - super.getY());
+		    	}
+//		    	super.setX(teleportX);
+//		    	super.setY(teleportY);
 		    	this.teleported = false;
 		    	this.teleportStart = false;
-	    	}
+    		}
 	    }
 	    if(super.getSt() == state.shoot && super.getCurrentFrame() == super.getFrames() -1){
 	    	Random rnd = new Random();

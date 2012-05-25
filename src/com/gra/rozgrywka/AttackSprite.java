@@ -194,7 +194,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.rows;
 			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.lvl * 2 + 3*this.width/4;
+			this.range = this.lvl * 2 + this.width/2;
 			this.dmg = 80;
 			this.slow = 0;
 			this.life = 15;
@@ -216,7 +216,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.rows;
 			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.lvl * 4 + 3*this.width/4;
+			this.range = this.lvl * 2 + this.width/2;
 			this.dmg = rand.nextInt(lvl + 2) + 8;
 			this.slow = 0;
 			this.life = 15;
@@ -276,7 +276,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.rows;
 			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.lvl * 2 + 3*this.width/4;
+			this.range = this.lvl * 2 + this.width/2;
 			this.dmg = 16 + rand.nextInt(lvl*4);
 			this.slow = 0;
 			this.life = 15;
@@ -332,7 +332,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.rec = new Rect(this.x - this.width/4,this.y - this.height/4, this.x + this.width/4, this.y + this.height/4);
-			this.range = 32;
+			this.range = 16;
 			this.frames = (this.rows * this.columns) - 1;
 			this.dmg = 1;
 			this.slow = 0;
@@ -412,7 +412,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = this.lvl * 4 + 3*this.width/4;
+			this.range = this.lvl * 4 + this.width/2;
 			this.dmg = rand.nextInt(lvl + 2) + 8;
 			this.slow = 0;
 			this.life = 15;
@@ -676,12 +676,12 @@ public class AttackSprite implements Serializable {
 	   }
 	   life--;
    }
-   public int checkCollision(Rect rect){
+   public int checkCollision(Rect rect, int one_third_size){
 	   switch(this.element){
 		   case explosion:
 		   case whip:
 			   double distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
-			   if(distance < this.range){
+			   if(distance < this.range + one_third_size){
 				   if(this.attp==attackType.meteor){
 					   if(this.currentFrame < 8){
 						   return 0;
@@ -691,10 +691,10 @@ public class AttackSprite implements Serializable {
 						   return damage;
 					   }
 				   }
-				   if(distance/this.range < 0.2){
+				   if(distance/(this.range + one_third_size) < 0.2){
 					   return this.dmg;
 				   }
-				   else if(distance/this.range < 0.5){
+				   else if(distance/(this.range + one_third_size) < 0.5){
 					   return this.dmg/2;
 				   }
 				   else{
@@ -713,9 +713,9 @@ public class AttackSprite implements Serializable {
 			   return 0;
 		   case shot:
 			   distance = Math.pow(Math.pow((this.rec.centerX() - rect.centerX()),2) + Math.pow((this.rec.centerY() - rect.centerY()),2),0.5);
-			   if(distance < this.range){
+			   if(distance < this.range + one_third_size){
 				   this.attack.add(new AttackSprite(this.attack,this.gameView,attackType.fireball,1,this.x,this.y,true));
-				   if(distance/this.range < 0.5){
+				   if(distance/(this.range + one_third_size) < 0.5){
 					   return this.dmg;
 				   }
 				   else{
@@ -724,7 +724,7 @@ public class AttackSprite implements Serializable {
 			   }
 			   return 0;
 		   case shield:
-			   if(this.y - rect.centerY() < this.range){
+			   if(this.y - rect.centerY() < this.range + one_third_size){
 				   return 0;
 			   }
 			   else {
@@ -732,7 +732,7 @@ public class AttackSprite implements Serializable {
 			   }
 		   case storm:
 			   distance = Math.pow(Math.pow((this.x - rect.centerX()),2) + Math.pow((this.y - rect.centerY()),2),0.5);
-			   if(distance < this.range){
+			   if(distance < this.range + one_third_size){
 				   this.unit_under = 1;
 				   Random rnd = new Random();
 				   return rnd.nextInt(this.dmg);
