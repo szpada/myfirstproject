@@ -121,13 +121,9 @@ public class GameView extends SurfaceView {
                 }
          }); 
        }
-   		
    
-       
-
-
 	private void createSprites() {
-		sounds.play(R.raw.intro, 1.0f, 1.0f, 0, 0, 1.5f);
+		//sounds.play(R.raw.intro, 1.0f, 1.0f, 0, 0, 1.5f);
 		this.start_time = System.currentTimeMillis();	//poczatek rozgrywki
 	   /*
 	    * Tworzenie wszystkich bitmap i wrogów

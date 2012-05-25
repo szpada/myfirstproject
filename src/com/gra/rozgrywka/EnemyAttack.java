@@ -89,8 +89,9 @@ public class EnemyAttack implements Serializable {
         int srcY;
         Rect src;
         Rect dst;
+        int slowed_by = 5;
         if(this.as == attackState.die){
-        	int slowedFrame = currentFrame/5;
+        	int slowedFrame = currentFrame/slowed_by;
         	switch(this.ea){
             case spear:
             	srcX = (slowedFrame % this.columns) * this.width;
@@ -139,7 +140,7 @@ public class EnemyAttack implements Serializable {
 	        	break;
 	        }
         }
-        if(this.as == attackState.die && this.currentFrame >= this.frames){
+        if(this.as == attackState.die && this.currentFrame/slowed_by > this.frames){
         	enemyAttacks.remove(this);
         }
         this.currentFrame++;
