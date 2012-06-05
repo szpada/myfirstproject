@@ -17,27 +17,6 @@ import android.view.SurfaceView;
 
 import com.gra.rozgrywka.Player;
 
-/**
- * @author Maciej
- *
- *	I jego gowna
- *
- *
- */
-
-
-
-
-
-
-/*
- * 
- * 					DO POPRAWY (OPTYMALIZACJA) ZAMIENIC WSZYSTKO NA LISTY I ATAKI PODZIELIC NA POJEDYNCZE BITMAPY
- * 
- */
-
-
-
 public class TreeView extends SurfaceView {											//pogladowe wartosci atakow
 																					//mana cost, dmg, range
 	private TreeButtons shock;// = 				new TreeButtons(this,115,525,0,0,	2,1,1);
@@ -350,6 +329,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 					if (!performUpgrade(this.currentGod, this.currentAttack)) {
 						//zaswiec punktami
 					} else {
+						this.player.addUpgPoints(-1);//odejmij chujowi punkty
 						for (int i = 0; i <= attacks.size() - 1; i++) {
 							if (attacks.get(i).getGodNumber() == this.currentGod
 									&& attacks.get(i).getAttackNumber() == this.currentAttack) {
