@@ -745,8 +745,15 @@ public class GameView extends SurfaceView {
 			Log.d("finished screen", "time_stars :" + (float)time_stars + "life_stars" + (float)life_stars);
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
-			this.finished_screen = new GameFinished(this,true,0,0,stars);
+			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
+			
 			this.player.addUpgPoints(this.level.getUpgradePoints());
+			
+			Log.d("finished screen", "level ma "+Integer.toString(this.level.getUpgradePoints()));
+			Log.d("finished screen", "po dodaniu "+Integer.toString(this.player.getUpgPoints()));
+			
+			this.finished_screen = new GameFinished(this,true,0,0,stars);
+			
 			/*
 			 * TODO:
 			 * zapis postepu gry i przejscie do nastepnego levelu 

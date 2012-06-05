@@ -116,6 +116,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 		 * odkomentowac jak wartosci beda poprawnie przesylane
 		 */
 		this.player = player;
+		Log.d("TreeView", "po przekazaniu " +Integer.toString(this.player.getUpgPoints()));
 		this.base = player.getArray();
 		this.points = player.getUpgPoints();
 		this.h_factor = (float)h_factor;

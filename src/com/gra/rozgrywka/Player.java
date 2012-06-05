@@ -189,7 +189,7 @@ public class Player
 		return this.kills;
 	}
 	public void addUpgPoints(int points){
-		this.points += points;
+		this.upgradePoints += points;
 	}
 	public List<LevelUnit> getLevels(){
 		return this.levels;
