@@ -37,7 +37,7 @@ public class Player
 	private int olympMaxLife;
 	private int luck = 1;
 	private int kills;
-	private PlayersResults presults;
+	private PlayersResults presults = new PlayersResults();
 	
 	private boolean lifeReplenishment = false;
 	
@@ -56,6 +56,7 @@ public class Player
 		this.olympMaxLife = maxLife;
 		this.currentGod = currentGod;
 		this.currentAttack = currentAttack;
+		
 	}
 	
 	/*
