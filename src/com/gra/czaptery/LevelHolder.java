@@ -3,6 +3,8 @@ package com.gra.czaptery;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gra.rozgrywka.PlayersResults;
+
 /**
  * 
  * @author Szpada

@@ -1,15 +1,15 @@
-package com.gra.czaptery;
+package com.gra.rozgrywka;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 public class PlayersResults implements Serializable{
 	
-	HashMap resultsActive = new HashMap();
+	HashMap<Integer, Boolean> resultsActive = new HashMap();
 
-	HashMap resultsComplited = new HashMap();
+	HashMap<Integer, Boolean> resultsComplited = new HashMap();
 
-	HashMap resultsStars = new HashMap();
+	HashMap<Integer, Integer> resultsStars = new HashMap();
 	
 	public boolean getActive(int chapter, int id) {
 		
@@ -33,19 +33,26 @@ public class PlayersResults implements Serializable{
 	}
 	
 	
-	public void setActive(int chapter, int id, boolean act) {
+	public void setEverything(int chapter, int id, boolean act, boolean comp, int stars) {
+		setActive(chapter, id, act);
+		setComplited(chapter, id, comp);
+		setStars(chapter, id, stars);
+	}
+	
+	
+	private void setActive(int chapter, int id, boolean act) {
 		resultsActive.put(100*chapter+id, act);
 		
 		
 	}
 	
-	public void setComplited(int chapter, int id, boolean comp) {
+	private void setComplited(int chapter, int id, boolean comp) {
 		resultsComplited.put(100*chapter+id, comp);
 		
 		
 	}
 	
-	public void setStars(int chapter, int id, int stars) {
+	private void setStars(int chapter, int id, int stars) {
 		resultsStars.put(100*chapter+id, stars);
 	
 	

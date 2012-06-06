@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 
 import com.gra.rozgrywka.GameActivity;
 import com.gra.rozgrywka.Level;
+import com.gra.rozgrywka.PlayersResults;
 import com.gra.rozgrywka.Level.difficulty;
 import com.gra.rozgrywka.Player;
 
@@ -166,6 +167,8 @@ public class ChapterView extends SurfaceView{
 		this.chapters.add(tutorial);
 		this.chapters.add(village);
 		
+		 results = player.getPresults();
+		
 		for (LevelHolder lh : chapters) {
 			lh.updateLevels(results); 
 			
@@ -225,8 +228,8 @@ public class ChapterView extends SurfaceView{
 							Log.d("ChapterView",
 									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
 							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
-							//this.levels.get(i).setComplited(true);
-							//unlockLevels(this.levels.get(i).getId());
+							this.level.setChapter(currentChapter);
+							this.level.setId(this.levels.get(i).getId());
 						}
 					}
 				}

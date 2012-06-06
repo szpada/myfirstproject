@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gra.czaptery.PlayersResults;
 import com.gra.rozgrywka.Level;
 import com.gra.rozgrywka.Player;
+import com.gra.rozgrywka.PlayersResults;
 import com.gra.rozgrywka.Unit;
 import com.gra.rozgrywka.Wave;
 
@@ -29,7 +29,7 @@ public class SavedState
     private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
     private Player player;
-    private PlayersResults results;
+   
     
     private int current_wave;
     
@@ -113,13 +113,7 @@ public class SavedState
 		this.current_wave = current_wave;
 	}
 
-	public PlayersResults getResults() {
-		return results;
-	}
 
-	public void setResults(PlayersResults results) {
-		this.results = results;
-	}
 
     
 }

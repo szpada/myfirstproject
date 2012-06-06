@@ -14,6 +14,10 @@ public class Level implements Serializable{
 	private long time_goal;	//szacowany czas rozegrania levelu
 	private int upgrade_point = 1;
 	private boolean completed;
+	
+	private int chapter;
+	private int id;
+	
 	public Level(difficulty dif){
 		switch(dif){
 		/*
@@ -107,5 +111,17 @@ public class Level implements Serializable{
 	}
 	public void setCompleted(boolean state){
 		this.completed = state;
+	}
+	public void setChapter(int chapter) {
+		this.chapter = chapter;
+	}
+	public int getChapter() {
+		return chapter;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getId() {
+		return id;
 	}
 }

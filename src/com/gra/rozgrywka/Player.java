@@ -37,6 +37,7 @@ public class Player
 	private int olympMaxLife;
 	private int luck = 1;
 	private int kills;
+	private PlayersResults presults;
 	
 	private boolean lifeReplenishment = false;
 	
@@ -216,5 +217,13 @@ public class Player
 	}
 	public int getUpgPoints(){
 		return this.upgradePoints;
+	}
+
+	public void setPresults(PlayersResults presults) {
+		this.presults = presults;
+	}
+
+	public PlayersResults getPresults() {
+		return presults;
 	}
 }

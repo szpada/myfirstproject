@@ -148,9 +148,7 @@ public class GameView extends SurfaceView {
        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ambrosia3);
        ambrosia = new Sprite(this,178,625,bmp,"ambrosia",player.getMana());
        
-//           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 140, 0, 140, 700, 5, enemyAttackType.spear));
-//           enemyAttacks.add(new EnemyAttack(enemyAttacks, this, 340, 0, 140, 700, 1, enemyAttackType.catapult_stone));
-       }
+	}
        private EnemySprite createEnemy(enemyType e, int x, int y){
     	   return new EnemySprite(enemies,this,e,x,y, enemyAttacks);
        }
@@ -745,6 +743,13 @@ public class GameView extends SurfaceView {
 			Log.d("finished screen", "time_stars :" + (float)time_stars + "life_stars" + (float)life_stars);
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
+			PlayersResults results = this.player.getPresults();
+			// level is completed either if it was previously completed or it has been just completed (game_won=true)
+			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
+			
+			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);
+			
+			this.player.setPresults(results);
 			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
 			
 			this.player.addUpgPoints(this.level.getUpgradePoints());
