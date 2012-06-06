@@ -41,6 +41,7 @@ public class ChapterView extends SurfaceView{
 	private int currentChapter = 0;	//zmienna przechowujaca numer rozdzialu w ktorym obecnie sie znajdujemy
 	private LevelStats stats;
 	
+	private PlayersResults results;
 	
 	private Player player;	//player decycuje o tym ktore levele sa dostepne do przejscia
 	private Level level; 	//level wybrany przez gracza
@@ -158,12 +159,19 @@ public class ChapterView extends SurfaceView{
 		 * tworzenie rozdzialow
 		 */
 		LevelHolder tutorial = new LevelHolder(Ltutorial1,Ltutorial2,Ltutorial3);
-		LevelHolder village = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI6, LI7);
+		LevelHolder village = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI6,LI7);
 		/*
 		 * stworzenie listy rozdzialow
 		 */
 		this.chapters.add(tutorial);
 		this.chapters.add(village);
+		
+		for (LevelHolder lh : chapters) {
+			lh.updateLevels(results); 
+			
+		}
+		
+		
 		/*
 		 * stworzenie listy switcherow
 		 */

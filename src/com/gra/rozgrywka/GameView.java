@@ -784,7 +784,7 @@ public class GameView extends SurfaceView {
 				GameActivity.class);
 		Log.d(TAG, "stworzony gameact intent");
 		//TreeIntent.putExtra("LEVEL", level);
-		Log.d(TAG, "wlozony lewel");
+		//Log.d(TAG, "wlozony lewel");
 		Intent TreeIntent = new Intent(context,
 				TreeActivity.class);
 
@@ -804,8 +804,9 @@ public class GameView extends SurfaceView {
 				ChaptersActivity.class);
 		ChaptersIntent.putExtra("PLAYER", player);
 		Log.d(TAG, "wlozony player");
-		
-		
+		ChaptersIntent.putExtra("STARS", stars);
+		Log.d(TAG, "wlozony stars");
+
 		context.startActivity(ChaptersIntent);
 		Log.d(TAG, "wystartowal chaptersact");
 

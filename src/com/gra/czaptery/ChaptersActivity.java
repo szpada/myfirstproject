@@ -11,7 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class ChaptersActivity extends Activity {
-    /** Called when the activity is first created. */
+    private int lastlevelstars = -1;
+
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -20,9 +22,14 @@ public class ChaptersActivity extends Activity {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         
+        
+        
         Player gplayer = null;
 		if(extras !=null) {
 			gplayer = (Player) extras.get("PLAYER");
+			if (extras.containsKey("STARS")) {
+				lastlevelstars  = (int) extras.getInt("STARS");
+			}
 		}
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics(); 

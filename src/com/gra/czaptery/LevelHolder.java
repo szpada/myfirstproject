@@ -21,4 +21,13 @@ public class LevelHolder {
 	public List<LevelChain> getLevels(){
 		return this.levels;
 	}
+	
+	public void updateLevels(PlayersResults res) {
+		for (LevelChain lc : levels) {
+
+			lc.setActive(res.getActive(lc.getChapter(), lc.getId()));
+			lc.setComplited(res.getComplited(lc.getChapter(), lc.getId()));
+			lc.setStars(res.getStars(lc.getChapter(), lc.getId()));
+		}
+	}
 }
