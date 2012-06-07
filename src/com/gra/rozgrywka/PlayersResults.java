@@ -12,14 +12,11 @@ public class PlayersResults implements Serializable{
 	HashMap<Integer, Integer> resultsStars = new HashMap();
 	
 	public boolean getActive(int chapter, int id) {
-		
 		return resultsActive.containsKey(chapter*100+id) && (Boolean) resultsActive.get(chapter*100+id);
-		
 	}
 	
 	public boolean getComplited(int chapter, int id) {
 		return resultsComplited.containsKey(chapter*100+id) && (Boolean) resultsComplited.get(chapter*100+id);
-		
 	}
 	
 	public int getStars(int chapter, int id) {
@@ -29,7 +26,6 @@ public class PlayersResults implements Serializable{
 		else {
 			return 0;
 		}
-		
 	}
 	
 	
@@ -42,20 +38,13 @@ public class PlayersResults implements Serializable{
 	
 	private void setActive(int chapter, int id, boolean act) {
 		resultsActive.put(100*chapter+id, act);
-		
-		
 	}
 	
 	private void setComplited(int chapter, int id, boolean comp) {
 		resultsComplited.put(100*chapter+id, comp);
-		
-		
 	}
 	
 	private void setStars(int chapter, int id, int stars) {
 		resultsStars.put(100*chapter+id, stars);
-	
-	
 	}
-
 }

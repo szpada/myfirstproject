@@ -720,6 +720,7 @@ public class GameView extends SurfaceView {
 		}
 		
 	}
+
 	public void gameFinished(boolean game_won){
 		
 		//vv.vibrate(100);
@@ -754,6 +755,14 @@ public class GameView extends SurfaceView {
 			
 			PlayersResults results = this.player.getPresults();
 			// level is completed either if it was previously completed or it has been just completed (game_won=true)
+			/*****************************************
+			* ANGIELSKIE KOMENTY SA NIEDOZWOLONE!	 *
+			* Preferowane jezyki :				  	 *
+			* - Polski							  	 *
+			* - Œlunski							  	 *
+			* - Kaszubski							 *
+			* Z powa¿aniem instytut matki i dziecka  *
+			******************************************/			
 			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
 			
 			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);

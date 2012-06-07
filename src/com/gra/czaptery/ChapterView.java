@@ -142,7 +142,7 @@ public class ChapterView extends SurfaceView{
 			LevelChain LI3 = new LevelChain(this,1,100,420,false,false,landscape.village,2,6,1);
 			
 			LevelChain LI4 = new LevelChain(this,1,320,140,false,true,landscape.village,3,4,-1);
-			LevelChain LI5 = new LevelChain(this,1,320,280,false,true,landscape.village,4,5,3);
+			LevelChain LI5 = new LevelChain(this,1,320,280,false,false,landscape.village,4,5,3);
 			LevelChain LI6 = new LevelChain(this,1,320,420,false,false,landscape.village,5,6,4);
 			
 			LevelChain LI7 = new LevelChain(this,1,240,560,false,false,landscape.village,6,-1,5,2);
@@ -175,7 +175,6 @@ public class ChapterView extends SurfaceView{
 		}catch (NullPointerException e){
 			Log.d("Chapter", "zlapalem nullpointera");
 		}
-		
 		/*
 		 * wypelnij levele gwaizdkami i active/completed
 		 */
