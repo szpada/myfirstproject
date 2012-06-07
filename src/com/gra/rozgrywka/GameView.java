@@ -77,6 +77,15 @@ public class GameView extends SurfaceView {
    public GameView(Context context, double w_factor, double h_factor, Level level) {
 	   
          super(context);
+       /*
+  	    * test settera plyera
+  	    */
+  	   PlayersResults presults = new PlayersResults();
+  	   presults.setEverything(0, 0, true, false, 0);
+  	   presults.setEverything(1, 0, true, false, 0);
+  	   presults.setEverything(1, 3, true, false, 0);
+  	   player.setPresults(presults);
+  	   
          Vibrator vv = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
@@ -773,7 +782,7 @@ public class GameView extends SurfaceView {
 			 * gra przegrana, wyswietl odpowiedni komunikat
 			 */
 			this.finished_screen = new GameFinished(this,false,0,0,0);
-			
+			Log.d("Game finished", "dodaje finish screen");
 			/*
 			 * TODO:
 			 * zapis postepu gry i przejscie do nastepnego levelu
