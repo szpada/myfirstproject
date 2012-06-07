@@ -5,11 +5,16 @@ import java.util.HashMap;
 
 public class PlayersResults implements Serializable{
 	
-	HashMap<Integer, Boolean> resultsActive = new HashMap();
+	HashMap<Integer, Boolean> resultsActive = new HashMap<Integer, Boolean>();
 
-	HashMap<Integer, Boolean> resultsComplited = new HashMap();
+	HashMap<Integer, Boolean> resultsComplited = new HashMap<Integer, Boolean>();
 
-	HashMap<Integer, Integer> resultsStars = new HashMap();
+	HashMap<Integer, Integer> resultsStars = new HashMap<Integer, Integer>();
+	
+	public PlayersResults() {
+	
+	}
+	
 	
 	public boolean getActive(int chapter, int id) {
 		return resultsActive.containsKey(chapter*100+id) && (Boolean) resultsActive.get(chapter*100+id);
@@ -46,5 +51,8 @@ public class PlayersResults implements Serializable{
 	
 	private void setStars(int chapter, int id, int stars) {
 		resultsStars.put(100*chapter+id, stars);
+		if (!(resultsStars.containsKey(100*chapter+id) && resultsStars.get(100*chapter+id) > stars)) {
+			resultsStars.put(100*chapter+id, stars);
+		}
 	}
 }

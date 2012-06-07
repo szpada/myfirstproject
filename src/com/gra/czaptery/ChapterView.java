@@ -166,7 +166,6 @@ public class ChapterView extends SurfaceView{
 		 */
 		this.chapters.add(tutorial);
 		this.chapters.add(village);
-		
 		/*
 		 * zassaj wyniki z playera
 		 */
@@ -206,6 +205,16 @@ public class ChapterView extends SurfaceView{
 //			}
 //		}
 		
+		
+		try {
+			results = player.getPresults();
+			for (LevelHolder lh : chapters) {
+				lh.updateLevels(results);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		/*
 		 * stworzenie listy switcherow
 		 */
