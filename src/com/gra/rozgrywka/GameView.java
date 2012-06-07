@@ -747,6 +747,7 @@ public class GameView extends SurfaceView {
 			// level is completed either if it was previously completed or it has been just completed (game_won=true)
 			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
 			
+			
 			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);
 			
 			this.player.setPresults(results);
@@ -820,7 +821,9 @@ public class GameView extends SurfaceView {
 	}
 	
 	
-	
+	public void replayLevel() {
+		// TODO: do wypelnienia.
+	}
 	
 	
 	
