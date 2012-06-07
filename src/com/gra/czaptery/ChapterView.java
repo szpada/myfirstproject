@@ -206,15 +206,15 @@ public class ChapterView extends SurfaceView{
 //		}
 		
 		
-		try {
-			results = player.getPresults();
-			for (LevelHolder lh : chapters) {
-				lh.updateLevels(results);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			results = player.getPresults();
+//			for (LevelHolder lh : chapters) {
+//				lh.updateLevels(results);
+//
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		/*
 		 * stworzenie listy switcherow
 		 */

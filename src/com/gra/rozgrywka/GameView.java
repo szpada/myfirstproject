@@ -769,22 +769,17 @@ public class GameView extends SurfaceView {
 			
 			this.player.setPresults(results);
 			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
-			
-			this.player.addUpgPoints(this.level.getUpgradePoints());
+			/*
+			 * jesli level przechodzimy pierwszy raz (completed == false) dodajemy punkty za level
+			 */
+			if(!results.getComplited(this.level.getChapter(), this.level.getId())){
+				this.player.addUpgPoints(this.level.getUpgradePoints());
+			}
 			
 			Log.d("finished screen", "level ma "+Integer.toString(this.level.getUpgradePoints()));
 			Log.d("finished screen", "po dodaniu "+Integer.toString(this.player.getUpgPoints()));
 			
-			this.finished_screen = new GameFinished(this,true,0,0,stars);
-			
-			/*
-			 * TODO:
-			 * zapis postepu gry i przejscie do nastepnego levelu 
-			 * ORAZ update playera - jego dostepne upgrady, dostepne lewele i gwiazdki na lewelach
-			 */
-			//openChapters();
-			
-			
+			this.finished_screen = new GameFinished(this,true,0,0,stars);	
 		}
 		else{
 			/*
@@ -792,11 +787,6 @@ public class GameView extends SurfaceView {
 			 */
 			this.finished_screen = new GameFinished(this,false,0,0,0);
 			Log.d("Game finished", "dodaje finish screen");
-			/*
-			 * TODO:
-			 * zapis postepu gry i przejscie do nastepnego levelu
-			 */
-			//openChapters();
 		}
 	}
 	
@@ -836,13 +826,4 @@ public class GameView extends SurfaceView {
 		context.stopService(GameIntent);
 		Log.d(TAG, "zabity gamesact");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 } //eof
