@@ -41,7 +41,7 @@ public class AttackSprite implements Serializable {
 	private static int multi_shock_mana = 30;
 	private static int charge_defence_mana = 60;
 	private static int storm_mana = 80;
-	private static int thunder_mana = 80;
+	private static int thunder_mana = 1;//80;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
 	private static int fireball_shot_mana = 20;
@@ -148,7 +148,7 @@ public class AttackSprite implements Serializable {
 			this.width = bmp.getWidth()/this.columns;
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
-			this.range = 16;
+			this.range = 50;
 			this.dmg = rnd.nextInt(this.lvl) + 20;	//lvl w tym miejscu oznacza lvl thundera * power (<=50 !)
 			this.slow = 0;
 			this.life = 15;
@@ -766,27 +766,39 @@ public class AttackSprite implements Serializable {
 			   /*
 			    * TYLKO KURWA NIE DZIALA T_T
 			    */
-			   double newX = rect.centerX()*Math.cos(-this.degree) + rect.centerY()*Math.sin(-this.degree);
-			   double newY = rect.centerX()*Math.sin(-this.degree) - rect.centerY()*Math.cos(-this.degree);
-			   
-			   int z_x = (int) (( rect.centerX()*Math.cos(-this.degree) - rect.centerY()* Math.sin(-this.degree))  );// + this.Thunder_position_X);
-		       int z_y = (int) (( rect.centerX()*Math.sin(-this.degree) + rect.centerY()* Math.cos(-this.degree))  );//+ this.Thunder_position_Y);  
-		        
-			   double x1 = (rect.centerX()-this.Thunder_position_X)*Math.cos(this.degree) - (rect.centerY()-this.Thunder_position_Y)*Math.sin(this.degree)+this.Thunder_position_X;
-			   double y1 = (rect.centerX()-this.Thunder_position_X)*Math.sin(this.degree) + (rect.centerY()-this.Thunder_position_Y)*Math.cos(this.degree)+this.Thunder_position_Y;
-			   
-			   Log.d("thunder", "degree = " + this.degree);
-			   Log.d("thunder", "x = " + rect.centerX());
-			   Log.d("thunder", "y = " + rect.centerY());
-			   Log.d("thunder", "x1 = " + z_x);
-			   Log.d("thunder", "y1 = " + z_y);
-			   
-			   if(this.rec.contains((int)z_x, (int)z_y)){
-				   return this.dmg;
-			   }
-			   else{
-				   return 0;
-			   }
+//			   if(this.x - this.Thunder_position_X == 0){
+//				   if(this.rec.contains(rect.centerX(),rect.centerY())){
+//					   return this.dmg;
+//				   }
+//				   else{
+//					   return -1;
+//				   }
+//			   }
+//			   else{
+/*				   	x1 = this.Thunder_position_X
+ * 					x2 = this.x
+ * 					y1 = this.Thunder_position_Y
+ * 					y2 = this.y
+ * 					(x2 - x1)(Y - y1) - (y2 - y1)(X - x1) = 0
+ * 													    <  Range
+ *				   										> -Range
+*/
+	
+				   Log.d("thunder", "this.x =" + this.x + "this.thunder x" + this.Thunder_position_X + "rect.x" + rect.centerX());
+				   Log.d("thunder", "this.y =" + this.y + "this.thunder y" + this.Thunder_position_Y + "rect.y" + rect.centerY());
+				   
+				   
+				   int x_rotated = (int)(rect.centerX() * Math.cos(-this.degree) - rect.centerY() * Math.sin(-this.degree));	//rect.x po obrocie o kat
+				   int y_rotated = (int)(rect.centerX() * Math.sin(-this.degree) + rect.centerY() * Math.cos(-this.degree));	//rect.y po obrocie o kat
+				   
+				   if((this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) <  this.range &&
+					  (this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) > -this.range){
+					   	return this.dmg;
+				   }
+				   else{
+					   return -1;
+				   }
+//			   }
 	   }
 	   return -1;
 	   

@@ -77,6 +77,15 @@ public class GameView extends SurfaceView {
    public GameView(Context context, double w_factor, double h_factor, Level level) {
 	   
          super(context);
+       /*
+  	    * test settera plyera
+  	    */
+  	   PlayersResults presults = new PlayersResults();
+  	   presults.setEverything(0, 0, true, false, 0);
+  	   presults.setEverything(1, 0, true, false, 0);
+  	   presults.setEverything(1, 3, true, false, 0);
+  	   player.setPresults(presults);
+  	   
          Vibrator vv = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
@@ -711,6 +720,7 @@ public class GameView extends SurfaceView {
 		}
 		
 	}
+
 	public void gameFinished(boolean game_won){
 		
 		//vv.vibrate(100);
@@ -745,6 +755,14 @@ public class GameView extends SurfaceView {
 			
 			PlayersResults results = this.player.getPresults();
 			// level is completed either if it was previously completed or it has been just completed (game_won=true)
+			/*****************************************
+			* ANGIELSKIE KOMENTY SA NIEDOZWOLONE!	 *
+			* Preferowane jezyki :				  	 *
+			* - Polski							  	 *
+			* - Œlunski							  	 *
+			* - Kaszubski							 *
+			* Z powa¿aniem instytut matki i dziecka  *
+			******************************************/			
 			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
 			
 			
@@ -752,34 +770,24 @@ public class GameView extends SurfaceView {
 			
 			this.player.setPresults(results);
 			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
-			
-			this.player.addUpgPoints(this.level.getUpgradePoints());
+			/*
+			 * jesli level przechodzimy pierwszy raz (completed == false) dodajemy punkty za level
+			 */
+			if(!results.getComplited(this.level.getChapter(), this.level.getId())){
+				this.player.addUpgPoints(this.level.getUpgradePoints());
+			}
 			
 			Log.d("finished screen", "level ma "+Integer.toString(this.level.getUpgradePoints()));
 			Log.d("finished screen", "po dodaniu "+Integer.toString(this.player.getUpgPoints()));
 			
-			this.finished_screen = new GameFinished(this,true,0,0,stars);
-			
-			/*
-			 * TODO:
-			 * zapis postepu gry i przejscie do nastepnego levelu 
-			 * ORAZ update playera - jego dostepne upgrady, dostepne lewele i gwiazdki na lewelach
-			 */
-			//openChapters();
-			
-			
+			this.finished_screen = new GameFinished(this,true,0,0,stars);	
 		}
 		else{
 			/*
 			 * gra przegrana, wyswietl odpowiedni komunikat
 			 */
 			this.finished_screen = new GameFinished(this,false,0,0,0);
-			
-			/*
-			 * TODO:
-			 * zapis postepu gry i przejscie do nastepnego levelu
-			 */
-			//openChapters();
+			Log.d("Game finished", "dodaje finish screen");
 		}
 	}
 	
@@ -819,15 +827,12 @@ public class GameView extends SurfaceView {
 		context.stopService(GameIntent);
 		Log.d(TAG, "zabity gamesact");
 	}
+
 	
 	
 	public void replayLevel() {
 		// TODO: do wypelnienia.
 	}
 	
-	
-	
-	
-	
-	
+
 } //eof

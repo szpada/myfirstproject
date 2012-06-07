@@ -56,7 +56,6 @@ public class Player
 		this.olympMaxLife = maxLife;
 		this.currentGod = currentGod;
 		this.currentAttack = currentAttack;
-		
 	}
 	
 	/*

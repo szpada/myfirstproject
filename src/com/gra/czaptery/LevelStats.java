@@ -5,6 +5,7 @@ import com.gra.R;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 	/**
@@ -101,6 +102,10 @@ public class LevelStats {
 				canvas.drawBitmap(this.stars_bmp, src, dst, null);
 				iconX +=2;
 			}
+			Paint paint = new Paint();
+			canvas.drawText("stars : " + this.stars, 16, 400, paint);
+			canvas.drawText("active : " + this.active, 16, 450, paint);
+			canvas.drawText("completed : " + this.complited, 16, 500, paint);
 		}
 		public boolean checkCollision(int x, int y){
 			Rect rec = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
