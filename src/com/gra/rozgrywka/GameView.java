@@ -639,20 +639,32 @@ public class GameView extends SurfaceView {
 			/*
 			 * setter
 			 */
-			
-			EnemySprite e = createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY());
-			e.setAll(sEnemies.get(i).getX(),
-									sEnemies.get(i).getY(), 
-									sEnemies.get(i).getLife(),
-									sEnemies.get(i).getSlowedTimes(), 
-									sEnemies.get(i).getState(), 
-									sEnemies.get(i).getRange(), 
-									sEnemies.get(i).getCurrentFrame());
-									/*
-									 * wlasnie skumalem ze kilka gowien z seterow
-									 * sie powtarza ale juz chuj na ryj z tym :D
-									 */
+			if(sEnemies.get(i).getEnemyType() == enemyType.fire_boss){
+				BossSprite e = new BossSprite(enemies,this,enemyType.fire_boss,sEnemies.get(i).getX(),sEnemies.get(i).getY(),enemyAttacks);
+				e.setAll(sEnemies.get(i).getX(),
+						sEnemies.get(i).getY(), 
+						sEnemies.get(i).getLife(),
+						sEnemies.get(i).getSlowedTimes(), 
+						sEnemies.get(i).getState(), 
+						sEnemies.get(i).getRange(), 
+						sEnemies.get(i).getCurrentFrame());
+				enemies.add(e);
+			}
+			else{
+				EnemySprite e = createEnemy(sEnemies.get(i).getEnemyType(),sEnemies.get(i).getX(),sEnemies.get(i).getY());
+				e.setAll(sEnemies.get(i).getX(),
+										sEnemies.get(i).getY(), 
+										sEnemies.get(i).getLife(),
+										sEnemies.get(i).getSlowedTimes(), 
+										sEnemies.get(i).getState(), 
+										sEnemies.get(i).getRange(), 
+										sEnemies.get(i).getCurrentFrame());
+										/*
+										 * wlasnie skumalem ze kilka gowien z seterow
+										 * sie powtarza ale juz chuj na ryj z tym :D
+										 */
 			enemies.add(e);
+			}
 		}
 		
 	}

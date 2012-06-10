@@ -783,24 +783,30 @@ public class AttackSprite implements Serializable {
  * 													    <  Range
  *				   										> -Range
 */
-	
-				   Log.d("thunder", "this.x =" + this.x + "this.thunder x" + this.Thunder_position_X + "rect.x" + rect.centerX());
-				   Log.d("thunder", "this.y =" + this.y + "this.thunder y" + this.Thunder_position_Y + "rect.y" + rect.centerY());
-				   
-				   
-				   int x_rotated = (int)(rect.centerX() * Math.cos(-this.degree) - rect.centerY() * Math.sin(-this.degree));	//rect.x po obrocie o kat
-				   int y_rotated = (int)(rect.centerX() * Math.sin(-this.degree) + rect.centerY() * Math.cos(-this.degree));	//rect.y po obrocie o kat
-				   
-				   if((this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) <  this.range &&
-					  (this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) > -this.range){
-					   	return this.dmg;
-				   }
-				   else{
-					   return -1;
-				   }
+//			   		Obrót wokó³ punktu (x0, y0) mo¿na zrobiæ korzystaj¹c z translacji - kolejno:
+//				   	1) translacja punktu o wektor [-x0, -y0]
+//				   	2) obrót wokó³ (0, 0) o zadany k¹t
+//				   	3) translacja punktu o wektor [x0, y0]
+			   
+			   		int transalted_x = rect.centerX() ;//- this.x;//this.Thunder_position_X;
+			   		int transalted_y = rect.centerY() ;//- this.y;//this.Thunder_position_Y;
+				   	int x_rotated = (int)(transalted_x * Math.cos(-this.degree) - transalted_y * Math.sin(-this.degree));	//rect.x po obrocie o kat
+				   	int y_rotated = (int)(transalted_x * Math.sin(-this.degree) + transalted_y * Math.cos(-this.degree));	//rect.y po obrocie o kat
+				   	//x_rotated += this.x;//this.Thunder_position_X;
+				   //	y_rotated += this.y;//this.Thunder_position_Y;
+//				    if((this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) <  this.range &&
+//					   (this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) > -this.range){
+//					   	 return this.dmg;
+//				    }
+				   	if(this.rec.contains(x_rotated, y_rotated)){
+				   		return this.dmg;
+				   	}
+				   	else{
+				   		return -1;
+				   	}
 //			   }
-	   }
-	   return -1;
+	   	}
+	   	return -1;
 	   
    }
    public int getCoolDown(){
