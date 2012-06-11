@@ -777,6 +777,7 @@ public class GameView extends SurfaceView {
 			******************************************/			
 			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
 			
+			
 			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);
 			
 			this.player.setPresults(results);
@@ -838,4 +839,12 @@ public class GameView extends SurfaceView {
 		context.stopService(GameIntent);
 		Log.d(TAG, "zabity gamesact");
 	}
+
+	
+	
+	public void replayLevel() {
+		// TODO: do wypelnienia.
+	}
+	
+
 } //eof
