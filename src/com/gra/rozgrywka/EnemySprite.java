@@ -254,15 +254,15 @@ public class EnemySprite implements Serializable {
 	        this.maxSpeed = 2;
 	        this.speed = 2;
 	        this.dmg = 10;
-	        this.life = 200;//2000
-	        this.maxLife = 200;//2000
+	        this.life = 2000;
+	        this.maxLife = 2000;
 	        this.range = 20;
 	        for(int i=0; i<5; i++){
-	        	this.res[i] = 0;//5
+	        	this.res[i] = 5;
 	        	this.immute[i] = false;
 	        	this.absorbs[i] = false;
 	        }
-	        //this.absorbs[1] = true;
+	        this.absorbs[1] = true;
 	        this.frames = 4;
 	        this.wt = warriorType.chapter_boss;
 	        this.summonType = enemyType.fire_imp;

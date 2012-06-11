@@ -163,7 +163,7 @@ public class AttackSprite implements Serializable {
 				this.degree = (float)Math.toDegrees(Math.atan((float)(x - this.x)/((float)(this.y - y))));
 			}
 			//this.rec = new Rect(240 - power, -100, 240 + power, 600);
-			this.rec = new Rect(208, -100, 272, 600);
+			this.rec = new Rect(208 - this.lvl/3, -100, 272 + this.lvl/3, 600);
 			break;
 		}
 	}
@@ -787,13 +787,13 @@ public class AttackSprite implements Serializable {
 //				   	1) translacja punktu o wektor [-x0, -y0]
 //				   	2) obrót wokó³ (0, 0) o zadany k¹t
 //				   	3) translacja punktu o wektor [x0, y0]
-			   
-			   		int transalted_x = rect.centerX() ;//- this.x;//this.Thunder_position_X;
-			   		int transalted_y = rect.centerY() ;//- this.y;//this.Thunder_position_Y;
-				   	int x_rotated = (int)(transalted_x * Math.cos(-this.degree) - transalted_y * Math.sin(-this.degree));	//rect.x po obrocie o kat
-				   	int y_rotated = (int)(transalted_x * Math.sin(-this.degree) + transalted_y * Math.cos(-this.degree));	//rect.y po obrocie o kat
-				   	//x_rotated += this.x;//this.Thunder_position_X;
-				   //	y_rotated += this.y;//this.Thunder_position_Y;
+			   		Log.d("thunder", "dmg" + this.dmg);
+			   		int transalted_x = rect.centerX() - this.x;//this.Thunder_position_X;
+			   		int transalted_y = rect.centerY() - this.y;//this.Thunder_position_Y;
+				   	int x_rotated = (int)(transalted_x * Math.cos(Math.toRadians(-this.degree)) - transalted_y * Math.sin(Math.toRadians(-this.degree)));	//rect.x po obrocie o kat
+				   	int y_rotated = (int)(transalted_x * Math.sin(Math.toRadians(-this.degree)) + transalted_y * Math.cos(Math.toRadians(-this.degree)));	//rect.y po obrocie o kat
+				   	x_rotated += this.x;//this.Thunder_position_X;
+				   	y_rotated += this.y;//this.Thunder_position_Y;
 //				    if((this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) <  this.range &&
 //					   (this.x - this.Thunder_position_X)*(y_rotated - this.Thunder_position_Y) - (this.y - this.Thunder_position_Y)*(x_rotated - this.Thunder_position_X) > -this.range){
 //					   	 return this.dmg;
