@@ -160,7 +160,7 @@ public class ChapterView extends SurfaceView{
 		 * tworzenie rozdzialow
 		 */
 		LevelHolder tutorial = new LevelHolder(Ltutorial1,Ltutorial2,Ltutorial3);
-		LevelHolder village = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI6,LI7);
+		LevelHolder village = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI7);
 		/*
 		 * stworzenie listy rozdzialow
 		 */
@@ -180,6 +180,16 @@ public class ChapterView extends SurfaceView{
 		if(results != null){
 			for (LevelHolder lh : chapters) {
 				lh.updateLevels(results);
+				for (LevelChain llc: lh.getLevels()) {
+					Log.d("ChapterView",
+							Integer.toString(llc.getChapter())+" "+
+							Integer.toString(llc.getId())+" "+
+							Boolean.toString(llc.getActive())+" "+
+							Boolean.toString(llc.getComplited())+" "+
+							Integer.toString(llc.getStars())
+							);
+							
+				}
 			}
 		/*
 		 * odblokuj levele
