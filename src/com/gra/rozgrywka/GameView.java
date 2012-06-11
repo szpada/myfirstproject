@@ -769,6 +769,20 @@ public class GameView extends SurfaceView {
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
 			PlayersResults results = this.player.getPresults();
+			
+			// debugging only
+			for (int ch=0;ch<2;ch++) {
+				
+				for (int ii = 0; ii < 6; ii++) {
+					Log.d("GameView2",
+									Integer.toString(ch) + " "
+									+ Integer.toString(ii) + " "
+									+ Boolean.toString(results.getActive(ch, ii)) + " "
+									+ Boolean.toString(results.getComplited(ch, ii))
+									+ " " + Integer.toString(results.getStars(ch, ii))
+									);
+				}
+			}
 			// level is completed either if it was previously completed or it has been just completed (game_won=true)
 			/*****************************************
 			* ANGIELSKIE KOMENTY SA NIEDOZWOLONE!	 *
@@ -780,19 +794,19 @@ public class GameView extends SurfaceView {
 			******************************************/			
 			boolean complited = game_won || results.getComplited(this.level.getChapter(), this.level.getId()); 
 			
-			
-			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);
-			
-			this.player.setPresults(results);
-			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
 			/*
 			 * jesli level przechodzimy pierwszy raz (completed == false) dodajemy punkty za level
 			 */
+			Log.d("finished screen", "przed dodaniem "+Integer.toString(this.player.getUpgPoints()));
+			Log.d("finished screen", "level ma "+Integer.toString(this.level.getUpgradePoints()));
 			if(!results.getComplited(this.level.getChapter(), this.level.getId())){
 				this.player.addUpgPoints(this.level.getUpgradePoints());
 			}
 			
-			Log.d("finished screen", "level ma "+Integer.toString(this.level.getUpgradePoints()));
+			results.setEverything(this.level.getChapter(), this.level.getId(), true, complited, this.stars);
+			this.player.setPresults(results);
+			
+			
 			Log.d("finished screen", "po dodaniu "+Integer.toString(this.player.getUpgPoints()));
 			
 			this.finished_screen = new GameFinished(this,true,0,0,stars);	
@@ -831,6 +845,20 @@ public class GameView extends SurfaceView {
 		Log.d(TAG, "stworzony gameact intent");
 		Intent ChaptersIntent = new Intent(context,
 				ChaptersActivity.class);
+		// debugging only
+		PlayersResults results = this.player.getPresults();
+		for (int ch=0;ch<2;ch++) {
+			
+			for (int ii = 0; ii < 6; ii++) {
+				Log.d("GameView2",
+								Integer.toString(ch) + " "
+								+ Integer.toString(ii) + " "
+								+ Boolean.toString(results.getActive(ch, ii)) + " "
+								+ Boolean.toString(results.getComplited(ch, ii))
+								+ " " + Integer.toString(results.getStars(ch, ii))
+								);
+			}
+		}
 		ChaptersIntent.putExtra("PLAYER", player);
 		Log.d(TAG, "wlozony player");
 		ChaptersIntent.putExtra("STARS", stars);

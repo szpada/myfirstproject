@@ -105,6 +105,15 @@ public class LevelChain {
 	public int getChapter(){
 		return this.chapter;
 	}
+	
+	public boolean getActive() {
+		return this.active;
+	}
+	
+	public boolean getComplited() {
+		return this.complited;
+	}
+	
 	public boolean checkCollision(int x, int y){
 		Rect rec = new Rect(this.x, this.y, this.x + this.width, this.y + this.height);
 		if(rec.contains(x, y)){
@@ -151,5 +160,11 @@ public class LevelChain {
 	}
 	public Level getLevel(){
 		return this.level;
+	}
+	public void setChapter(int chapter) {
+		this.chapter = chapter;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }
