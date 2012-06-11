@@ -41,10 +41,10 @@ public class AttackSprite implements Serializable {
 	private static int multi_shock_mana = 30;
 	private static int charge_defence_mana = 60;
 	private static int storm_mana = 80;
-	private static int thunder_mana = 1;//80;
+	private static int thunder_mana = 1;//100;
 	private static int fireball_mana = 5;
 	private static int firewall_mana = 10;
-	private static int fireball_shot_mana = 20;
+	private static int fireball_shot_mana = 30;
 	private static int meteor_mana = 60;
 	private static int empty1_mana = 20;
 	private static int waterSplash_mana = 30;
@@ -351,7 +351,7 @@ public class AttackSprite implements Serializable {
 			this.height = bmp.getHeight()/this.columns;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = this.width/2 + lvl * 4;
-			this.dmg = 80 + rand.nextInt(4 * lvl * lvl);
+			this.dmg = 100 + rand.nextInt(4 * lvl * lvl);
 			this.slow = 0;
 			this.life = 15;
 			this.cooldown = 1500;
@@ -413,7 +413,7 @@ public class AttackSprite implements Serializable {
 			this.height = bmp.getHeight()/this.rows;
 			this.frames = (this.rows * this.columns) - 1;
 			this.range = this.lvl * 4 + this.width/2;
-			this.dmg = rand.nextInt(lvl + 2) + 8;
+			this.dmg = rand.nextInt(lvl + 2) + 4;
 			this.slow = 0;
 			this.life = 15;
 			this.cooldown = 900 - lvl * 100;
@@ -800,6 +800,13 @@ public class AttackSprite implements Serializable {
 //				    }
 				   	if(this.rec.contains(x_rotated, y_rotated)){
 				   		return this.dmg;
+				   	}
+				   	else if((this.rec.contains(x_rotated - rec.width(), y_rotated - rect.height()) ||
+				   			(this.rec.contains(x_rotated + rec.width(), y_rotated - rect.height()) ||
+		   					(this.rec.contains(x_rotated - rec.width(), y_rotated + rect.height()) ||
+   							(this.rec.contains(x_rotated + rec.width(), y_rotated + rect.height())
+   							))))){
+				   		
 				   	}
 				   	else{
 				   		return -1;

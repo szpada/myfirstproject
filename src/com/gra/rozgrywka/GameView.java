@@ -261,6 +261,9 @@ public class GameView extends SurfaceView {
     	   if((player.getCurrentGod() != this.lastGod) || player.getCurrentAttack() != this.lastAttack){
     		   coolDown = 300;
            }
+//    	   if(event.getAction() != MotionEvent.ACTION_UP && event.getAction() == MotionEvent.ACTION_UP ){
+//    		   
+//    	   }
            if(System.currentTimeMillis() - lastClick > coolDown) {
         	   if(this.finished_screen == null){
 	        	   lastClick = System.currentTimeMillis();
