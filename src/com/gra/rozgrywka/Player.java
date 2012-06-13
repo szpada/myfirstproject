@@ -37,13 +37,14 @@ public class Player
 	private int olympMaxLife;
 	private int luck = 1;
 	private int kills;
-	private PlayersResults presults = new PlayersResults();
+	private PlayersResults presults; // = new PlayersResults();
 	
 	private boolean lifeReplenishment = false;
 	
 	private List<LevelUnit> levels = new ArrayList<LevelUnit>();
 	
-	public Player(String name, int points, int upgradePoints, int godsAttacks[][], int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife, int currentGod, int currentAttack){ 
+	public Player(String name, int points, int upgradePoints, int godsAttacks[][],
+					int maxMana, int currentMana, int manaSpeed, int maxLife, int currentLife, int currentGod, int currentAttack){ 
 			//int zeus[],int hephaestus[],int poseidon[],int ares[],int hades[]){
 		this.name = name;
 		this.points = points;
@@ -56,6 +57,7 @@ public class Player
 		this.olympMaxLife = maxLife;
 		this.currentGod = currentGod;
 		this.currentAttack = currentAttack;
+		this.presults = new PlayersResults();
 	}
 	
 	/*
@@ -225,5 +227,9 @@ public class Player
 
 	public PlayersResults getPresults() {
 		return presults;
+	}
+
+	public void setOlympLife(int olympLife) {
+		this.olympLife = olympLife;
 	}
 }

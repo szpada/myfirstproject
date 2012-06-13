@@ -130,17 +130,17 @@ public class GameFinished {
 		int starY = this.buttonY;
 		Rect dst = new Rect(this.x + starX, this.y + starY, this.x + starX + this.chapter_width, this.y + starY + this.chapter_height);
 		if(dst.contains(x,y)){
-			return 0;
+			return 1;
 		}
 		starX = 200;
 		dst = new Rect(this.x + starX, this.y + starY, this.x + starX + this.chapter_width, this.y + starY + this.chapter_height);
 		if(dst.contains(x,y)){
-			return 1;
+			return 2;
 		}
 		starX = 300;
 		dst = new Rect(this.x + starX, this.y + starY, this.x + starX + this.chapter_width, this.y + starY + this.chapter_height);
 		if(dst.contains(x,y)){
-			return -1;
+			return 3;
 		}
 		return 0;
 	}

@@ -1,5 +1,15 @@
 package com.gra.menu;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+
 import com.gra.R;
 import com.gra.achievementy.AchievementsActivity;
 import com.gra.czaptery.ChaptersActivity;
@@ -7,15 +17,6 @@ import com.gra.drzewko.TreeActivity;
 import com.gra.rozgrywka.GameActivity;
 import com.gra.zapisy.SaveService;
 import com.gra.zapisy.SavedState;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class GameMenu extends Activity {
 	
@@ -34,10 +35,11 @@ public class GameMenu extends Activity {
         
         setContentView(R.layout.gamemenu);
         
-        
-        saver = new SaveService(GameMenu.this);
-        ss = saver.readLastState();
-        
+        // byc moze bedzie mozna wyrzucic bo chyba tak czy inaczej zawsze jest wykonywane onresume (w ktorym jest juz readlaststate)
+//        saver = new SaveService(GameMenu.this);
+//        ss = saver.readLastState();
+//        Log.d("GameMenu","on create wczytuje sava");
+//     
         
         Button ResumeGameButton = (Button)findViewById(R.id.ResumeGame);
         
@@ -51,27 +53,14 @@ public class GameMenu extends Activity {
         	}
         });
         
-        
-        
-        
-//        Button StartGameButton = (Button)findViewById(R.id.StartGame);
-//        StartGameButton.setOnClickListener(new OnClickListener() {
-//        	
-//        	//@Override
-//			public void onClick(View v) {
-//        		Intent StartGameIntent = new Intent(GameMenu.this,GameActivity.class);
-//        		StartGameIntent.putExtra("RESUMING", false);
-//        		startActivity(StartGameIntent);
-//        	}
-//        });
-        
+              
         Button ChaptersButton = (Button)findViewById(R.id.StartGame);
         ChaptersButton.setOnClickListener(new OnClickListener() {
         	
         	//@Override
 			public void onClick(View v) {
         		Intent ChaptersIntent = new Intent(GameMenu.this,ChaptersActivity.class);
-        		if (ss!=null) {
+        		if (ss!=null) { // ss to obiekt z pliku sava - warunek zajdzie zawsze procz pierwszego uruchomienia
         			ChaptersIntent.putExtra("PLAYER", ss.getPlayer());
         		}
         		startActivity(ChaptersIntent);
@@ -83,8 +72,8 @@ public class GameMenu extends Activity {
         	
         	//@Override
 			public void onClick(View v) {
-        		Intent TreeIntent = new Intent(GameMenu.this, TreeActivity.class);
-        		
+        		Intent TreeIntent = new Intent(GameMenu.this, TreeActivity.class); 
+        		//nic nie jest przekazywane do drzewka bo i tak drzewko ma odczyt/zapis
         		startActivity(TreeIntent);
         	}
         });
@@ -99,6 +88,23 @@ public class GameMenu extends Activity {
         	}
         });
         
-
     }
+
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		saver = new SaveService(GameMenu.this);
+        ss = saver.readLastState();
+        Log.d("GameMenu","on resume wczytuje sava");
+     
+		
+		
+	}
+
+    
+
+
 }
+

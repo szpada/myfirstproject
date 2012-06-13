@@ -5,13 +5,20 @@ import java.util.HashMap;
 
 public class PlayersResults implements Serializable{
 	
-	HashMap<Integer, Boolean> resultsActive = new HashMap<Integer, Boolean>();
+	HashMap<Integer, Boolean> resultsActive; //= new HashMap<Integer, Boolean>();
 
-	HashMap<Integer, Boolean> resultsComplited = new HashMap<Integer, Boolean>();
+	HashMap<Integer, Boolean> resultsComplited; //= new HashMap<Integer, Boolean>();
 
-	HashMap<Integer, Integer> resultsStars = new HashMap<Integer, Integer>();
+	HashMap<Integer, Integer> resultsStars; //= new HashMap<Integer, Integer>();
 	
-	public PlayersResults() {
+	public PlayersResults() { //init - domyslne wartosci
+		
+		resultsActive = new HashMap<Integer, Boolean>();
+		resultsComplited = new HashMap<Integer, Boolean>();
+		resultsStars = new HashMap<Integer, Integer>();
+		setEverything(0,0,true,false,0);
+		setEverything(1,0,true,false,0);
+		setEverything(1,3,true,false,0);
 	
 	}
 	

@@ -22,13 +22,21 @@ import com.gra.zapisy.SavedState;
  *
  */
 public class GameActivity extends Activity {
-	private SharedPreferences mPrefs;
-	private String TAG = "GameActive";
+	//private SharedPreferences mPrefs;
+	private String TAG = "GameActivity";
 	private GameView gview;
-	private GameLoopThread gthread;
+	//private GameLoopThread gthread;
 	private Player gplayer;
 	private Level glevel;
 	private SaveService saver;
+	
+	private int base[][] = {
+    		{1,1,1,1,1},	//ELEKTRYCZNE
+    		{1,1,1,1,0},	//OGNIEN
+    		{1,1,0,0,0},	//WODA
+    		{0,0,0,0,0},	//FIZYCZNE
+    		{0,0,0,0,0}		//SMIERC
+    };
 	
 	private boolean resuming = false;
 	
@@ -50,9 +58,13 @@ public class GameActivity extends Activity {
 			Log.d("GameActivity","byly extrasy");
 			resuming = extras.getBoolean("RESUMING");
 			if (!resuming) {
-				Log.d("GameActivity","nie bylo resuma, wczytuje level");
+				Log.d("GameActivity","nie bylo resuma, wczytuje level i player przekazany z chaptera");
 				glevel = (Level) extras.get("LEVEL");
+				gplayer = (Player) extras.get("PLAYER");
 				
+			}
+			else {
+				gplayer = new Player("pies",0,0,base,500,500,2,100,100, 0, 0);
 			}
 			
 			Log.d("GameActivity",Boolean.toString(resuming));
@@ -72,14 +84,11 @@ public class GameActivity extends Activity {
         
         saver = new SaveService(GameActivity.this);
 
+        //musze zresetowac zycie i mane playera zeby zawsze na starcie byly pelne
+        gplayer.setCurrentMana(500);
+        gplayer.setOlympLife(100);
         
-        /**
-         * @author Szpada
-         * 
-         * meczarnia z gownami ktorych nie rozumiem
-         */
-        
-        gview = new GameView(this, w_factor, h_factor, glevel);
+        gview = new GameView(this, w_factor, h_factor, glevel, gplayer);
 
         Log.d("GameActivity", "new gameview");
 
@@ -88,33 +97,34 @@ public class GameActivity extends Activity {
         
     }
     
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-    	  // Save UI state changes to the savedInstanceState.
-    	  // This bundle will be passed to onCreate if the process is
-    	  // killed and restarted.
-    	super.onSaveInstanceState(savedInstanceState);
-
-    	}
-    
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-    	  super.onRestoreInstanceState(savedInstanceState);
-    	  Log.d("GameActivity", "jestem w GameActivity.onRestoreIS");
-    	  // Restore UI state from the savedInstanceState.
-    	  // This bundle has also been passed to onCreate.
-    	  
-    	  
-    	}
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//    	  // Save UI state changes to the savedInstanceState.
+//    	  // This bundle will be passed to onCreate if the process is
+//    	  // killed and restarted.
+//    	super.onSaveInstanceState(savedInstanceState);
+//
+//    	}
+//    
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {
+//    	  super.onRestoreInstanceState(savedInstanceState);
+//    	  Log.d("GameActivity", "jestem w GameActivity.onRestoreIS");
+//    	  // Restore UI state from the savedInstanceState.
+//    	  // This bundle has also been passed to onCreate.
+//    	  
+//    	  
+//    	}
     
     protected void onResume() {
         super.onResume();
         Log.d("GameActivity", "!jestem w GameActivity.onResume()");
         
-        if (resuming) { //only if the game is beeing resumed.
+        if (resuming) { //only if the game is being resumed.
         	readLastSavedState();
+        	Log.d("GameActivity", "read last saved state");
+            
         }
 		
-		Log.d("GameActivity", "read last saved state");
-        
+		
     }
     
     private void readLastSavedState() {

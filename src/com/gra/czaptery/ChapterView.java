@@ -53,12 +53,19 @@ public class ChapterView extends SurfaceView{
 	
 	public ChapterView(Context context,double w_factor, double h_factor, Player player) {
 		super(context);
-		/*
-		 * odkomentowac jak wartosci beda poprawnie przesylane
-		 */
+		
         this.h_factor = (float)h_factor;
  	   	this.w_factor = (float)w_factor;
+ 	   	
 		this.player = player;
+		
+		try{
+			results = player.getPresults();
+		}catch (NullPointerException e){ //zajdzie jezeli przekazany player nie ma jeszcze zadnych resultsow
+			Log.d("Chapter", "zlapalem nullpointera");
+			results = new PlayersResults(); //opcjonalnie tworzy nowe resultsy
+			
+		}
         chapterLoopThread = new ChapterLoopThread(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
                //@Override
@@ -166,14 +173,7 @@ public class ChapterView extends SurfaceView{
 		 */
 		this.chapters.add(tutorial);
 		this.chapters.add(village);
-		/*
-		 * zassaj wyniki z playera
-		 */
-		try{
-			results = player.getPresults();
-		}catch (NullPointerException e){
-			Log.d("Chapter", "zlapalem nullpointera");
-		}
+
 		/*
 		 * wypelnij levele gwaizdkami i active/completed
 		 */
@@ -188,7 +188,6 @@ public class ChapterView extends SurfaceView{
 							Boolean.toString(llc.getComplited())+" "+
 							Integer.toString(llc.getStars())
 							);
-							
 				}
 			}
 		/*
@@ -206,25 +205,6 @@ public class ChapterView extends SurfaceView{
 				}
 			}
 		}
-//		for (LevelHolder lh : chapters) {
-//			for (LevelChain lc : levels) {
-//				Log.d("Chapter", "level id" + lc.getId() + "completed " + lc.isComplited());
-//				if(lc.isComplited()){
-//					unlockLevels(lc.getId());
-//				}
-//			}
-//		}
-		
-		
-//		try {
-//			results = player.getPresults();
-//			for (LevelHolder lh : chapters) {
-//				lh.updateLevels(results);
-//
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 		/*
 		 * stworzenie listy switcherow
 		 */
@@ -270,11 +250,7 @@ public class ChapterView extends SurfaceView{
 					if (this.levels.get(i).checkCollision((int) x, (int) y)) {
 						showStats(this.levels.get(i));
 						if (this.levels.get(i).isActive()) {
-							/*
-							 * TUTAJ MA ODPALA GAMEVIEW Z WYBRANYM PLAYEREM I LEVELEM 
-							 * 
-							 * 
-							 */
+							
 							Log.d("ChapterView",
 									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
 							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
@@ -294,7 +270,7 @@ public class ChapterView extends SurfaceView{
 		levels = this.chapters.get(chapter).getLevels();
 	}
 	public boolean unlockLevels(int complitedLevelId){
-		Log.d("CHAPTERS", "ODBLOKOWUJE KURWA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		Log.d("ChapterView", "ODBLOKOWUJE");
 		/*
 		 * metoda odblokowujaca levele - zaczyna od levelu przekzanego jako argument (jego ID)
 		 *  i sprawdza czy odblokowuje kolejny level.
@@ -387,8 +363,12 @@ public class ChapterView extends SurfaceView{
 		Intent GameIntent = new Intent(context,
 				GameActivity.class);
 		Log.d("ChapterView", "stworzony gameact intent");
+		
 		GameIntent.putExtra("LEVEL", level);
 		Log.d("ChapterView", "wlozony lewel");
+		GameIntent.putExtra("PLAYER", player);
+		Log.d("ChapterView", "wlozony player");
+		
 		Intent ChaptersIntent = new Intent(context,
 				ChaptersActivity.class);
 

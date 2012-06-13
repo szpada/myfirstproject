@@ -10,8 +10,24 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+
+/**
+ * @author Maciej
+ * obsluguje drzewko rozdzialow
+ * ma przekazanego Player'a - nie uzywa sava bo samo w sobie nie wprowadza zmian
+ * wewnatrz ChapterView pozwala na uruchomienie planszy
+ */
 public class ChaptersActivity extends Activity {
     private int lastlevelstars = -1;
+    private int base[][] = {
+    		{1,1,1,1,1},	//ELEKTRYCZNE
+    		{1,1,1,1,0},	//OGNIEN
+    		{1,1,0,0,0},	//WODA
+    		{0,0,0,0,0},	//FIZYCZNE
+    		{0,0,0,0,0}		//SMIERC
+    };
+
+    private Player gplayer;
 
 	/** Called when the activity is first created. */
     @Override
@@ -24,13 +40,20 @@ public class ChaptersActivity extends Activity {
         
         
         
-        Player gplayer = null;
 		if(extras !=null) {
-			gplayer = (Player) extras.get("PLAYER");
-			if (extras.containsKey("STARS")) {
+			gplayer = (Player) extras.get("PLAYER"); //player przekazany z menu albo z planszy
+			Log.d("ChaptersActivity","player zaladowany");
+			if (extras.containsKey("STARS")) { // act deprecated
 				lastlevelstars  = (int) extras.getInt("STARS");
 			}
+		
 		}
+		else {
+			gplayer = new Player("pies",0,0,base,500,500,2,100,100, 0, 0); //pierwsze uruchomienie
+		}
+			
+		
+			
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics(); 
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 

@@ -8,13 +8,11 @@ import com.gra.drzewko.TreeActivity;
 import java.util.List;
 import java.util.Random;
 
-import android.R.raw;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -74,19 +72,24 @@ public class GameView extends SurfaceView {
     */
    private SoundPool sounds;
    
-   public GameView(Context context, double w_factor, double h_factor, Level level) {
+   public GameView(Context context, double w_factor, double h_factor, Level level, Player player) {
 	   
          super(context);
        /*
   	    * test settera plyera
   	    */
-  	   PlayersResults presults = new PlayersResults();
-  	   presults.setEverything(0, 0, true, false, 0);
-  	   presults.setEverything(1, 0, true, false, 0);
-  	   presults.setEverything(1, 3, true, false, 0);
-  	   player.setPresults(presults);
+         this.player = player;
+         
+         
+//  	   PlayersResults presults = new PlayersResults();
+//  	   presults.setEverything(0, 0, true, false, 0);
+//  	   presults.setEverything(1, 0, true, false, 0);
+//  	   presults.setEverything(1, 3, true, false, 0);
+//  	   player.setPresults(presults);
   	   
+         // vibrator na bosach, albo jak oberwiesz, na pewno na koniec levelu...
          Vibrator vv = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+         
          this.h_factor = (float)h_factor;
  	   	 this.w_factor = (float)w_factor;
  	   	 this.level = level;
@@ -120,7 +123,6 @@ public class GameView extends SurfaceView {
 					} catch (IllegalThreadStateException e) {
 						Log.d("GameView", "bylo thread exception");
 						e.printStackTrace();
-//						throw e; // wykomentowane nie wiem czemu
 					}
                        
                 }
@@ -134,18 +136,7 @@ public class GameView extends SurfaceView {
 	private void createSprites() {
 		//sounds.play(R.raw.intro, 1.0f, 1.0f, 0, 0, 1.5f);
 		this.start_time = System.currentTimeMillis();	//poczatek rozgrywki
-	   /*
-	    * Tworzenie wszystkich bitmap i wrogów
-	    */
-//    	   enemies.add(createEnemy(enemyType.knight_general,80,10));
-//    	   enemies.add(createEnemy(enemyType.balista,10,10));
-//    	   enemies.add(createEnemy(enemyType.catapult,200,10));
-//    	   enemies.add(createEnemy(enemyType.knight,10,10));
-//    	   enemies.add(createEnemy(enemyType.knight,240,10));  	   
-//           enemies.add(createEnemy(enemyType.dragon,240,10));
-//    	   enemies.add(createEnemy(enemyType.fire_titan,240,10));
-//           temps.add(createTemp(240,400,bonusType.mana_potion));
-       
+
        this.nextWave(1);	//dodaj pierwsza fale;
        
        switchGod = new Switcher(this.player,this,true,16,624);
@@ -326,20 +317,20 @@ public class GameView extends SurfaceView {
             	   /*
             	    * kliknieto rozdzial
             	    */
-            	   if(finished_screen.checkCollision((int)x, (int)y) < 0){
+            	   if(finished_screen.checkCollision((int)x, (int)y) == 3){
             		   openChapters();
             	   }
             	   /*
             	    * kliknieto drzewo
             	    */
-            	   else if(finished_screen.checkCollision((int)x, (int)y) > 0){
+            	   else if(finished_screen.checkCollision((int)x, (int)y) == 2){
             		   openTree();
             	   }
             	   /*
             	    * kliknieto replay
             	    */
-            	   else{
-            		   //replay();
+            	   else if (finished_screen.checkCollision((int)x, (int)y) == 1){
+            		   replayLevel();
             	   }
                } 
            }
@@ -479,117 +470,7 @@ public class GameView extends SurfaceView {
     	   }
        }
 
-	public List<EnemySprite> getEnemies() {
-		return enemies;
-	}
-
-	public void setEnemies(List<EnemySprite> enemies) {
-		this.enemies = enemies;
-	}
-
-	public List<AttackSprite> getAttack() {
-		return attack;
-	}
-
-	public void setAttack(List<AttackSprite> attack) {
-		this.attack = attack;
-	}
-
-	public List<TempSprite> getTemps() {
-		return temps;
-	}
-
-	public void setTemps(List<TempSprite> temps) {
-		this.temps = temps;
-	}
-
-	public List<EnemyAttack> getEnemyAttacks() {
-		return enemyAttacks;
-	}
-
-	public void setEnemyAttacks(List<EnemyAttack> enemyAttacks) {
-		this.enemyAttacks = enemyAttacks;
-	}
-
-	public List<Wave> getWaves() {
-		return waves;
-	}
-
-	public void setWaves(List<Wave> waves) {
-		this.waves = waves;
-	}
-
-	public Switcher getSwitchGod() {
-		return switchGod;
-	}
-
-	public void setSwitchGod(Switcher switchGod) {
-		this.switchGod = switchGod;
-	}
-
-	public Switcher getSwitchAttack() {
-		return switchAttack;
-	}
-
-	public void setSwitchAttack(Switcher switchAttack) {
-		this.switchAttack = switchAttack;
-	}
-
-	public Sprite getAmbrosia() {
-		return ambrosia;
-	}
-
-	public void setAmbrosia(Sprite ambrosia) {
-		this.ambrosia = ambrosia;
-	}
-
-	public int getLastGod() {
-		return lastGod;
-	}
-
-	public void setLastGod(int lastGod) {
-		this.lastGod = lastGod;
-	}
-
-	public int getLastAttack() {
-		return lastAttack;
-	}
-
-	public void setLastAttack(int lastAttack) {
-		this.lastAttack = lastAttack;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public GameLoopThread getGameLoopThread() {
-		return gameLoopThread;
-	}
-
-	public void setGameLoopThread(GameLoopThread gameLoopThread) {
-		this.gameLoopThread = gameLoopThread;
-	}
-
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	public int getCurrent_wave() {
-		return current_wave;
-	}
-
-	public void setCurrent_wave(int current_wave) {
-		this.current_wave = current_wave;
-	}
+	
 	/*
 	 * metoda zwracajaca liste wrogow w postaci serializable (lista unitow)
 	 */
@@ -765,16 +646,17 @@ public class GameView extends SurfaceView {
 			if(time_stars >= 1){
 				time_stars = 1;
 			}
+			
 			Log.d("finished screen", "time_stars :" + (float)time_stars + "life_stars" + (float)life_stars);
 			this.stars = 1 + (int)(time_stars + life_stars);
 			
-			PlayersResults results = this.player.getPresults();
+			PlayersResults results = this.player.getPresults(); //obecnie zapisane resultsy 
 			
 			// debugging only
 			for (int ch=0;ch<2;ch++) {
 				
 				for (int ii = 0; ii < 6; ii++) {
-					Log.d("GameView2",
+					Log.d("GameView1",
 									Integer.toString(ch) + " "
 									+ Integer.toString(ii) + " "
 									+ Boolean.toString(results.getActive(ch, ii)) + " "
@@ -826,8 +708,7 @@ public class GameView extends SurfaceView {
 		Intent GameIntent = new Intent(context,
 				GameActivity.class);
 		Log.d(TAG, "stworzony gameact intent");
-		//TreeIntent.putExtra("LEVEL", level);
-		//Log.d(TAG, "wlozony lewel");
+		// nie trzeba nic wkladac bo tree wczytuje sava - malo elegancko no ale trudno siem mowi
 		Intent TreeIntent = new Intent(context,
 				TreeActivity.class);
 
@@ -875,7 +756,141 @@ public class GameView extends SurfaceView {
 	
 	public void replayLevel() {
 		// TODO: do wypelnienia.
+		Context context = getContext();
+		Intent GameIntent = new Intent(context,
+				GameActivity.class);
+		Log.d(TAG, "stworzony gameact intent");
+		
+		
+		
+		context.stopService(GameIntent);
+		Log.d(TAG, "zabity gamesact");
+		
+		GameIntent.putExtra("PLAYER", player);
+		Log.d(TAG, "wlozony player");
+		GameIntent.putExtra("LEVEL", level);
+		Log.d(TAG, "wlozony level");
+		
+		
+		context.startActivity(GameIntent);
+		Log.d(TAG, "wystartowal nowy gameintent");
+
+
 	}
+
 	
+	
+	
+	public List<EnemySprite> getEnemies() {
+		return enemies;
+	}
+
+	public void setEnemies(List<EnemySprite> enemies) {
+		this.enemies = enemies;
+	}
+
+	public List<AttackSprite> getAttack() {
+		return attack;
+	}
+
+	public void setAttack(List<AttackSprite> attack) {
+		this.attack = attack;
+	}
+
+	public List<TempSprite> getTemps() {
+		return temps;
+	}
+
+	public void setTemps(List<TempSprite> temps) {
+		this.temps = temps;
+	}
+
+	public List<EnemyAttack> getEnemyAttacks() {
+		return enemyAttacks;
+	}
+
+	public void setEnemyAttacks(List<EnemyAttack> enemyAttacks) {
+		this.enemyAttacks = enemyAttacks;
+	}
+
+	public List<Wave> getWaves() {
+		return waves;
+	}
+
+	public void setWaves(List<Wave> waves) {
+		this.waves = waves;
+	}
+
+	public Switcher getSwitchGod() {
+		return switchGod;
+	}
+
+	public void setSwitchGod(Switcher switchGod) {
+		this.switchGod = switchGod;
+	}
+
+	public Switcher getSwitchAttack() {
+		return switchAttack;
+	}
+
+	public void setSwitchAttack(Switcher switchAttack) {
+		this.switchAttack = switchAttack;
+	}
+
+	public Sprite getAmbrosia() {
+		return ambrosia;
+	}
+
+	public void setAmbrosia(Sprite ambrosia) {
+		this.ambrosia = ambrosia;
+	}
+
+	public int getLastGod() {
+		return lastGod;
+	}
+
+	public void setLastGod(int lastGod) {
+		this.lastGod = lastGod;
+	}
+
+	public int getLastAttack() {
+		return lastAttack;
+	}
+
+	public void setLastAttack(int lastAttack) {
+		this.lastAttack = lastAttack;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public GameLoopThread getGameLoopThread() {
+		return gameLoopThread;
+	}
+
+	public void setGameLoopThread(GameLoopThread gameLoopThread) {
+		this.gameLoopThread = gameLoopThread;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	public int getCurrent_wave() {
+		return current_wave;
+	}
+
+	public void setCurrent_wave(int current_wave) {
+		this.current_wave = current_wave;
+	}
 
 } //eof
