@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 	/**
 	 * @author Szpada
@@ -61,9 +62,14 @@ public class LevelChain {
 		this.active = active;
 		this.chapter = chapter;
 		parents = new int[parents_id.length];
-		for(int i:parents){
+		for(int i = 0; i < parents_id.length; i++){
+			Log.d("LevelChain", "kurwa jebana id :" + parents_id[i]);
 			parents[i] = parents_id[i];
-		}
+		}	
+//		for(int i:parents){
+//			Log.d("LevelChain", "parent id :" + parents_id[i]);
+//			
+//		}
 		if(active){
 			switch(land){
 			case tutorial:

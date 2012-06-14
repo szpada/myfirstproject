@@ -19,6 +19,10 @@ public class PlayersResults implements Serializable{
 		setEverything(0,0,true,false,0);
 		setEverything(1,0,true,false,0);
 		setEverything(1,3,true,false,0);
+		setEverything(2,0,true,false,0);
+		setEverything(2,1,true,false,0);
+		setEverything(2,2,true,false,0);
+		setEverything(2,3,true,false,0);
 	
 	}
 	

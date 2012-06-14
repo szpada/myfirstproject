@@ -56,9 +56,9 @@ public class GameView extends SurfaceView {
     private int lastGod;
     private int lastAttack;
     private int base[][] = {
-    		{1,1,1,1,1},	//ELEKTRYCZNE
-    		{1,1,1,1,0},	//OGNIEN
-    		{1,1,0,0,0},	//WODA
+    		{1,0,0,0,0},	//ELEKTRYCZNE
+    		{0,0,0,0,0},	//OGNIEN
+    		{0,0,0,0,0},	//WODA
     		{0,0,0,0,0},	//FIZYCZNE
     		{0,0,0,0,0}		//SMIERC
     };
@@ -383,7 +383,14 @@ public class GameView extends SurfaceView {
 									   }
 								   }
 								   if(enemies.get(i).getLife() < 1){
-									   //temps.add(createTemp(enemies.get(i).getLife() * -5,400,bonusType.mana_potion));
+									   Random rand = new Random();
+									   int lucky = rand.nextInt(10);
+									   if(lucky < player.getLuck()*2){
+										   temps.add(createTemp(rand.nextInt(440) + 20, rand.nextInt(540) + 20,bonusType.mana_potion));
+										   if(lucky < player.getLuck()){
+											   temps.add(createTemp(rand.nextInt(440) + 20, rand.nextInt(540) + 20,bonusType.repair));
+										   }
+									   }
 									   //enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -5,10));
 								   }
 							   }

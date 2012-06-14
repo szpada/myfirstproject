@@ -31,9 +31,9 @@ public class GameActivity extends Activity {
 	private SaveService saver;
 	
 	private int base[][] = {
-    		{1,1,1,1,1},	//ELEKTRYCZNE
-    		{1,1,1,1,0},	//OGNIEN
-    		{1,1,0,0,0},	//WODA
+    		{1,0,0,0,0},	//ELEKTRYCZNE
+    		{0,0,0,0,0},	//OGNIEN
+    		{0,0,0,0,0},	//WODA
     		{0,0,0,0,0},	//FIZYCZNE
     		{0,0,0,0,0}		//SMIERC
     };

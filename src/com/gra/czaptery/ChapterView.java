@@ -163,16 +163,41 @@ public class ChapterView extends SurfaceView{
 			LI6.setLevel(new Level(difficulty.c1l5));
 			
 			LI7.setLevel(new Level(difficulty.c1l7));
+			
+			/*
+			 * rozdzial NUMER 2
+			 */																		//ID,child_ID,parent IDs
+			LevelChain LII1 = new LevelChain(this,2,20,140,false,true,landscape.tutorial,0,4,-1);
+			LevelChain LII2 = new LevelChain(this,2,140,140,false,true,landscape.village,1,4,-1);
+			LevelChain LII3 = new LevelChain(this,2,260,140,false,true,landscape.tutorial,2,5,-1);
+			LevelChain LII4 = new LevelChain(this,2,380,140,false,true,landscape.village,3,5,-1);
+			
+			LevelChain LII5 = new LevelChain(this,2,80,280,false,false,landscape.tutorial,4,6,0,1);
+			LevelChain LII6 = new LevelChain(this,2,320,280,false,false,landscape.village,5,6,2,3);
+			
+			LevelChain LII7 = new LevelChain(this,2,240,420,false,false,landscape.village,6,-1,4,5);
+			
+			LII1.setLevel(new Level(difficulty.c2l1));
+			LII2.setLevel(new Level(difficulty.c2l2));
+			LII3.setLevel(new Level(difficulty.c2l6));
+			
+			LII4.setLevel(new Level(difficulty.c2l3));
+			LII5.setLevel(new Level(difficulty.c2l4));
+			LII6.setLevel(new Level(difficulty.c2l5));
+			
+			LII7.setLevel(new Level(difficulty.c2l7));
 		/*
 		 * tworzenie rozdzialow
 		 */
 		LevelHolder tutorial = new LevelHolder(Ltutorial1,Ltutorial2,Ltutorial3);
-		LevelHolder village = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI7);
+		LevelHolder chapter1 = new LevelHolder(LI1,LI2,LI3,LI4,LI5,LI6,LI7);
+		LevelHolder chapter2 = new LevelHolder(LII1,LII2,LII3,LII4,LII5,LII6,LII7);
 		/*
 		 * stworzenie listy rozdzialow
 		 */
 		this.chapters.add(tutorial);
-		this.chapters.add(village);
+		this.chapters.add(chapter1);
+		this.chapters.add(chapter2);
 
 		/*
 		 * wypelnij levele gwaizdkami i active/completed
@@ -250,7 +275,6 @@ public class ChapterView extends SurfaceView{
 					if (this.levels.get(i).checkCollision((int) x, (int) y)) {
 						showStats(this.levels.get(i));
 						if (this.levels.get(i).isActive()) {
-							
 							Log.d("ChapterView",
 									"iteracja: " + Integer.toString(i) + "level" + this.levels.get(i));
 							this.level = this.levels.get(i).getLevel(); //wybrany przez nas level, dostep przez getLevel()
@@ -320,15 +344,30 @@ public class ChapterView extends SurfaceView{
 			 * jesli znaleziono dziecko
 			 */
 			if(child_ID != -1){
-				//Log.d("chapter", "child_ID : " + child_ID);
+				int[]parents = new int[levels.get(child_ID).getParents().length];
+				for(int i:parents){
+					parents[i] = levels.get(child_ID).getParents()[i];
+					Log.d("chapter", "parents_ID : " + parents[i]);
+				}
+				//Log.d("chapter", "parents_ID : " + levels.get(child_ID).getParents());
 				for(int i=0; i < levels.get(child_ID).getParents().length; i++){
-					Log.d("chapter","sprawdzam rodzicow, rodzic nr : " + i);
+					Log.d("chapter","sprawdzam rodzicow, rodzic nr : " + (i+1));
 					/*
 					 * sprawdz wszystkie poza naszym ID, jesli ktorys rodzic nie jest ukonczony wyjdz z funkcji
 					 */
-					if(levels.get(child_ID).getParents()[i] != ID && !levels.get(levels.get(child_ID).getParents()[i]).isComplited()){
-						Log.d("chapter","rodzic nr : " + i + " nie zostal ukonczony");
-						return false;
+					int parent_id = -1;
+					int parent_number = -1;
+					for(int j = 0; j < levels.size(); j++){
+						if(levels.get(j).getId() == levels.get(child_ID).getParents()[i]){
+							parent_id = levels.get(j).getId();
+							parent_number = j;
+							Log.d("chapter", "parent id " + parent_id);
+							Log.d("chapter", "parent number " + parent_number);
+							if(parent_id != ID && !levels.get(parent_number).isComplited()){
+								Log.d("chapter", "rodzic nie ukonczony");
+								return false;
+							}
+						}
 					}
 				}
 				/*
