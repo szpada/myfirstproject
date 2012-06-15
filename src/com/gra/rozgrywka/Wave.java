@@ -33,14 +33,14 @@ public class Wave implements Serializable{
 			break;
 		case double_line:
 			space = 440/(counter/2+1);
-			//x += space;
+			//x = space;
 			units.add(new Unit(enemy,x,y));
 			for (int i = 0; i < enemies.length; i++){//(enemyType enm : enemies) {
 				x += space;
 				if(i < counter/2){
 					units.add(new Unit(enemy,x,y));
 					if(i + 1>= counter/2){
-						x = 10 - space;
+						x = 10 - space/2;
 					}
 				}
 				else{
@@ -50,7 +50,7 @@ public class Wave implements Serializable{
 			break;
 		case triple_line:
 			space = 440/(counter/3+1);
-			//x += space;
+			//x = space;
 			units.add(new Unit(enemy,x,y));
 			for (int i = 0; i < enemies.length; i++){//(enemyType enm : enemies) {
 				x += space;
@@ -58,7 +58,7 @@ public class Wave implements Serializable{
 				if(i < counter/3){
 					units.add(new Unit(enemy,x,y));
 					if(i + 1>= counter/3){
-						x = 10 - space;
+						x = 10 - space/2;
 					}
 				}
 				else if(i >= counter/3 && i < 2 * counter/3){

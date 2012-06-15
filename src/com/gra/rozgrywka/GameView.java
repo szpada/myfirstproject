@@ -386,11 +386,15 @@ public class GameView extends SurfaceView {
 									    */
 									   Random rand = new Random();
 									   int lucky = rand.nextInt(100);
-									   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getManaDrop())){
-										   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.mana_potion));
+									   if(enemies.get(i).getManaDrop() > 0){
+										   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getManaDrop())){
+											   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.mana_potion));
+										   }
 									   }
-									   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getRepairDrop())){
-										   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.repair));
+									   if(enemies.get(i).getRepairDrop() > 0){
+										   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getRepairDrop())){
+											   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.repair));
+										   }
 									   }
 								   }
 							   }

@@ -167,10 +167,10 @@ public class ChapterView extends SurfaceView{
 			/*
 			 * rozdzial NUMER 2
 			 */																		//ID,child_ID,parent IDs
-			LevelChain LII1 = new LevelChain(this,2,20,140,false,false,landscape.tutorial,0,4,-1);
-			LevelChain LII2 = new LevelChain(this,2,140,140,false,false,landscape.village,1,4,-1);
-			LevelChain LII3 = new LevelChain(this,2,260,140,false,false,landscape.tutorial,2,5,-1);
-			LevelChain LII4 = new LevelChain(this,2,380,140,false,false,landscape.village,3,5,-1);
+			LevelChain LII1 = new LevelChain(this,2,20,140,false,true,landscape.tutorial,0,4,-1);
+			LevelChain LII2 = new LevelChain(this,2,140,140,false,true,landscape.village,1,4,-1);
+			LevelChain LII3 = new LevelChain(this,2,260,140,false,true,landscape.tutorial,2,5,-1);
+			LevelChain LII4 = new LevelChain(this,2,380,140,false,true,landscape.village,3,5,-1);
 			
 			LevelChain LII5 = new LevelChain(this,2,80,280,false,false,landscape.tutorial,4,6,0,1);
 			LevelChain LII6 = new LevelChain(this,2,320,280,false,false,landscape.village,5,6,2,3);
@@ -199,9 +199,7 @@ public class ChapterView extends SurfaceView{
 		 */
 		this.chapters.add(tutorial);
 		this.chapters.add(chapter1);
-		if(LI7.isComplited()){
-			this.chapters.add(chapter2);
-		}
+		this.chapters.add(chapter2);
 
 		/*
 		 * wypelnij levele gwaizdkami i active/completed
