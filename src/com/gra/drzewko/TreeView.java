@@ -63,23 +63,21 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	private TreeButtons zeus;
 	private TreeButtons hephaestus;
 	private TreeButtons poseidon;
-	/*
-	 * player - potrzebny do testowania drzewa rozwoju
-	 * pozniej bedzie przekazywany jako argument w konstruktorze
-	 */
-	private int base[][] = {
+
+	private int base[][]; 
 			/*
 			 * 0 - 3 - poziom ataku (0 oznacza ze mozna wsadzic punkt w dany atak
 			 * -1 	 - nie mozna wsadzic punktu w ten atak póki ataki nizszego poziomu nie zostan¹ wybrane
 			 * -2	 - atak nie istnieje
 			 */
-			{1,0,-1,-1,-1},	//ELEKTRYCZNE
-    		{0,-1,-1,-1,-2},	//OGNIEN
-    		{0,-1,-2,-2,-2},	//WODA
-    		{-2,-2,-2,-2,-2},	//FIZYCZNE
-    		{-2,-2,-2,-2,-2}
-    };
-	private Player player;// = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
+//			{1,0,-1,-1,-1},	//ELEKTRYCZNE
+//    		{0,-1,-1,-1,-2},	//OGNIEN
+//    		{0,-1,-2,-2,-2},	//WODA
+//    		{-2,-2,-2,-2,-2},	//FIZYCZNE
+//    		{-2,-2,-2,-2,-2}
+//    };
+	
+	private Player player;
 	/**
 	 * @param context
 	 */
@@ -89,7 +87,7 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 	 * odkomentowac jak bedzie wszystko dzialac - przekazywac tablice atakow a nie calego playera!
 	 */
 	public TreeView(Context context,double w_factor, double h_factor, Player player) {
-//	public TreeView(Context context,double w_factor, double h_factor) {
+
 		super(context);
 		/*
 		 * odkomentowac jak wartosci beda poprawnie przesylane

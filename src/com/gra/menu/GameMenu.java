@@ -84,6 +84,7 @@ public class GameMenu extends Activity {
         	//@Override
 			public void onClick(View v) {
         		Intent AchievementsIntent = new Intent(GameMenu.this,AchievementsActivity.class);
+        		//jebac achievementy poki co, ale chyba trzeba do nich przekazac playera
         		startActivity(AchievementsIntent);
         	}
         });

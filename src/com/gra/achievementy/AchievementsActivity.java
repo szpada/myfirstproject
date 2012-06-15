@@ -18,6 +18,8 @@ public class AchievementsActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        
+        //do wypierdolenia:
         int base[][] = {
         		{1,0,-1,-1,-1},	//ELEKTRYCZNE
         		{0,-1,-1,-1,-2},	//OGNIEN

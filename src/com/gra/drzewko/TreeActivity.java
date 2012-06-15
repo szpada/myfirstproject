@@ -38,8 +38,6 @@ public class TreeActivity extends Activity {
     
     saver = new SaveService(TreeActivity.this);
     ss = saver.readLastState();
-    
-   Log.d("TreeAct","ustawiam view...");
    
    DisplayMetrics displaymetrics = new DisplayMetrics(); 
    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics); 
@@ -60,7 +58,7 @@ public class TreeActivity extends Activity {
 			    {-2,-2,-2,-2,-2}, //FIZYCZNE
 			    {-2,-2,-2,-2,-2} //SMIERC 
 	   };
-	   tplayer = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
+	   tplayer = new Player("pies",0,0,base,500,500,2,100,100, 0, 0);
    }
    	
    
