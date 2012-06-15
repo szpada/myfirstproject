@@ -63,10 +63,9 @@ public class EnemySprite implements Serializable {
     private int range;
     private int slowTimes = 0;
     
-    private int repair_drop = 0;	//0 - 50  % na wypadniecie naprawy
-    private int mana_drop = 0;		//0 - 50  % na wypadniecie ambrosji
-    //NIE DAWAC WIECEJ NIZ 50% - bo do losowania dodawany jest luck gracza
-    //(no chyba ze chcesz zeby zawsze dropowal wtedy daj 100 i styka)
+    private int repair_drop = 0;	//0 - 100  % na wypadniecie naprawy
+    private int mana_drop = 0;		//0 - 100  % na wypadniecie ambrosji
+    // RANDOM(0-100) < RANDOM(luck gracza * drop) -> wzor na to czy wypadnie
     
     private long timer = 0; //dla slow downa itd
     private boolean slowed = false; //do wysweitlania komunikatow o spowolnieniu
