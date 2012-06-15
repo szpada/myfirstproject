@@ -73,11 +73,11 @@ public class TreeView extends SurfaceView {											//pogladowe wartosci atako
 			 * -1 	 - nie mozna wsadzic punktu w ten atak póki ataki nizszego poziomu nie zostan¹ wybrane
 			 * -2	 - atak nie istnieje
 			 */
-    		{0,-1,-1,-1,-1},	//ELEKTRYCZNE
+			{1,0,-1,-1,-1},	//ELEKTRYCZNE
     		{0,-1,-1,-1,-2},	//OGNIEN
     		{0,-1,-2,-2,-2},	//WODA
     		{-2,-2,-2,-2,-2},	//FIZYCZNE
-    		{-2,-2,-2,-2,-2}		//SMIERC
+    		{-2,-2,-2,-2,-2}
     };
 	private Player player;// = new Player("pies",0,0,base,1000,1000,2,100,100, 0, 0);
 	/**

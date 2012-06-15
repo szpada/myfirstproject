@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 enum formation{C,O,X,trianlge,square,line,double_line,triple_line};
 
 public class Wave implements Serializable{
@@ -21,7 +23,7 @@ public class Wave implements Serializable{
 		case C:
 			break;
 		case line:
-			int space = 460/(counter+1);
+			int space = 440/(counter+1);
 			x += space;
 			units.add(new Unit(enemy,x,y));
 			for (enemyType enm : enemies) {
@@ -30,15 +32,15 @@ public class Wave implements Serializable{
 			}
 			break;
 		case double_line:
-			space = 400/(counter/2+1);
+			space = 440/(counter/2+1);
 			//x += space;
 			units.add(new Unit(enemy,x,y));
 			for (int i = 0; i < enemies.length; i++){//(enemyType enm : enemies) {
 				x += space;
-				if(i < counter/2 + 1){
+				if(i < counter/2){
 					units.add(new Unit(enemy,x,y));
-					if(i >= counter/2){
-						x = 10;
+					if(i + 1>= counter/2){
+						x = 10 - space;
 					}
 				}
 				else{
@@ -47,12 +49,27 @@ public class Wave implements Serializable{
 			}
 			break;
 		case triple_line:
-			space = 460/(counter+1);
-			x += space;
+			space = 440/(counter/3+1);
+			//x += space;
 			units.add(new Unit(enemy,x,y));
-			for (enemyType enm : enemies) {
+			for (int i = 0; i < enemies.length; i++){//(enemyType enm : enemies) {
 				x += space;
-				units.add(new Unit(enm,x,y));
+				Log.d("Wave", "i : " + i + " x : " + x + " y : " + y);
+				if(i < counter/3){
+					units.add(new Unit(enemy,x,y));
+					if(i + 1>= counter/3){
+						x = 10 - space;
+					}
+				}
+				else if(i >= counter/3 && i < 2 * counter/3){
+					units.add(new Unit(enemy,x,y - 64));
+					if(i + 1 >= 2 * counter/3){
+						x = 10 - space;
+					}
+				}
+				else{
+					units.add(new Unit(enemy,x,y - 128));
+				}
 			}
 			break;
 		case O:

@@ -54,7 +54,7 @@ public class TreeActivity extends Activity {
    }
    else {
 	   int[][] base = {
-			   {0,-1,-1,-1,-1}, //ELEKTRYCZNE
+			   {1,0,-1,-1,-1}, //ELEKTRYCZNE
 			    {0,-1,-1,-1,-2}, //OGNIEN
 			    {0,-1,-2,-2,-2}, //WODA
 			    {-2,-2,-2,-2,-2}, //FIZYCZNE

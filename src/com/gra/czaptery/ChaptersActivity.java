@@ -20,11 +20,11 @@ import android.view.WindowManager;
 public class ChaptersActivity extends Activity {
     private int lastlevelstars = -1;
     private int base[][] = {
-    		{1,1,1,1,1},	//ELEKTRYCZNE
-    		{1,1,1,1,0},	//OGNIEN
-    		{1,1,0,0,0},	//WODA
-    		{0,0,0,0,0},	//FIZYCZNE
-    		{0,0,0,0,0}		//SMIERC
+    		{1,0,-1,-1,-1},	//ELEKTRYCZNE
+    		{0,-1,-1,-1,-2},	//OGNIEN
+    		{0,-1,-2,-2,-2},	//WODA
+    		{-2,-2,-2,-2,-2},	//FIZYCZNE
+    		{-2,-2,-2,-2,-2}
     };
 
     private Player gplayer;

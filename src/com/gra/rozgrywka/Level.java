@@ -29,7 +29,7 @@ public class Level implements Serializable{
 									 */
 		case tutorial1:
 			// FALA #1
-			waves.add(new Wave(formation.double_line,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight));
+			waves.add(new Wave(formation.triple_line,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight));
 			this.time_goal = 10000;
 			this.upgrade_point = 1;
 			break;
@@ -41,7 +41,7 @@ public class Level implements Serializable{
 			break;
 		case tutorial3:
 			// FALA #1
-			waves.add(new Wave(formation.double_line,enemyType.knight,enemyType.knight));
+			waves.add(new Wave(formation.double_line,enemyType.knight,enemyType.knight,enemyType.knight));
 			// FALA #2
 			waves.add(new Wave(formation.double_line,enemyType.knight,enemyType.knight,enemyType.knight,enemyType.knight));
 			this.time_goal = 50000;
