@@ -301,8 +301,6 @@ public class GameView extends SurfaceView {
 											   if(power > 0){
 												   enemies.get(i).setSlowTime(attack.get(attack.size()-1).getSlow());
 												   enemies.get(i).attackedWithDmg(power,player.getCurrentGod());
-												   temps.add(createTemp(240,400,bonusType.mana_potion));
-												   temps.add(createTemp(140,200,bonusType.repair));
 											   }
 				        				   }
 				        			   }
@@ -383,15 +381,18 @@ public class GameView extends SurfaceView {
 									   }
 								   }
 								   if(enemies.get(i).getLife() < 1){
+									   /*
+									    * dodajemy tempy - ambrosje i naprawe
+									    */
 									   Random rand = new Random();
-									   int lucky = rand.nextInt(10);
-									   if(lucky < player.getLuck()*2){
-										   temps.add(createTemp(rand.nextInt(440) + 20, rand.nextInt(540) + 20,bonusType.mana_potion));
-										   if(lucky < player.getLuck()){
-											   temps.add(createTemp(rand.nextInt(440) + 20, rand.nextInt(540) + 20,bonusType.repair));
-										   }
+									   int lucky = rand.nextInt(100);
+									   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getManaDrop())){
+										   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.mana_potion));
 									   }
-									   //enemies.add(createEnemy(enemyType.knight,R.drawable.bad3,enemies.get(i).getLife() * -5,10));
+									   lucky = rand.nextInt(100);
+									   if(lucky < rand.nextInt(player.getLuck() * enemies.get(i).getRepairDrop())){
+										   temps.add(createTemp(rand.nextInt(420) + 20, rand.nextInt(520) + 20,bonusType.repair));
+									   }
 								   }
 							   }
     					   }

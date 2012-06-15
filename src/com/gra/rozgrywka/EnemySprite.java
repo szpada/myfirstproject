@@ -63,6 +63,11 @@ public class EnemySprite implements Serializable {
     private int range;
     private int slowTimes = 0;
     
+    private int repair_drop = 0;	//0 - 50  % na wypadniecie naprawy
+    private int mana_drop = 0;		//0 - 50  % na wypadniecie ambrosji
+    //NIE DAWAC WIECEJ NIZ 50% - bo do losowania dodawany jest luck gracza
+    //(no chyba ze chcesz zeby zawsze dropowal wtedy daj 100 i styka)
+    
     private long timer = 0; //dla slow downa itd
     private boolean slowed = false; //do wysweitlania komunikatow o spowolnieniu
     private boolean recentStateChange = false;
@@ -113,6 +118,8 @@ public class EnemySprite implements Serializable {
 	        this.frames = 4;
 	        this.wt = warriorType.melee;
 	        this.summonType = enemyType.fire_imp;
+	        this.repair_drop = 10;
+	        this.mana_drop = 15;
 			break;
 	    case knight:
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad1);
@@ -120,8 +127,8 @@ public class EnemySprite implements Serializable {
 			this.width = 32;
   		   	this.height = 32;
 	        this.attackSpeed = 30;
-	        this.maxSpeed = 3;
-	        this.speed = 3;
+	        this.maxSpeed = 4;
+	        this.speed = 4;
 	        this.dmg = 1;
 	        this.life = 10;
 	        this.maxLife = 10;
@@ -141,8 +148,8 @@ public class EnemySprite implements Serializable {
 			this.width = 32;
 		   	this.height = 32;
 	        this.attackSpeed = 15;
-	        this.maxSpeed = 2;
-	        this.speed = 2;
+	        this.maxSpeed = 3;
+	        this.speed = 3;
 	        this.dmg = 0;
 	        this.life = 20;
 	        this.maxLife = 20;
@@ -155,6 +162,7 @@ public class EnemySprite implements Serializable {
 	        this.frames = 3;
 	        this.wt = warriorType.general;
 	        this.summonType = enemyType.knight;
+	        this.mana_drop = 10;
 			break;
 	    case balista:
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.balista);
@@ -177,6 +185,7 @@ public class EnemySprite implements Serializable {
 	        this.wt = warriorType.range;
 	        this.ammoType = enemyAttackType.spear;
 	        this.ammoSpeed = 6;
+	        this.repair_drop = 15;
 			break;
 	    case catapult:
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.catapult);
@@ -199,6 +208,7 @@ public class EnemySprite implements Serializable {
 	        this.wt = warriorType.range;
 	        this.ammoType = enemyAttackType.catapult_stone;
 	        this.ammoSpeed = 5;
+	        this.repair_drop = 25;
 			break;
 	    case fire_imp:
 	    	this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.bad2);
@@ -206,8 +216,8 @@ public class EnemySprite implements Serializable {
 			this.width = 32;
   		   	this.height = 32;
 	        this.attackSpeed = 30;
-	        this.maxSpeed = 3;
-	        this.speed = 3;
+	        this.maxSpeed = 6;
+	        this.speed = 6;
 	        this.dmg = 10;
 	        this.life = 10;
 	        this.maxLife = 10;
@@ -244,6 +254,8 @@ public class EnemySprite implements Serializable {
 	        this.summonType = enemyType.fire_imp;
 	        this.next_state = state.shoot;
 	        this.melee_range = 20;
+	        this.mana_drop = 40;
+	        this.repair_drop = 10;
 	        break;
 	    case fire_boss:
 			this.bmp = BitmapFactory.decodeResource(this.gameView.getResources(), R.drawable.chapterbossfire);
@@ -626,6 +638,9 @@ public class EnemySprite implements Serializable {
 			if(slowFrame >= this.frames-1){
 				this.st = state.walk;
 			}
+			if(this.life < 1){
+				this.st = state.die;
+			}
     	}
     	else{
 	    	Paint paint = new Paint();
@@ -785,5 +800,11 @@ public class EnemySprite implements Serializable {
 	}
 	public int getSize(){
 		return (this.width + this.height)/2;
+	}
+	public int getManaDrop(){
+		return this.mana_drop;
+	}
+	public int getRepairDrop(){
+		return this.repair_drop;
 	}
 }

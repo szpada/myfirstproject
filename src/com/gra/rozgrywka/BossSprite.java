@@ -131,6 +131,7 @@ public class BossSprite extends EnemySprite{
 		    	super.setCurrentFrame(0);
 		    	this.teleportStart = true;
 			    super.setRecentStateChange(true);
+			    return;
 		   }
 	    }
 	    if(this.teleportStart){
