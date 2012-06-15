@@ -44,6 +44,7 @@ public class GameView extends SurfaceView {
     private List<Wave> waves = new ArrayList<Wave>();
     private Level level;
     private int current_wave = 0;
+    private int coolDown = 300;
     
     private Switcher switchGod;
 	private Switcher switchAttack;
@@ -55,17 +56,17 @@ public class GameView extends SurfaceView {
     
     private int lastGod;
     private int lastAttack;
-    private int base[][] = {
-    		{1,0,-1,-1,-1},	//ELEKTRYCZNE
-    		{0,-1,-1,-1,-2},	//OGNIEN
-    		{0,-1,-2,-2,-2},	//WODA
-    		{-2,-2,-2,-2,-2},	//FIZYCZNE
-    		{-2,-2,-2,-2,-2}	//SMIERC
-    };
+//    private int base[][] = {
+//    		{1,0,-1,-1,-1},	//ELEKTRYCZNE
+//    		{0,-1,-1,-1,-2},	//OGNIEN
+//    		{0,-1,-2,-2,-2},	//WODA
+//    		{-2,-2,-2,-2,-2},	//FIZYCZNE
+//    		{-2,-2,-2,-2,-2}	//SMIERC
+//    };
    
    private String TAG = "GameView";
    
-   private Player player = new Player("pies",0,0,base,500,500,2,100,100, 0, 0);
+   private Player player; // = new Player("pies",0,0,base,500,500,2,100,100, 0, 0);
    
    /*	
     * ===========SOUND========= 
@@ -75,18 +76,9 @@ public class GameView extends SurfaceView {
    public GameView(Context context, double w_factor, double h_factor, Level level, Player player) {
 	   
          super(context);
-       /*
-  	    * test settera plyera
-  	    */
+         
          this.player = player;
-         
-         
-//  	   PlayersResults presults = new PlayersResults();
-//  	   presults.setEverything(0, 0, true, false, 0);
-//  	   presults.setEverything(1, 0, true, false, 0);
-//  	   presults.setEverything(1, 3, true, false, 0);
-//  	   player.setPresults(presults);
-  	   
+
          // vibrator na bosach, albo jak oberwiesz, na pewno na koniec levelu...
          Vibrator vv = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
          
@@ -232,7 +224,7 @@ public class GameView extends SurfaceView {
            }
            /*
             * Obecne zycie i mana
-            * (do usuniecia gdy nie gra bedzie gotowa)
+            * (do usuniecia gdy gra bedzie gotowa)
             */
            Paint paint = new Paint();
            canvas.drawText(Integer.toString(player.getCurrentMana()), 240, 400, paint);	//mana gracza
@@ -241,7 +233,6 @@ public class GameView extends SurfaceView {
        @Override
        public boolean onTouchEvent(MotionEvent event) {
     	   boolean noBonus = true;//zmienna potrzebna do blokowania atakow podczas klikania w bonusy
-    	   int coolDown = 300;
     	   if(attack.size()>0){
     		   coolDown = attack.get(attack.size()-1).getCoolDown();
     	   }
@@ -719,7 +710,7 @@ public class GameView extends SurfaceView {
 		Intent GameIntent = new Intent(context,
 				GameActivity.class);
 		Log.d(TAG, "stworzony gameact intent");
-		// nie trzeba nic wkladac bo tree wczytuje sava - malo elegancko no ale trudno siem mowi
+		// nie trzeba nic wkladac bo tree wczytuje sava - malo elegancko no ale trudno siem mowi, dziala sprawnie
 		Intent TreeIntent = new Intent(context,
 				TreeActivity.class);
 

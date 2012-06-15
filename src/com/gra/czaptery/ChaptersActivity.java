@@ -18,7 +18,7 @@ import android.view.WindowManager;
  * wewnatrz ChapterView pozwala na uruchomienie planszy
  */
 public class ChaptersActivity extends Activity {
-    private int lastlevelstars = -1;
+//    private int lastlevelstars = -1;
     private int base[][] = {
     		{1,0,-1,-1,-1},	//ELEKTRYCZNE
     		{0,-1,-1,-1,-2},	//OGNIEN
@@ -43,9 +43,9 @@ public class ChaptersActivity extends Activity {
 		if(extras !=null) {
 			gplayer = (Player) extras.get("PLAYER"); //player przekazany z menu albo z planszy
 			Log.d("ChaptersActivity","player zaladowany");
-			if (extras.containsKey("STARS")) { // act deprecated
-				lastlevelstars  = (int) extras.getInt("STARS");
-			}
+//			if (extras.containsKey("STARS")) { // act deprecated
+//				lastlevelstars  = (int) extras.getInt("STARS");
+//			}
 		
 		}
 		else {
